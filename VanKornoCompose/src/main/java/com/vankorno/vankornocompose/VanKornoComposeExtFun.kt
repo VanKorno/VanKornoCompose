@@ -2,7 +2,11 @@ package com.vankorno.vankornocompose
 
 import android.util.Log
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.StateFlow
+
+
+fun Color.tweakTransparency(opacity: Float) = Color(this.red, this.green, this.blue, opacity)
 
 
 fun StateFlow<String>.toNoNullInt(                                               default: Int = 0
@@ -23,3 +27,4 @@ fun FocusRequester.aaakRequest() =  try {
                                         // endregion
                                         false
                                     }
+
