@@ -71,7 +71,7 @@ dependencies {
     
 }
 
-val versionTag = "1.0.0"
+val versionTag = "1.0.1"
 val buildDirectory = layout.buildDirectory.get()
 
 publishing {    /* to ensure that the library is published correctly */
