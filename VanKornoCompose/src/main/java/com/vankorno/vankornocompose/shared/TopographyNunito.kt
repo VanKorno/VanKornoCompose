@@ -20,7 +20,7 @@ val FontFNunito = FontFamily(
 )
 
 
-val TopographyNunito = Typography(
+val TypographyNunito = Typography(
     
     titleLarge = TextStyle(
         fontFamily = FontFNunito,
