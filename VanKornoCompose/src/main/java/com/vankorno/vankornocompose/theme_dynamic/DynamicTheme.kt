@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
-import com.vankorno.vankornocompose.shared.TypographyNunito
+import com.vankorno.vankornocompose.values.TypographyNunito
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xff00E595),

@@ -1,4 +1,4 @@
-package com.vankorno.vankornocompose.shared
+package com.vankorno.vankornocompose.values
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -24,67 +24,66 @@ val TypographyNunito = Typography(
     
     titleLarge = TextStyle(
         fontFamily = FontFNunito,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 28.sp,
         lineHeight = 34.sp,
-        letterSpacing = 0.7.sp
-    )
-    ,titleMedium = TextStyle(
-        fontFamily = FontFNunito,
-        fontWeight = FontWeight.Normal,
-        fontSize = 26.sp,
-        lineHeight = 32.sp,
-        letterSpacing = 0.7.sp
-    )
-    ,titleSmall = TextStyle(
-        fontFamily = FontFNunito,
-        fontWeight = FontWeight.Normal,
-        fontSize = 24.sp,
-        lineHeight = 30.sp,
-        letterSpacing = 0.7.sp
-    )
-    
-    ,bodyLarge = TextStyle(
+        letterSpacing = 0.8.sp
+    ),
+    titleMedium = TextStyle(
         fontFamily = FontFNunito,
         fontWeight = FontWeight.Bold,
+        fontSize = 26.sp,
+        lineHeight = 32.sp,
+        letterSpacing = 0.8.sp
+    ),
+    titleSmall = TextStyle(
+        fontFamily = FontFNunito,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        lineHeight = 30.sp,
+        letterSpacing = 0.8.sp
+    ),
+    
+    bodyLarge = TextStyle(
+        fontFamily = FontFNunito,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.7.sp
-    )
-    
-    ,bodyMedium = TextStyle(
+    ),
+    bodyMedium = TextStyle(
         fontFamily = FontFNunito,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 20.sp,
         lineHeight = 26.sp,
         letterSpacing = 0.7.sp
-    )
-    ,bodySmall = TextStyle(
+    ),
+    bodySmall = TextStyle(
         fontFamily = FontFNunito,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.7.sp
-    )
+    ),
     
     
-    ,labelLarge = TextStyle(
+    labelLarge = TextStyle(
         fontFamily = FontFNunito,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 22.sp,
         letterSpacing = 0.7.sp
-    )
-    ,labelMedium = TextStyle(
+    ),
+    labelMedium = TextStyle(
         fontFamily = FontFNunito,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.7.sp
-    )
-    ,labelSmall = TextStyle(
+    ),
+    labelSmall = TextStyle(
         fontFamily = FontFNunito,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 18.sp,
         letterSpacing = 0.7.sp

@@ -18,3 +18,4 @@ local.properties
 /.idea/runConfigurations.xml
 /.kotlin/errors/
 /.idea/inspectionProfiles/Project_Default.xml
+/VanKornoCompose/build/.transforms/

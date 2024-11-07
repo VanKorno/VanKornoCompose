@@ -1,12 +1,11 @@
 package com.vankorno.vankornocompose
 
+import android.content.res.Configuration
 import android.util.Log
 import com.vankorno.vankornocompose.ScreenType.Companion.ScrLARGE
 import com.vankorno.vankornocompose.ScreenType.Companion.ScrMEDIUM
 import com.vankorno.vankornocompose.ScreenType.Companion.ScrMICRO
 import com.vankorno.vankornocompose.ScreenType.Companion.ScrSMALL
-import android.content.res.Configuration
-
 
 class ScreenType {
     companion object {
@@ -16,7 +15,8 @@ class ScreenType {
         const val ScrLARGE = 3
     }
     
-    fun calculateScreenType(configuration: Configuration): ScrType {
+    fun calculateScreenType(                                          configuration: Configuration  // (resources.configuration)
+    ): ScrType {
         val width = configuration.screenWidthDp
         val height = configuration.screenHeightDp
         val isVertical = height >= width

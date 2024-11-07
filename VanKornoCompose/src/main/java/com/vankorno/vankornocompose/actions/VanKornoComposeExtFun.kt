@@ -1,4 +1,4 @@
-package com.vankorno.vankornocompose
+package com.vankorno.vankornocompose.actions
 
 import android.util.Log
 import androidx.compose.ui.focus.FocusRequester
