@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.vankorno.vankornocompose.ScreenType.Companion.microUI
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.values.MOD_W50
 import com.vankorno.vankornohelpers.UIHelpr
@@ -45,7 +46,6 @@ private val MOD_Perforated =  Modifier
 @Composable
 fun PerforatedToggledVariantPicker(                                            isON: Boolean,
                                                                           chosenIdx: Int,
-                                                                          isMicroUI: Boolean,
                                                                      isSingleColumn: Boolean,
                                                                                 txt: String,
                                                                        variantTexts: Array<String>,
@@ -53,10 +53,10 @@ fun PerforatedToggledVariantPicker(                                            i
                                                                        variantClick: (Int)->Unit,
                                                                           longClick: ()->Unit = {}
 ) {
-    PerforatedToggleOption(isON, false, isMicroUI, txt, click, longClick)
+    PerforatedToggleOption(isON, false, txt, click, longClick)
     
     if (isON) {
-        PerforatedVariantPicker(chosenIdx, isMicroUI, isSingleColumn, variantTexts, variantClick, longClick)
+        PerforatedVariantPicker(chosenIdx, isSingleColumn, variantTexts, variantClick, longClick)
     }
 }
 
@@ -65,14 +65,13 @@ fun PerforatedToggledVariantPicker(                                            i
 @Composable
 fun PerforatedToggleOption(                                                    isON: Boolean,
                                                                        isStandalone: Boolean,
-                                                                          isMicroUI: Boolean,
                                                                                 txt: String,
                                                                               click: ()->Unit,
                                                                           longClick: ()->Unit = {}
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     
-    val paddV = if (isMicroUI)
+    val paddV = if (microUI)
                     PerforatedPaddV - 2.dp
                 else
                     PerforatedPaddV
@@ -111,10 +110,10 @@ fun PerforatedToggleOption(                                                    i
         Icon(
             modifier = Modifier
                 .padding(
-                    vertical = if (isMicroUI)  10.dp  else  15.dp,
-                    horizontal = if (isMicroUI)  8.dp  else  12.dp
+                    vertical = if (microUI)  10.dp  else  15.dp,
+                    horizontal = if (microUI)  8.dp  else  12.dp
                 )
-                .size(if (isMicroUI)  32.dp  else  40.dp)
+                .size(if (microUI)  32.dp  else  40.dp)
             ,
             painter = painterResource(id = UIHelpr().getCheckBoxIcon(isON)),
             tint = MaterialTheme.colorScheme.primary,
@@ -123,8 +122,8 @@ fun PerforatedToggleOption(                                                    i
         
         Text(
             modifier = Modifier.padding(
-                vertical = if (isMicroUI)  5.dp  else  8.dp,
-                horizontal = if (isMicroUI)  4.dp  else  6.dp
+                vertical = if (microUI)  5.dp  else  8.dp,
+                horizontal = if (microUI)  4.dp  else  6.dp
             ),
             text = txt,
             style = MaterialTheme.typography.bodyMedium,
@@ -195,7 +194,6 @@ fun PerforatedTextOption(                                              isStandal
 
 @Composable
 fun PerforatedVariantPicker(                                              chosenIdx: Int,
-                                                                          isMicroUI: Boolean,
                                                                      isSingleColumn: Boolean,
                                                                        variantTexts: Array<String>,
                                                                               click: (Int)->Unit,
@@ -225,12 +223,12 @@ fun PerforatedVariantPicker(                                              chosen
             .height(4.dp)
             .background(separColor, separShape)
         
-        if (isMicroUI || isSingleColumn) {
+        if (microUI || isSingleColumn) {
             val modif = MOD_MaxW
                 .fillMaxHeight()
                 .padding(
-                    vertical =   if (isMicroUI)  6.dp  else  10.dp,
-                    horizontal = if (isMicroUI)  5.dp  else  9.dp
+                    vertical =   if (microUI)  6.dp  else  10.dp,
+                    horizontal = if (microUI)  5.dp  else  9.dp
                 )
             
             Row(modifSeparV) {}

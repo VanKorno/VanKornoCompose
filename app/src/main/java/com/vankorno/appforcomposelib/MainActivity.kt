@@ -82,7 +82,6 @@ fun TestPerforatedOptions(                                                     s
     PerforatedToggledVariantPicker(
         isON = isON.value,
         chosenIdx = idx.intValue,
-        isMicroUI = false,
         isSingleColumn = false,
         txt = "Test",
         variantTexts = arrayOf( "one\n kllkjlkj",   "two",

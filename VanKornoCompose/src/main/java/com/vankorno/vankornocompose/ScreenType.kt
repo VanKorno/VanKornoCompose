@@ -13,6 +13,9 @@ class ScreenType {
         const val ScrSMALL = 1
         const val ScrMEDIUM = 2
         const val ScrLARGE = 3
+        
+        var microUI = false
+        var smallUI = false
     }
     
     fun calculateScreenType(                                          configuration: Configuration  // (resources.configuration)
@@ -39,15 +42,14 @@ class ScreenType {
         // region LOG
         Log.d("ScreenType", "width = $width, height = $height")
         // endregion
+        
+        microUI = scrType == ScrType.LandscapeMicro  ||  scrType == ScrType.PortraitMicro
+        
+        smallUI =   microUI 
+                    || scrType == ScrType.LandscapeSmall
+                    || scrType == ScrType.PortraitSmall
         return scrType
     }
-    
-    fun isMicroUI(scrType: ScrType) = scrType == ScrType.LandscapeMicro  ||  scrType == ScrType.PortraitMicro
-    
-    fun isSmallUI(scrType: ScrType) =   scrType == ScrType.LandscapeMicro  ||
-                                        scrType == ScrType.PortraitMicro  ||
-                                        scrType == ScrType.LandscapeSmall  ||
-                                        scrType == ScrType.PortraitSmall
 }
 
 enum class ScrType(                                                             val size: Int,

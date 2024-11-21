@@ -71,7 +71,7 @@ dependencies {
     implementation(libs.vankornohelpers)
 }
 
-val versionTag = "1.1.0"
+val versionTag = "1.2.0"
 //val buildDirectory = layout.buildDirectory.get()
 
 publishing {    /* to ensure that the library is published correctly */

@@ -27,7 +27,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.ScrType
-import com.vankorno.vankornocompose.ScreenType
+import com.vankorno.vankornocompose.ScreenType.Companion.microUI
+import com.vankorno.vankornocompose.ScreenType.Companion.smallUI
 import com.vankorno.vankornocompose.actions.tweakTransparency
 import com.vankorno.vankornocompose.values.MOD_W90
 
@@ -69,19 +70,15 @@ fun PopupCard(                                            scrType: ScrType,
                                                               txt: String,
                                                        otherParts: @Composable ColumnScope.()->Unit
 ) {
-    val scrCl = ScreenType()
-    val isSmallUI = scrCl.isSmallUI(scrType)
-    val isMicroUI = scrCl.isMicroUI(scrType)
-    
     var pTop = 20.dp
     var pBot = 55.dp
     var pTxt = 18.dp
     
-    if (isSmallUI) {
+    if (smallUI) {
         pTop = 10.dp
         pBot = 40.dp
         pTxt = 10.dp
-    } else if (isMicroUI) {
+    } else if (microUI) {
         pTop = 5.dp
         pBot = 20.dp
         pTxt = 5.dp
@@ -110,8 +107,8 @@ fun PopupCard(                                            scrType: ScrType,
                 indication = null
             )
             .padding(
-                vertical = if (isSmallUI  ||  scrType == ScrType.LandscapeMedium)  8.dp  else  16.dp,
-                horizontal = if (isSmallUI)  8.dp  else  16.dp
+                vertical = if (smallUI  ||  scrType == ScrType.LandscapeMedium)  8.dp  else  16.dp,
+                horizontal = if (smallUI)  8.dp  else  16.dp
             )
         ,
         verticalArrangement = Arrangement.Center,
