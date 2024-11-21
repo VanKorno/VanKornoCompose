@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.ScreenType.Companion.microUI
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.values.MOD_W50
-import com.vankorno.vankornohelpers.UIHelpr
+import com.vankorno.vankornohelpers.LibUI
 
 private val PerforatedCorner = 10.dp
 private val PerforatedPaddV = 8.dp
@@ -115,7 +115,7 @@ fun PerforatedToggleOption(                                                    i
                 )
                 .size(if (microUI)  32.dp  else  40.dp)
             ,
-            painter = painterResource(id = UIHelpr().getCheckBoxIcon(isON)),
+            painter = painterResource(id = LibUI().getCheckBoxIcon(isON)),
             tint = MaterialTheme.colorScheme.primary,
             contentDescription = null
         )
@@ -300,7 +300,7 @@ private fun VariantBtn(                                                     chos
         
         Icon(
             modifier = Modifier.padding(vertical = 2.dp, horizontal = 8.dp),
-            painter = painterResource(id = UIHelpr().getCircleIcon(isChosen)),
+            painter = painterResource(id = LibUI().getCircleIcon(isChosen)),
             tint = color,
             contentDescription = null
         )
