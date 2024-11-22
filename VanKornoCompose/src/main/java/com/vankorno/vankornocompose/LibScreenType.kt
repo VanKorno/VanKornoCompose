@@ -1,22 +1,34 @@
 package com.vankorno.vankornocompose
 
+import android.app.Activity
 import android.content.res.Configuration
 import android.util.Log
-import com.vankorno.vankornocompose.ScreenType.Companion.ScrLARGE
-import com.vankorno.vankornocompose.ScreenType.Companion.ScrMEDIUM
-import com.vankorno.vankornocompose.ScreenType.Companion.ScrMICRO
-import com.vankorno.vankornocompose.ScreenType.Companion.ScrSMALL
+import com.vankorno.vankornocompose.view_model.LibVm
+import com.vankorno.vankornohelpers.LibUI
+import com.vankorno.vankornohelpers.values.LibGlobals
+
+const val ScrMICRO = 0
+const val ScrSMALL = 1
+const val ScrMEDIUM = 2
+const val ScrLARGE = 3
 
 class ScreenType {
     companion object {
-        const val ScrMICRO = 0
-        const val ScrSMALL = 1
-        const val ScrMEDIUM = 2
-        const val ScrLARGE = 3
-        
         var microUI = false
         var smallUI = false
     }
+    
+    
+    private fun scrConfig(                                                    act: Activity,
+                                                                              lib: LibVm,
+                                                                            color: Int = -0xe4e4e5
+    ) {
+        LibUI().setWindowBackgroundColor(act, color)
+        val screenType = calculateScreenType(act.resources.configuration)
+        lib.updateScreenType(screenType)
+        LibGlobals.screenDensity = act.resources.displayMetrics.density
+    }
+    
     
     fun calculateScreenType(                                          configuration: Configuration  // (resources.configuration)
     ): ScrType {
