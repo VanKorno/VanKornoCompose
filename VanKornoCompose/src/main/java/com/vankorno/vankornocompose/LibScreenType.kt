@@ -18,8 +18,7 @@ class LibScreen {
         var smallUI = false
     }
     
-    
-    private fun scrConfig(                                                    act: Activity,
+    fun scrConfig(                                                            act: Activity,
                                                                               lib: LibVm,
                                                                             color: Int = -0xe4e4e5
     ) {
