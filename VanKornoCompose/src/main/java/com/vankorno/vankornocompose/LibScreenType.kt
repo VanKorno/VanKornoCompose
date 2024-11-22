@@ -12,7 +12,7 @@ const val ScrSMALL = 1
 const val ScrMEDIUM = 2
 const val ScrLARGE = 3
 
-class ScreenType {
+class LibScreen {
     companion object {
         var microUI = false
         var smallUI = false

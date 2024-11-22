@@ -17,7 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.ScrType
-import com.vankorno.vankornocompose.ScreenType
+import com.vankorno.vankornocompose.LibScreen
 import com.vankorno.vankornocompose.composables.MyPopup
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedTextOption
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedToggledVariantPicker
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         
-        val scrType = ScreenType().calculateScreenType(resources.configuration)
+        val scrType = LibScreen().calculateScreenType(resources.configuration)
         
         setContent {
             DynamicTheme {

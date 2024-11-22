@@ -27,8 +27,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.ScrType
-import com.vankorno.vankornocompose.ScreenType.Companion.microUI
-import com.vankorno.vankornocompose.ScreenType.Companion.smallUI
+import com.vankorno.vankornocompose.LibScreen.Companion.microUI
+import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
 import com.vankorno.vankornocompose.actions.tweakTransparency
 import com.vankorno.vankornocompose.values.MOD_W90
 

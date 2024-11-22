@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.vankorno.vankornocompose.ScreenType.Companion.microUI
+import com.vankorno.vankornocompose.LibScreen.Companion.microUI
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.values.MOD_W50
 import com.vankorno.vankornohelpers.LibUI
