@@ -31,10 +31,10 @@ fun FocusRequester.libRequest() =  try {
 
 
 fun Int.spOrLess() =    if (this <= 7)
-                            this
+                            this.sp
                         else if (microUI)
                             (this - 4).sp
                         else if (smallUI)
                             (this - 2).sp
                         else
-                            this
+                            this.sp
