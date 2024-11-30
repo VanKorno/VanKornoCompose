@@ -30,11 +30,11 @@ fun FocusRequester.libRequest() =  try {
                                     }
 
 
-fun Int.spOrLess(size: Int) =   if (size <= 7)
-                                    size
-                                else if (microUI)
-                                    (size - 4).sp
-                                else if (smallUI)
-                                    (size - 2).sp
-                                else
-                                    size
+fun Int.spOrLess() =    if (this <= 7)
+                            this
+                        else if (microUI)
+                            (this - 4).sp
+                        else if (smallUI)
+                            (this - 2).sp
+                        else
+                            this
