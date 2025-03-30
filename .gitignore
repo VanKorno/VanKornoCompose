@@ -19,3 +19,4 @@ local.properties
 /.kotlin/errors/
 /.idea/inspectionProfiles/Project_Default.xml
 /VanKornoCompose/build/.transforms/
+/.idea/AndroidProjectSystem.xml
