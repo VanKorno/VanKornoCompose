@@ -38,7 +38,6 @@ android {
 }
 
 dependencies {
-    
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -47,6 +46,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -55,14 +55,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     
-    
     implementation(libs.androidx.constraintlayout.compose) // Constraint Layout
     
     // SavedStateHandle API for ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.savedstate)
     // For direct access from a composable and other stuff
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    
     
     implementation(libs.kotlinx.coroutines.core)// StateFlow
     implementation(libs.kotlinx.coroutines.android)
@@ -71,7 +69,7 @@ dependencies {
     implementation(libs.vankornohelpers)
 }
 
-val versionTag = "2.0.10"
+val versionTag = "2.1"
 
 publishing {    /* to ensure that the library is published correctly */
     publications {
