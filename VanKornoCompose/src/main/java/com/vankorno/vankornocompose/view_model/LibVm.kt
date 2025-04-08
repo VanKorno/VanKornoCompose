@@ -4,20 +4,18 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.vankorno.vankornocompose.ScrType
-import com.vankorno.vankornohelpers.values.LibConstants.LangAuto
-import com.vankorno.vankornohelpers.values.LibConstants.ScreenMain
-import com.vankorno.vankornohelpers.values.LibConstants.iOFF
+import com.vankorno.vankornohelpers.values.LibConstants.*
 import com.vankorno.vankornohelpers.values.LibGlobals
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class LibVm(
-    private val savedStateHandle: SavedStateHandle
+private const val KEY_currScr = "1"
+private const val KEY_previousScr = "2"
+private const val KEY_popupState = "3"
+private const val KEY_language = "4"
+
+class LibVm(                                         private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    val KEY_currScr = "1"
-    val KEY_previousScr = "2"
-    val KEY_popupState = "3"
-    val KEY_language = "4"
     
     private val _scrType = MutableStateFlow(ScrType.PortraitSmall)
     val scrType: StateFlow<ScrType> = _scrType
@@ -32,7 +30,7 @@ class LibVm(
         LibGlobals.currScreen = new
         savedStateHandle[KEY_currScr] = new
         // region LOG
-        Log.d("LibVm", "Current screen: $new")
+            Log.d("LibVm", "Current screen: $new")
         // endregion
     }
     
@@ -43,7 +41,7 @@ class LibVm(
         _previousScr.value = new
         savedStateHandle[KEY_previousScr] = new
         // region LOG
-        Log.d("LibVm", "Previous screen: $new")
+            Log.d("LibVm", "Previous screen: $new")
         // endregion
     }
     
