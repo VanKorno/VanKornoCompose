@@ -69,7 +69,7 @@ dependencies {
     implementation(libs.vankornohelpers)
 }
 
-val versionTag = "2.5"
+val versionTag = "2.6"
 
 publishing {    /* to ensure that the library is published correctly */
     publications {
