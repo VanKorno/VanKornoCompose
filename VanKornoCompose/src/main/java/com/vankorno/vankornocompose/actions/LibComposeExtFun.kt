@@ -3,9 +3,6 @@ package com.vankorno.vankornocompose.actions
 import android.util.Log
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
-import com.vankorno.vankornocompose.LibScreen.Companion.microUI
-import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
 import kotlinx.coroutines.flow.StateFlow
 
 
@@ -29,12 +26,3 @@ fun FocusRequester.libRequest() =  try {
                                         false
                                     }
 
-
-fun Int.spOrLess() =    if (this <= 7)
-                            this.sp
-                        else if (microUI)
-                            (this - 4).sp
-                        else if (smallUI)
-                            (this - 2).sp
-                        else
-                            this.sp
