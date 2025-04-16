@@ -4,18 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +20,9 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.LibScreen.Companion.microUI
+import com.vankorno.vankornocompose.dp1
+import com.vankorno.vankornocompose.dp2
+import com.vankorno.vankornocompose.dp4
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.values.MOD_W50
 import com.vankorno.vankornohelpers.LibUI
@@ -110,10 +102,10 @@ fun PerforatedToggleOption(                                                    i
         Icon(
             modifier = Modifier
                 .padding(
-                    vertical = if (microUI)  10.dp  else  15.dp,
-                    horizontal = if (microUI)  8.dp  else  12.dp
+                    vertical = 10.dp2(),
+                    horizontal = 8.dp2()
                 )
-                .size(if (microUI)  32.dp  else  40.dp)
+                .size(32.dp4())
             ,
             painter = painterResource(id = LibUI().getCheckBoxIcon(isON)),
             tint = MaterialTheme.colorScheme.primary,
@@ -122,8 +114,8 @@ fun PerforatedToggleOption(                                                    i
         
         Text(
             modifier = Modifier.padding(
-                vertical = if (microUI)  5.dp  else  8.dp,
-                horizontal = if (microUI)  4.dp  else  6.dp
+                vertical = 5.dp2(),
+                horizontal = 4.dp1()
             ),
             text = txt,
             style = MaterialTheme.typography.bodyMedium,
@@ -227,8 +219,8 @@ fun PerforatedVariantPicker(                                              chosen
             val modif = MOD_MaxW
                 .fillMaxHeight()
                 .padding(
-                    vertical =   if (microUI)  6.dp  else  10.dp,
-                    horizontal = if (microUI)  5.dp  else  9.dp
+                    vertical = 6.dp2(),
+                    horizontal = 5.dp2()
                 )
             
             Row(modifSeparV) {}

@@ -26,10 +26,11 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.LibScreen.Companion.microUI
 import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
+import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.actions.tweakTransparency
+import com.vankorno.vankornocompose.dp4
 import com.vankorno.vankornocompose.values.MOD_W90
 
 
@@ -108,7 +109,7 @@ fun PopupCard(                                            scrType: ScrType,
             )
             .padding(
                 vertical = if (smallUI  ||  scrType == ScrType.LandscapeMedium)  8.dp  else  16.dp,
-                horizontal = if (smallUI)  8.dp  else  16.dp
+                horizontal = 8.dp4()
             )
         ,
         verticalArrangement = Arrangement.Center,
