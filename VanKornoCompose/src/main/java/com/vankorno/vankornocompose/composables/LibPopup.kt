@@ -15,44 +15,59 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.LibScreen.Companion.microUI
 import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
 import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.actions.tweakTransparency
 import com.vankorno.vankornocompose.dp4
+import com.vankorno.vankornocompose.dp5
 import com.vankorno.vankornocompose.values.MOD_W90
+import com.vankorno.vankornohelpers.values.hideKeyboard
+
+
+@Composable
+fun MaterialPopup(                                       modifier: Modifier,
+                                                          scrType: ScrType,
+                                                       clickScrim: () -> Unit,
+                                                      composables: @Composable ColumnScope.()->Unit
+) {
+    MyPopup(modifier, scrType, 
+        MaterialTheme.colorScheme.background.tweakTransparency(0.8f),
+        MaterialTheme.colorScheme.secondaryContainer,
+        clickScrim,
+        composables
+    )
+}
+
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MyPopup(                                        modifier: Modifier,
-                                                     scrType: ScrType,
-                                             clickGrayMatter: ()->Unit,
-                                                   popupText: String = "",
-                                                  otherParts: @Composable ColumnScope.()->Unit = {}
+fun MyPopup(                                             modifier: Modifier,
+                                                          scrType: ScrType,
+                                                       scrimColor: Color,
+                                                        cardColor: Color,
+                                                       clickScrim: () -> Unit,
+                                                      composables: @Composable ColumnScope.()->Unit
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     
     Row(
         modifier
-            .background(
-                color = MaterialTheme.colorScheme.background.tweakTransparency(0.9f)
-            )
+            .background(color = scrimColor)
             .combinedClickable(
                 enabled = true,
-                onClick = clickGrayMatter,
-                onLongClick = clickGrayMatter,
+                onClick = clickScrim,
+                onLongClick = clickScrim,
                 role = Role.Button,
                 interactionSource = interactionSource,
                 indication = null
@@ -61,45 +76,35 @@ fun MyPopup(                                        modifier: Modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        PopupCard(scrType, popupText, otherParts)
+        PopupCard(scrType, cardColor, composables)
     }
 }
 
 
 @Composable
-fun PopupCard(                                            scrType: ScrType,
-                                                              txt: String,
-                                                       otherParts: @Composable ColumnScope.()->Unit
+private fun PopupCard(                                    scrType: ScrType,
+                                                        cardColor: Color,
+                                                      composables: @Composable ColumnScope.()->Unit
 ) {
-    var pTop = 20.dp
-    var pBot = 55.dp
-    var pTxt = 18.dp
-    
-    if (smallUI) {
-        pTop = 10.dp
-        pBot = 40.dp
-        pTxt = 10.dp
-    } else if (microUI) {
-        pTop = 5.dp
-        pBot = 20.dp
-        pTxt = 5.dp
-    }
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
+    
+    val paddBot =   if (microUI)
+                        20.dp
+                    else if (smallUI)
+                        40.dp
+                    else
+                        55.dp
     
     val modifier =  if (scrType == ScrType.LandscapeMedium  ||  scrType == ScrType.LandscapeLarge)
                         Modifier.widthIn(min = 300.dp, max = 600.dp)
                     else
                         MOD_W90
-    
-    val keyboard = LocalSoftwareKeyboardController.current
-    val hideKeyboard: ()->Unit = { keyboard?.hide() }
-    
     Column(
         modifier
-            .padding(top = pTop, bottom = pBot)
+            .padding(top = 5.dp5(), bottom = paddBot)
             .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = RoundedCornerShape(12.dp)
+                color = cardColor,
+                shape = RoundedCornerShape(16.dp)
             )
             .verticalScroll(rememberScrollState())
             .clickable(
@@ -115,19 +120,7 @@ fun PopupCard(                                            scrType: ScrType,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (txt.isNotEmpty()) {
-            Text(
-                modifier = MOD_W90
-                     .padding(vertical = pTxt)
-                ,
-                text = txt,
-                style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
-            )
-        }
-        
-        otherParts()
+        composables()
     }
 }
 
