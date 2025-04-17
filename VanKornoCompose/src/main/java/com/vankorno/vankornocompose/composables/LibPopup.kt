@@ -40,7 +40,7 @@ fun MaterialPopup(                                       modifier: Modifier,
                                                        clickScrim: () -> Unit,
                                                       composables: @Composable ColumnScope.()->Unit
 ) {
-    MyPopup(modifier, scrType, 
+    LibPopup(modifier, scrType, 
         MaterialTheme.colorScheme.background.tweakTransparency(0.8f),
         MaterialTheme.colorScheme.secondaryContainer,
         clickScrim,
@@ -52,7 +52,7 @@ fun MaterialPopup(                                       modifier: Modifier,
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MyPopup(                                             modifier: Modifier,
+fun LibPopup(                                            modifier: Modifier,
                                                           scrType: ScrType,
                                                        scrimColor: Color,
                                                         cardColor: Color,
