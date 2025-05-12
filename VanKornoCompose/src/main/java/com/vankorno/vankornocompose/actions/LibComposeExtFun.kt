@@ -1,6 +1,7 @@
 package com.vankorno.vankornocompose.actions
 
 import android.util.Log
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.StateFlow
@@ -25,4 +26,37 @@ fun FocusRequester.libRequest() =  try {
                                         // endregion
                                         false
                                     }
+
+
+
+/** Convenience functions for applying modifiers conditionally */
+
+fun Modifier.applyIf(                                              condition: Boolean,
+                                                                    modifier: Modifier.()->Modifier
+) = if (condition) this.modifier() else this
+
+
+inline fun Modifier.applyIf(                                               condition: Boolean,
+                                                                   crossinline block: ()->Modifier
+) = if (condition) this.then(block()) else this
+
+
+fun Modifier.applyIf(                                              condition: Boolean,
+                                                                   trueBlock: Modifier.()->Modifier,
+                                                                  falseBlock: Modifier.()->Modifier
+) = if (condition) this.trueBlock() else this.falseBlock()
+
+
+fun Modifier.applyIf(                        vararg conditions: Pair<Boolean, Modifier.()->Modifier>
+) = conditions.fold(this) { acc, (cond, mod) ->
+    if (cond) acc.mod() else acc
+}
+
+
+
+
+
+
+
+
 
