@@ -31,25 +31,20 @@ fun FocusRequester.libRequest() =  try {
 
 /** Convenience functions for applying modifiers conditionally */
 
-fun Modifier.applyIf(                                              condition: Boolean,
-                                                                    modifier: Modifier.()->Modifier
-) = if (condition) this.modifier() else this
+inline fun Modifier.applyIf(                                       condition: Boolean,
+                                                                       block: Modifier.()->Modifier
+) = if (condition) this.block() else this
 
 
-inline fun Modifier.applyIf(                                               condition: Boolean,
-                                                                   crossinline block: ()->Modifier
-) = if (condition) this.then(block()) else this
-
-
-fun Modifier.applyIf(                                              condition: Boolean,
+inline fun Modifier.applyIf(                                       condition: Boolean,
                                                                    trueBlock: Modifier.()->Modifier,
                                                                   falseBlock: Modifier.()->Modifier
 ) = if (condition) this.trueBlock() else this.falseBlock()
 
 
 fun Modifier.applyIf(                        vararg conditions: Pair<Boolean, Modifier.()->Modifier>
-) = conditions.fold(this) { acc, (cond, mod) ->
-    if (cond) acc.mod() else acc
+) = conditions.fold(this) { accumulator, (cond, mod) ->
+    if (cond) accumulator.mod() else accumulator
 }
 
 
