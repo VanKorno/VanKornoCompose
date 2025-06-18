@@ -225,15 +225,15 @@ fun PerforatedVariantPicker(                                              chosen
             
             Row(modifSeparV) {}
             
-            variantTexts.forEachIndexed { idx, txt ->
-                VariantBtn(chosenIdx, idx, modif, txt, click, longClick)
+            for (idx in variantTexts.indices) {
+                VariantBtn(chosenIdx, idx, modif, variantTexts[idx], click, longClick)
             }
         }
         else {
             val modif1 = MOD_W50.fillMaxHeight().padding(vertical = 5.dp, horizontal = 3.dp)
             val modif2 = MOD_MaxW.fillMaxHeight().padding(vertical = 5.dp, horizontal = 3.dp)
             
-            variantTexts.forEachIndexed { idx, txt ->
+            for (idx in variantTexts.indices) {
                 if (idx % 2 == 0) {
                     Row(modifSeparV) {}
                     
@@ -245,7 +245,7 @@ fun PerforatedVariantPicker(                                              chosen
                         horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        VariantBtn(chosenIdx, idx, modif1, txt, click, longClick)
+                        VariantBtn(chosenIdx, idx, modif1, variantTexts[idx], click, longClick)
                         Row(modifSeparH) {}
                         
                         if (idx != variantTexts.lastIndex) {
