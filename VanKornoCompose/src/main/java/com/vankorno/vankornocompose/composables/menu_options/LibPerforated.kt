@@ -10,8 +10,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,7 +59,7 @@ fun PerforatedToggleOption(                                                    i
                                                                               click: ()->Unit,
                                                                           longClick: ()->Unit = {}
 ) {
-    val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
+    val interactionSource = remember { MutableInteractionSource() }
     
     val paddV = if (microUI)
                     PerforatedPaddV - 2.dp
@@ -134,7 +132,7 @@ fun PerforatedTextOption(                                              isStandal
                                                                               click: ()->Unit = {},
                                                                           longClick: ()->Unit = {}
 ) {
-    val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
+    val interactionSource = remember { MutableInteractionSource() }
     
     var botPadd = 0.dp
     var botCorner = 0.dp
@@ -223,7 +221,7 @@ fun PerforatedVariantPicker(                                              chosen
                     horizontal = 5.dp2()
                 )
             
-            Row(modifSeparV) {}
+            Box(modifSeparV) {}
             
             for (idx in variantTexts.indices) {
                 VariantBtn(chosenIdx, idx, modif, variantTexts[idx], click, longClick)
@@ -235,7 +233,7 @@ fun PerforatedVariantPicker(                                              chosen
             
             for (idx in variantTexts.indices) {
                 if (idx % 2 == 0) {
-                    Row(modifSeparV) {}
+                    Box(modifSeparV) {}
                     
                     Row(
                         Modifier
@@ -246,7 +244,7 @@ fun PerforatedVariantPicker(                                              chosen
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         VariantBtn(chosenIdx, idx, modif1, variantTexts[idx], click, longClick)
-                        Row(modifSeparH) {}
+                        Box(modifSeparH) {}
                         
                         if (idx != variantTexts.lastIndex) {
                             VariantBtn(chosenIdx, idx+1, modif2, variantTexts[idx+1], click, longClick)
@@ -270,7 +268,7 @@ private fun VariantBtn(                                                     chos
                                                                                 click: (Int)->Unit,
                                                                             longClick: ()->Unit
 ) {
-    val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
+    val interactionSource = remember { MutableInteractionSource() }
     
     val isChosen = chosenIdx == currIdx
     

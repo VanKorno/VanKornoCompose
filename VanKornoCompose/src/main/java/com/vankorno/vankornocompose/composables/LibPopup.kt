@@ -16,8 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +57,7 @@ fun LibPopup(                                            modifier: Modifier,
                                                        clickScrim: () -> Unit,
                                                       composables: @Composable ColumnScope.()->Unit
 ) {
-    val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
+    val interactionSource = remember { MutableInteractionSource() }
     
     Row(
         modifier
@@ -86,7 +84,7 @@ private fun PopupCard(                                    scrType: ScrType,
                                                         cardColor: Color,
                                                       composables: @Composable ColumnScope.()->Unit
 ) {
-    val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
+    val interactionSource = remember { MutableInteractionSource() }
     
     val paddBot =   if (microUI)
                         20.dp
