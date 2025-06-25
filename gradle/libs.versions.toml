@@ -1,18 +1,18 @@
 [versions]
-agp = "8.10.1"
-kotlin = "2.0.21"
+agp = "8.11.0"
+kotlin = "2.2.0"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
-composeBom = "2025.06.00"
+composeBom = "2025.06.01"
 constraintlayoutCompose = "1.1.1"
-kotlinxCoroutinesAndroid = "1.10.1"
-kotlinxCoroutinesCore = "1.10.1"
-testManifest = "1.8.2"
-vankornoHelpers = "2.31"
+kotlinxCoroutinesAndroid = "1.10.2"
+kotlinxCoroutinesCore = "1.10.2"
+testManifest = "1.8.3"
+vankornoHelpers = "2.39"
 
 
 [libraries]

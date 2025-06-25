@@ -71,15 +71,19 @@ dependencies {
 
 val versionTag = System.getenv("VERSION") ?: "unspecified"
 
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            afterEvaluate {
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
                 from(components.findByName("release"))
+                groupId = "com.vankorno"
+                artifactId = "vankornocompose"
+                version = versionTag
             }
-            groupId = "com.vankorno"
-            artifactId = "vankornocompose"
-            version = versionTag
         }
     }
 }
+
+
+
+
