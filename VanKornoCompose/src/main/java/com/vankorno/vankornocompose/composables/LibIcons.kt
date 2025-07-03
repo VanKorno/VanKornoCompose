@@ -32,7 +32,8 @@ fun LibCheckCircleIcon(                                          picked: Boolean
 @Composable
 fun LibPinIcon(                                                  pinned: Boolean,
                                                                modifier: Modifier = MOD_CheckCircle,
-                                                                  color: Color = Color.White
+                                                            colorPinned: Color = Color.Green,
+                                                         colorNotPinned: Color = Color.White
 ) {
     Icon(
         modifier = modifier,
@@ -42,7 +43,7 @@ fun LibPinIcon(                                                  pinned: Boolean
             else
                 R.drawable.ic_pin
         ),
-        tint = color,
+        tint = if (pinned) colorPinned else colorNotPinned,
         contentDescription = null
     )
 }
