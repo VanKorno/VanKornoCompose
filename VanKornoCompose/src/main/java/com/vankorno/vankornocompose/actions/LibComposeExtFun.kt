@@ -32,13 +32,13 @@ fun FocusRequester.libRequest() =  try {
 /** Convenience functions for applying modifiers conditionally */
 
 inline fun Modifier.applyIf(                                       condition: Boolean,
-                                                                       block: Modifier.()->Modifier
+                                                                       block: Modifier.()->Modifier,
 ) = if (condition) this.block() else this
 
 
 inline fun Modifier.applyIf(                                       condition: Boolean,
                                                                    trueBlock: Modifier.()->Modifier,
-                                                                  falseBlock: Modifier.()->Modifier
+                                                                  falseBlock: Modifier.()->Modifier,
 ) = if (condition) this.trueBlock() else this.falseBlock()
 
 

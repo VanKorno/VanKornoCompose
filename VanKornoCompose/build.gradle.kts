@@ -67,7 +67,7 @@ dependencies {
     // For direct access from a composable and other stuff
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     
-    implementation(libs.kotlinx.coroutines.core)// StateFlow
+    implementation(libs.kotlinx.coroutines.core) // for StateFlow
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.runtime.compose)
     
