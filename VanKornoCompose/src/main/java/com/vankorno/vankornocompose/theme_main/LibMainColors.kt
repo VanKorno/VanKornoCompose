@@ -2,6 +2,7 @@ package com.vankorno.vankornocompose.theme_main
 
 import androidx.compose.ui.graphics.Color
 
+
 val LibColorBackground = Color(0xFF242424)
 
 val LibColorWhiteText = Color(0xFFE6E6E6)
