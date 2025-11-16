@@ -41,7 +41,7 @@ fun PerforatedToggledVariantPicker(                                            i
                                                                        variantTexts: Array<String>,
                                                                               click: ()->Unit,
                                                                        variantClick: (Int)->Unit,
-                                                                          longClick: ()->Unit = {}
+                                                                          longClick: ()->Unit = {},
 ) {
     PerforatedToggleOption(isON, false, txt, click, longClick)
     
@@ -57,7 +57,7 @@ fun PerforatedToggleOption(                                                    i
                                                                        isStandalone: Boolean,
                                                                                 txt: String,
                                                                               click: ()->Unit,
-                                                                          longClick: ()->Unit = {}
+                                                                          longClick: ()->Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -130,7 +130,7 @@ fun PerforatedToggleOption(                                                    i
 fun PerforatedTextOption(                                              isStandalone: Boolean,
                                                                                 txt: String,
                                                                               click: ()->Unit = {},
-                                                                          longClick: ()->Unit = {}
+                                                                          longClick: ()->Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -187,7 +187,7 @@ fun PerforatedVariantPicker(                                              chosen
                                                                      isSingleColumn: Boolean,
                                                                        variantTexts: Array<String>,
                                                                               click: (Int)->Unit,
-                                                                          longClick: ()->Unit
+                                                                          longClick: ()->Unit,
 ) {
     Column (
         MOD_Perforated
@@ -266,7 +266,7 @@ private fun VariantBtn(                                                     chos
                                                                              modifier: Modifier,
                                                                                   txt: String,
                                                                                 click: (Int)->Unit,
-                                                                            longClick: ()->Unit
+                                                                            longClick: ()->Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     

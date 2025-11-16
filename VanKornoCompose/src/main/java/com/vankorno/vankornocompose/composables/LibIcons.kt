@@ -17,7 +17,7 @@ private val MOD_CheckCircle = Modifier.size(37.dp).padding(6.dp)
 @Composable
 fun LibCheckCircleIcon(                                          picked: Boolean,
                                                                modifier: Modifier = MOD_CheckCircle,
-                                                                  color: Color = Color.White
+                                                                  color: Color = Color.White,
 ) {
     Icon(
         modifier = modifier,
@@ -33,7 +33,7 @@ fun LibCheckCircleIcon(                                          picked: Boolean
 fun LibPinIcon(                                                  pinned: Boolean,
                                                                modifier: Modifier = MOD_CheckCircle,
                                                             colorPinned: Color = Color.Green,
-                                                         colorNotPinned: Color = Color.White
+                                                         colorNotPinned: Color = Color.White,
 ) {
     Icon(
         modifier = modifier,

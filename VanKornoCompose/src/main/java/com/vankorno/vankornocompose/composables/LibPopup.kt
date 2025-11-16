@@ -36,7 +36,7 @@ import com.vankorno.vankornohelpers.values.hideKeyboard
 fun MaterialPopup(                                       modifier: Modifier,
                                                           scrType: ScrType,
                                                        clickScrim: () -> Unit,
-                                                      composables: @Composable ColumnScope.()->Unit
+                                                      composables: @Composable ColumnScope.()->Unit,
 ) {
     LibPopup(modifier, scrType, 
         MaterialTheme.colorScheme.background.tweakTransparency(0.8f),
@@ -55,7 +55,7 @@ fun LibPopup(                                            modifier: Modifier,
                                                        scrimColor: Color,
                                                         cardColor: Color,
                                                        clickScrim: () -> Unit,
-                                                      composables: @Composable ColumnScope.()->Unit
+                                                      composables: @Composable ColumnScope.()->Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -82,7 +82,7 @@ fun LibPopup(                                            modifier: Modifier,
 @Composable
 private fun PopupCard(                                    scrType: ScrType,
                                                         cardColor: Color,
-                                                      composables: @Composable ColumnScope.()->Unit
+                                                      composables: @Composable ColumnScope.()->Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
