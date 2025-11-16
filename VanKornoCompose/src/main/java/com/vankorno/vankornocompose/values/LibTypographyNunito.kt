@@ -8,6 +8,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.vankorno.vankornocompose.R
 
+/*
+Put this text in the app's "About" or "Licenses" section:
+
+Nunito  
+© 2014 The Nunito Project Authors  
+Licensed under the SIL Open Font License, Version 1.1  
+https://openfontlicense.org
+
+ */
+
+
 val FontFNunito = FontFamily(
     Font(R.font.nunito_extralight, FontWeight.ExtraLight),
     Font(R.font.nunito_light, FontWeight.Light),
