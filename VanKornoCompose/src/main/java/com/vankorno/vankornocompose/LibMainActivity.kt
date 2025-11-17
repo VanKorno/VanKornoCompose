@@ -19,6 +19,7 @@ import com.vankorno.vankornocompose.LibScreen.Companion.scrTypeFlow
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.values.LocalLanguage
 import com.vankorno.vankornocompose.values.LocalScrType
+import com.vankorno.vankornocompose.values.LocalScreen
 import com.vankorno.vankornohelpers.LibClipBoard
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.dLog
@@ -26,6 +27,7 @@ import com.vankorno.vankornohelpers.values.LibGlobals.actExists
 import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
 import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
+import com.vankorno.vankornohelpers.values.LibGlobals.currScrFlow
 import com.vankorno.vankornohelpers.values.LibGlobals.langFlow
 import com.vankorno.vankornohelpers.values.getBuffer
 import com.vankorno.vankornohelpers.values.longToast
@@ -64,10 +66,12 @@ abstract class LibMainActivity(                              val usesMinuteUpdat
             LibMainScaffold {
                 val lang by langFlow.collectAsStateWithLifecycle()
                 val scrType by scrTypeFlow.collectAsStateWithLifecycle()
+                val currScreen by currScrFlow.collectAsStateWithLifecycle()
                 
                 CompositionLocalProvider(
                     LocalLanguage provides lang,
-                    LocalScrType provides scrType
+                    LocalScrType provides scrType,
+                    LocalScreen provides currScreen,
                 ) {
                     AppUI()
                 }
