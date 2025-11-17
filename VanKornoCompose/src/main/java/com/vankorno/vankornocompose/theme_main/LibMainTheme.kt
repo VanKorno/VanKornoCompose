@@ -9,12 +9,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
-import com.vankorno.vankornocompose.values.TypographyNunito
 
 @Composable
-fun LibMainTheme(                                     statusBarColor: Color = LibColorBlackBtn,
-                                                          typography: Typography = TypographyNunito,
-                                                             content: @Composable ()->Unit,
+fun LibMainTheme(                                              statusBarColor: Color,
+                                                                   typography: Typography,
+                                                                      content: @Composable ()->Unit,
 ) {
     val view = LocalView.current
     
