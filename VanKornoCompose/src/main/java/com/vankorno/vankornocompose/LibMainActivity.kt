@@ -25,6 +25,7 @@ import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibGlobals.actExists
 import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
+import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
 import com.vankorno.vankornohelpers.values.LibGlobals.langFlow
 import com.vankorno.vankornohelpers.values.getBuffer
 import com.vankorno.vankornohelpers.values.longToast
@@ -100,6 +101,22 @@ abstract class LibMainActivity(                              val usesMinuteUpdat
         getBuffer = { LibClipBoard().getTxt(this) }
         setBuffer = { LibClipBoard().setTxt(this, it) }
     }
+    
+    
+    protected fun decideFirstLaunch(                                  isDataMissing: Boolean,
+                                                                      onFirstLaunch: ()->Unit,
+                                                                     onConfigChange: ()->Unit = {},
+    ) {
+        if (!appStarted || isDataMissing) {
+            onFirstLaunch()
+        } else {
+            // region LOG
+                dLog(TAG, "Happens on config change")
+            // endregion
+            onConfigChange()
+        }
+    }
+    
     
     
     private fun setBackBtn() {
