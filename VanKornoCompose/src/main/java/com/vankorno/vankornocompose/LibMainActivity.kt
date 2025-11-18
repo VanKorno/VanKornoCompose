@@ -14,9 +14,11 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.ViewModelProvider
 import com.vankorno.vankornocompose.theme_main.LibColorBlackBtn
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.values.TypographyNunito
+import com.vankorno.vankornocompose.vm.LibViewModel
 import com.vankorno.vankornohelpers.LibClipBoard
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.dLog
@@ -36,7 +38,9 @@ abstract class LibMainActivity(                val usesMinuteUpdater: Boolean = 
                                                   val statusBarColor: Color = LibColorBlackBtn,
                                                       val typography: Typography = TypographyNunito,
 ) : ComponentActivity() {
-    
+    companion object {
+        lateinit var libVm: LibViewModel
+    }
     private lateinit var minUpdateReceiver: BroadcastReceiver
     
     
@@ -53,6 +57,8 @@ abstract class LibMainActivity(                val usesMinuteUpdater: Boolean = 
         LibScreen().scrConfig(this, -0x1000000)
         
         initLibLambdas()
+        
+        libVm = ViewModelProvider(this)[LibViewModel::class.java]
         
         appLogic()
         

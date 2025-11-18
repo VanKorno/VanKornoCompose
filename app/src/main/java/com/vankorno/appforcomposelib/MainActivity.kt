@@ -1,15 +1,10 @@
 package com.vankorno.appforcomposelib
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -18,40 +13,31 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.vankorno.vankornocompose.LibScreen
-import com.vankorno.vankornocompose.ScrType
+import com.vankorno.vankornocompose.LibMainActivity
+import com.vankorno.vankornocompose.LibScreen.Companion.scrType
 import com.vankorno.vankornocompose.composables.MaterialPopup
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedTextOption
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedToggledVariantPicker
-import com.vankorno.vankornocompose.theme_dynamic.DynamicTheme
 import com.vankorno.vankornocompose.values.MOD_MaxSize
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.values.MOD_W90
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+class MainActivity : LibMainActivity() {
+    
+    override fun appLogic() {
         
-        val scrType = LibScreen().calculateScreenType(resources.configuration)
-        
-        setContent {
-            DynamicTheme {
-                Surface(
-                    MOD_MaxSize,
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    TestScreen(scrType)
-                }
-            }
-        }
     }
+    
+    @Composable
+    override fun AppUI() {
+        TestScreen()
+    }
+    
 }
 
 
 @Composable
-fun TestScreen(                                                               scrType: ScrType
-) {
+fun TestScreen() {
     var popupON = remember { mutableStateOf(false) }
     
     if (popupON.value) {
