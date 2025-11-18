@@ -10,16 +10,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.vankorno.vankornocompose.LibScreen.Companion.scrTypeFlow
+import com.vankorno.vankornocompose.theme_main.LibColorBlackBtn
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
-import com.vankorno.vankornocompose.values.LocalLanguage
-import com.vankorno.vankornocompose.values.LocalScrType
-import com.vankorno.vankornocompose.values.LocalScreen
+import com.vankorno.vankornocompose.values.TypographyNunito
 import com.vankorno.vankornohelpers.LibClipBoard
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.dLog
@@ -27,22 +24,21 @@ import com.vankorno.vankornohelpers.values.LibGlobals.actExists
 import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
 import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
-import com.vankorno.vankornohelpers.values.LibGlobals.currScrFlow
-import com.vankorno.vankornohelpers.values.LibGlobals.langFlow
 import com.vankorno.vankornohelpers.values.getBuffer
 import com.vankorno.vankornohelpers.values.longToast
 import com.vankorno.vankornohelpers.values.minimizeApp
 import com.vankorno.vankornohelpers.values.setBuffer
 import com.vankorno.vankornohelpers.values.shortToast
 
-
 private const val TAG = "MAIN Act."
 
-
-abstract class LibMainActivity(                              val usesMinuteUpdater: Boolean = true
+abstract class LibMainActivity(                val usesMinuteUpdater: Boolean = true,
+                                                  val statusBarColor: Color = LibColorBlackBtn,
+                                                      val typography: Typography = TypographyNunito,
 ) : ComponentActivity() {
     
     private lateinit var minUpdateReceiver: BroadcastReceiver
+    
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,18 +59,8 @@ abstract class LibMainActivity(                              val usesMinuteUpdat
         setBackBtn()
         
         setContent {
-            LibMainScaffold {
-                val lang by langFlow.collectAsStateWithLifecycle()
-                val scrType by scrTypeFlow.collectAsStateWithLifecycle()
-                val currScreen by currScrFlow.collectAsStateWithLifecycle()
-                
-                CompositionLocalProvider(
-                    LocalLanguage provides lang,
-                    LocalScrType provides scrType,
-                    LocalScreen provides currScreen,
-                ) {
-                    AppUI()
-                }
+            LibMainScaffold(statusBarColor, typography) {
+                AppUI()
             }
         }
     }

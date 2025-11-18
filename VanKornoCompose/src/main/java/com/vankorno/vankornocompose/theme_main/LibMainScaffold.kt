@@ -8,12 +8,21 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vankorno.vankornocompose.LibScreen.Companion.scrTypeFlow
+import com.vankorno.vankornocompose.values.LocalLanguage
+import com.vankorno.vankornocompose.values.LocalScrType
+import com.vankorno.vankornocompose.values.LocalScreen
 import com.vankorno.vankornocompose.values.MOD_MaxSize
 import com.vankorno.vankornocompose.values.TypographyNunito
+import com.vankorno.vankornohelpers.values.LibGlobals.currScrFlow
+import com.vankorno.vankornohelpers.values.LibGlobals.langFlow
 import com.vankorno.vankornohelpers.values.clearFocus
 import com.vankorno.vankornohelpers.values.hideKeyboard
 import com.vankorno.vankornohelpers.values.showKeyboard
@@ -37,14 +46,24 @@ fun LibMainScaffold(                                  statusBarColor: Color = Li
         ) {
             KeyboardActions()
             
-            content()
+            val lang by langFlow.collectAsStateWithLifecycle()
+            val scrType by scrTypeFlow.collectAsStateWithLifecycle()
+            val currScreen by currScrFlow.collectAsStateWithLifecycle()
+            
+            CompositionLocalProvider(
+                LocalLanguage provides lang,
+                LocalScrType provides scrType,
+                LocalScreen provides currScreen,
+            ) {
+                content()
+            }
         }
     }
 }
 
 
 @Composable
-fun KeyboardActions() {
+private fun KeyboardActions() {
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     
