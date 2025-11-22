@@ -7,12 +7,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
@@ -21,6 +21,8 @@ import com.vankorno.vankornocompose.LibScreen.Companion.microUI
 import com.vankorno.vankornocompose.dp1
 import com.vankorno.vankornocompose.dp2
 import com.vankorno.vankornocompose.dp4
+import com.vankorno.vankornocompose.sp1
+import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.values.MOD_W50
 import com.vankorno.vankornohelpers.LibUI
@@ -34,30 +36,33 @@ private val MOD_Perforated =  Modifier
 
 
 @Composable
-fun PerforatedToggledVariantPicker(                                            isON: Boolean,
-                                                                          chosenIdx: Int,
-                                                                     isSingleColumn: Boolean,
-                                                                                txt: String,
-                                                                       variantTexts: Array<String>,
-                                                                              click: ()->Unit,
-                                                                       variantClick: (Int)->Unit,
-                                                                          longClick: ()->Unit = {},
+fun PerforatedToggledVariantPicker(                         isON: Boolean,
+                                                       chosenIdx: Int,
+                                                  isSingleColumn: Boolean,
+                                                             txt: String,
+                                                    variantTexts: Array<String>,
+                                                           color: Color = LibColor.Surface.color,
+                                                      separColor: Color = LibColor.Background.color,
+                                                           click: ()->Unit,
+                                                    variantClick: (Int)->Unit,
+                                                       longClick: ()->Unit = {},
 ) {
-    PerforatedToggleOption(isON, false, txt, click, longClick)
+    PerforatedToggleOption(isON, false, txt, color, click, longClick)
     
     if (isON) {
-        PerforatedVariantPicker(chosenIdx, isSingleColumn, variantTexts, variantClick, longClick)
+        PerforatedVariantPicker(chosenIdx, isSingleColumn, variantTexts, color, separColor, variantClick, longClick)
     }
 }
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PerforatedToggleOption(                                                    isON: Boolean,
-                                                                       isStandalone: Boolean,
-                                                                                txt: String,
-                                                                              click: ()->Unit,
-                                                                          longClick: ()->Unit = {},
+fun PerforatedToggleOption(                                    isON: Boolean,
+                                                       isStandalone: Boolean,
+                                                                txt: String,
+                                                              color: Color = LibColor.Surface.color,
+                                                              click: ()->Unit,
+                                                          longClick: ()->Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -78,7 +83,7 @@ fun PerforatedToggleOption(                                                    i
        MOD_Perforated
             .padding(top = paddV, start = PerforatedPaddH, end = PerforatedPaddH, bottom = botPadd)
             .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
+                color = color,
                 shape = RoundedCornerShape(
                     topStart = PerforatedCorner,
                     topEnd = PerforatedCorner,
@@ -106,7 +111,7 @@ fun PerforatedToggleOption(                                                    i
                 .size(32.dp4())
             ,
             painter = painterResource(id = LibUI().getCheckBoxIcon(isON)),
-            tint = MaterialTheme.colorScheme.primary,
+            tint = LibColor.WhiteText.color,
             contentDescription = null
         )
         
@@ -116,10 +121,10 @@ fun PerforatedToggleOption(                                                    i
                 horizontal = 4.dp1()
             ),
             text = txt,
-            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 18.sp1(),
             textAlign = TextAlign.Start,
             maxLines = 6,
-            color = MaterialTheme.colorScheme.onSecondaryContainer
+            color = LibColor.WhiteText.color
         )
     }
 }
@@ -127,10 +132,11 @@ fun PerforatedToggleOption(                                                    i
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PerforatedTextOption(                                              isStandalone: Boolean,
-                                                                                txt: String,
-                                                                              click: ()->Unit = {},
-                                                                          longClick: ()->Unit = {},
+fun PerforatedTextOption(                              isStandalone: Boolean,
+                                                                txt: String,
+                                                              color: Color = LibColor.Surface.color,
+                                                              click: ()->Unit = {},
+                                                          longClick: ()->Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -147,7 +153,7 @@ fun PerforatedTextOption(                                              isStandal
             .heightIn(min = 65.dp)
             .padding(top = PerforatedPaddV, start = PerforatedPaddH, end = PerforatedPaddH, bottom = botPadd)
             .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
+                color = color,
                 shape = RoundedCornerShape(
                     topStart = PerforatedCorner,
                     topEnd = PerforatedCorner,
@@ -170,10 +176,10 @@ fun PerforatedTextOption(                                              isStandal
         Text(
             modifier = Modifier.padding(8.dp),
             text = txt,
-            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 18.sp1(),
             textAlign = TextAlign.Center,
             maxLines = 12,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = LibColor.WhiteText.color,
         )
     }
 }
@@ -183,24 +189,25 @@ fun PerforatedTextOption(                                              isStandal
 // When it has two columns, it's better to logically organize elements horizontally. Even idx - first col, odd - second
 
 @Composable
-fun PerforatedVariantPicker(                                              chosenIdx: Int,
-                                                                     isSingleColumn: Boolean,
-                                                                       variantTexts: Array<String>,
-                                                                              click: (Int)->Unit,
-                                                                          longClick: ()->Unit,
+fun PerforatedVariantPicker(                           chosenIdx: Int,
+                                                  isSingleColumn: Boolean,
+                                                    variantTexts: Array<String>,
+                                                           color: Color = LibColor.Surface.color,
+                                                      separColor: Color = LibColor.Background.color,
+                                                           click: (Int)->Unit,
+                                                       longClick: ()->Unit = {},
 ) {
     Column (
         MOD_Perforated
             .padding(bottom = PerforatedPaddV, start = PerforatedPaddH, end = PerforatedPaddH)
             .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
+                color = color,
                 shape = RoundedCornerShape(bottomStart = PerforatedCorner, bottomEnd = PerforatedCorner)
             )
         ,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val separColor = MaterialTheme.colorScheme.background
         val separShape = RoundedCornerShape(size = 3.dp)
         
         val modifSeparH = Modifier
@@ -261,12 +268,12 @@ fun PerforatedVariantPicker(                                              chosen
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun VariantBtn(                                                     chosenIdx: Int,
-                                                                              currIdx: Int,
-                                                                             modifier: Modifier,
-                                                                                  txt: String,
-                                                                                click: (Int)->Unit,
-                                                                            longClick: ()->Unit,
+private fun VariantBtn(                                                   chosenIdx: Int,
+                                                                            currIdx: Int,
+                                                                           modifier: Modifier,
+                                                                                txt: String,
+                                                                              click: (Int)->Unit,
+                                                                          longClick: ()->Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -286,7 +293,7 @@ private fun VariantBtn(                                                     chos
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val color = MaterialTheme.colorScheme.onSecondaryContainer
+        val color = LibColor.WhiteText.color
         
         Icon(
             modifier = Modifier.padding(vertical = 2.dp, horizontal = 8.dp),
@@ -298,7 +305,7 @@ private fun VariantBtn(                                                     chos
         Text(
             modifier = MOD_MaxW.padding(horizontal = 4.dp),
             text = txt,
-            style = MaterialTheme.typography.bodySmall,
+            fontSize = 16.sp1(),
             textAlign = TextAlign.Start,
             maxLines = 2,
             color = color

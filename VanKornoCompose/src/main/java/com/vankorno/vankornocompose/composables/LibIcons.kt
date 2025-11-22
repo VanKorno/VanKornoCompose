@@ -9,15 +9,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.R
+import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornohelpers.LibUI
 
 private val MOD_CheckCircle = Modifier.size(37.dp).padding(6.dp)
 
 
 @Composable
-fun LibCheckCircleIcon(                                          picked: Boolean,
-                                                               modifier: Modifier = MOD_CheckCircle,
-                                                                  color: Color = Color.White,
+fun LibCheckCircleIcon(                                    picked: Boolean,
+                                                         modifier: Modifier = MOD_CheckCircle,
+                                                            color: Color = LibColor.WhiteText.color,
 ) {
     Icon(
         modifier = modifier,
@@ -30,10 +31,10 @@ fun LibCheckCircleIcon(                                          picked: Boolean
 
 
 @Composable
-fun LibPinIcon(                                                  pinned: Boolean,
-                                                               modifier: Modifier = MOD_CheckCircle,
-                                                            colorPinned: Color = Color.Green,
-                                                         colorNotPinned: Color = Color.White,
+fun LibPinIcon(                                            pinned: Boolean,
+                                                         modifier: Modifier = MOD_CheckCircle,
+                                                      colorPinned: Color = Color.Green,
+                                                   colorNotPinned: Color = LibColor.WhiteText.color,
 ) {
     Icon(
         modifier = modifier,

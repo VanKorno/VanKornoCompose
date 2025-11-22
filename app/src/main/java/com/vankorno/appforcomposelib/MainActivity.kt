@@ -18,6 +18,7 @@ import com.vankorno.vankornocompose.LibScreen.Companion.scrType
 import com.vankorno.vankornocompose.composables.MaterialPopup
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedTextOption
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedToggledVariantPicker
+import com.vankorno.vankornocompose.theme_main.LibAccentColor
 import com.vankorno.vankornocompose.values.MOD_MaxSize
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.values.MOD_W90
@@ -84,6 +85,7 @@ fun TestPerforatedOptions(                                                     s
         chosenIdx = idx.intValue,
         isSingleColumn = false,
         txt = "Test",
+        color = LibAccentColor.Green.color,
         variantTexts = arrayOf( "one\n kllkjlkj",   "two",
                                 "three"                      ),
         
@@ -96,15 +98,17 @@ fun TestPerforatedOptions(                                                     s
     
     PerforatedTextOption(
         isStandalone = true,
-        txt = "Test"
+        txt = "Test",
+        color = LibAccentColor.Violet.color,
     )
     PerforatedTextOption(
         isStandalone = true,
-        txt = "Test\nTest"
+        txt = "Test\nTest",
+        color = LibAccentColor.Yellow.color,
     )
     PerforatedTextOption(
         isStandalone = true,
-        txt = "Test\nTest\nTest"
+        txt = "Test\nTest\nTest",
     )
 }
 
