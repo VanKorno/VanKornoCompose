@@ -24,16 +24,15 @@ import com.vankorno.vankornocompose.values.LocalPopState
 import com.vankorno.vankornocompose.values.LocalScrType
 import com.vankorno.vankornocompose.values.LocalScreen
 import com.vankorno.vankornocompose.values.MOD_MaxSize
-import com.vankorno.vankornocompose.values.TypographyNunito
 import com.vankorno.vankornohelpers.values.clearFocus
 import com.vankorno.vankornohelpers.values.hideKeyboard
 import com.vankorno.vankornohelpers.values.showKeyboard
 
 
 @Composable
-fun LibMainScaffold(                                  statusBarColor: Color = LibColorBlackBtn,
-                                                          typography: Typography = TypographyNunito,
-                                                             content: @Composable ()->Unit,
+fun LibMainScaffold(                              statusBarColor: Color = LibColor.BlackBtn.color,
+                                                      typography: Typography = Typography(),
+                                                         content: @Composable ()->Unit,
 ) {
     LibMainTheme(
         statusBarColor = statusBarColor,
@@ -44,7 +43,7 @@ fun LibMainScaffold(                                  statusBarColor: Color = Li
                 .windowInsetsPadding(
                     WindowInsets.systemBars.add(WindowInsets.ime)
                 ),
-            color = LibColorBackground
+            color = LibColor.Background.color
         ) {
             KeyboardActions()
             

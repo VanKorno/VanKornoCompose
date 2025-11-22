@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
-import com.vankorno.vankornocompose.theme_main.LibColorBlackBtn
+import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.vm.LibViewModel
 import com.vankorno.vankornohelpers.LibClipBoard
@@ -33,9 +33,9 @@ import com.vankorno.vankornohelpers.values.shortToast
 
 private const val TAG = "MAIN Act."
 
-abstract class LibMainActivity(                    val usesMinuteUpdater: Boolean = true,
-                                                      val statusBarColor: Color = LibColorBlackBtn,
-                                                          val typography: Typography = Typography(),
+abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = true,
+                                                val statusBarColor: Color = LibColor.BlackBtn.color,
+                                                    val typography: Typography = Typography(),
 ) : ComponentActivity() {
     companion object {
         lateinit var libVm: LibViewModel
