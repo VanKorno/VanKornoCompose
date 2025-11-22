@@ -29,3 +29,5 @@ captures/
 
 # Log files
 *.log
+
+deploymentTargetSelector.xml
