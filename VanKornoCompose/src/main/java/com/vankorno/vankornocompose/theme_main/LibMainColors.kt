@@ -4,8 +4,8 @@ import androidx.compose.ui.graphics.Color
 import com.vankorno.vankornohelpers.values.LibColors.*
 
 // functional colors
-private const val IntColorBackground = 0xFF1C1C1C.toInt()
-private const val IntColorSurfaceD = 0xFF2C2C2C.toInt()
+private const val IntColorBackground = 0xFF151515.toInt()
+private const val IntColorSurfaceD = 0xFF2F2F2F.toInt()
 private const val IntColorTextField = 0xFF353535.toInt()
 private const val IntColorTextFieldDark = 0xFF2A2A2A.toInt()
 
