@@ -10,6 +10,7 @@ import com.vankorno.vankornocompose.LibScreen.Companion.scrDiff2
 import com.vankorno.vankornocompose.LibScreen.Companion.scrDiff3
 import com.vankorno.vankornocompose.LibScreen.Companion.scrDiff4
 import com.vankorno.vankornocompose.LibScreen.Companion.scrDiff5
+import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornohelpers.LibUI
 import com.vankorno.vankornohelpers.values.LibGlobals
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,8 +55,8 @@ class LibScreen {
             set(new){ _scrType.value = new }
     }
     
-    fun scrConfig(                                                            act: Activity,
-                                                                            color: Int = -0xe4e4e5,
+    fun scrConfig(                                              act: Activity,
+                                                              color: Int = LibColor.Background.argb,
     ) {
         LibUI().setWindowBackgroundColor(act, color)
         scrType = calculateScreenType(act.resources.configuration)

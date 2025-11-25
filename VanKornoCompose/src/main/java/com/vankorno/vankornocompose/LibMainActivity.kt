@@ -35,12 +35,17 @@ private const val TAG = "MAIN Act."
 
 abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = true,
                                                 val statusBarColor: Color = LibColor.BlackBtn.color,
+                                                 val underAppColor: Int = LibColor.Background.argb,
                                                     val typography: Typography = Typography(),
 ) : ComponentActivity() {
     companion object {
         lateinit var libVm: LibViewModel
     }
     private lateinit var minUpdateReceiver: BroadcastReceiver
+    
+    protected open val isEssentialDataMissing: Boolean get() = false
+    protected open fun onFirstLaunch() {}
+    protected open fun onConfigChange() {}
     
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,13 +58,15 @@ abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = tr
         
         enableEdgeToEdge()
         
-        LibScreen().scrConfig(this, -0x1000000)
+        LibScreen().scrConfig(this, underAppColor)
         
         initLibLambdas()
         
         libVm = ViewModelProvider(this)[LibViewModel::class.java]
         
-        appLogic()
+        beforeStartup()
+        startup()
+        afterStartup()
         
         setBackBtn()
         
@@ -73,7 +80,25 @@ abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = tr
     @Composable
     protected abstract fun AppUI()
     
-    protected open fun appLogic() {}
+    
+    protected open fun beforeStartup() {}
+    
+    private fun startup() {
+        if (!appStarted || isEssentialDataMissing) {
+            // region LOG
+                dLog(TAG, "startup(): Full startup logic runs (not config change)...")
+            // endregion
+            onFirstLaunch()
+        } else {
+            // region LOG
+                dLog(TAG, "startup(): Config change logic runs...")
+            // endregion
+            onConfigChange()
+        }
+    }
+    
+    protected open fun afterStartup() {}
+    
     
     protected open fun doOnPause() {}
     protected open fun doOnStop() {}
@@ -97,20 +122,6 @@ abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = tr
         setBuffer = { LibClipBoard().setTxt(this, it) }
     }
     
-    
-    protected fun decideFirstLaunch(                                  isDataMissing: Boolean,
-                                                                      onFirstLaunch: ()->Unit,
-                                                                     onConfigChange: ()->Unit = {},
-    ) {
-        if (!appStarted || isDataMissing) {
-            onFirstLaunch()
-        } else {
-            // region LOG
-                dLog(TAG, "Happens on config change")
-            // endregion
-            onConfigChange()
-        }
-    }
     
     
     

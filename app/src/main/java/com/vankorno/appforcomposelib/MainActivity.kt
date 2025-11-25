@@ -25,7 +25,7 @@ import com.vankorno.vankornocompose.values.MOD_W90
 
 class MainActivity : LibMainActivity() {
     
-    override fun appLogic() {
+    override fun beforeStartup() {
         
     }
     
