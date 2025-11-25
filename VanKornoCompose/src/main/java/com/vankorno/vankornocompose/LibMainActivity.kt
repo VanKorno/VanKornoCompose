@@ -43,11 +43,6 @@ abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = tr
     }
     private lateinit var minUpdateReceiver: BroadcastReceiver
     
-    protected open val isEssentialDataMissing: Boolean get() = false
-    protected open fun onFirstLaunch() {}
-    protected open fun onConfigChange() {}
-    
-    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -83,8 +78,12 @@ abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = tr
     
     protected open fun beforeStartup() {}
     
+    protected open fun isEssentialDataMissing(): Boolean = false
+    protected open fun onFirstLaunch() {}
+    protected open fun onConfigChange() {}
+    
     private fun startup() {
-        if (!appStarted || isEssentialDataMissing) {
+        if (!appStarted || isEssentialDataMissing()) {
             // region LOG
                 dLog(TAG, "startup(): Full startup logic runs (not config change)...")
             // endregion
@@ -96,7 +95,6 @@ abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = tr
             onConfigChange()
         }
     }
-    
     protected open fun afterStartup() {}
     
     
