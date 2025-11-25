@@ -79,20 +79,20 @@ abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = tr
     protected open fun beforeStartup() {}
     
     protected open fun isEssentialDataMissing(): Boolean = false
-    protected open fun onFirstLaunch() {}
-    protected open fun onConfigChange() {}
+    protected open fun startupFirstLaunch() {}
+    protected open fun startupConfigChange() {}
     
     private fun startup() {
         if (!appStarted || isEssentialDataMissing()) {
             // region LOG
                 dLog(TAG, "startup(): Full startup logic runs (not config change)...")
             // endregion
-            onFirstLaunch()
+            startupFirstLaunch()
         } else {
             // region LOG
                 dLog(TAG, "startup(): Config change logic runs...")
             // endregion
-            onConfigChange()
+            startupConfigChange()
         }
     }
     protected open fun afterStartup() {}
