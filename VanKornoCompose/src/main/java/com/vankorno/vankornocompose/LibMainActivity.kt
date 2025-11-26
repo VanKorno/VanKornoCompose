@@ -34,10 +34,10 @@ import com.vankorno.vankornohelpers.values.shortToast
 
 private const val TAG = "MAIN Act."
 
-abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = true,
-                                                val statusBarColor: Color = LibColor.BlackSurf.color,
-                                                 val underAppColor: Int = PlainBlack,
-                                                    val typography: Typography = Typography(),
+abstract class LibMainActivity(             val usesMinuteUpdater: Boolean = true,
+                                               val statusBarColor: Color = LibColor.BlackSurf.color,
+                                                val underAppColor: Int = PlainBlack,
+                                                   val typography: Typography = Typography(),
 ) : ComponentActivity() {
     companion object {
         lateinit var libVm: LibViewModel

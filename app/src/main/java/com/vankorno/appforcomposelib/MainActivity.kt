@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -15,10 +14,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.LibMainActivity
 import com.vankorno.vankornocompose.LibScreen.Companion.scrType
-import com.vankorno.vankornocompose.composables.MaterialPopup
+import com.vankorno.vankornocompose.composables.GreyPopup
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedTextOption
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedToggledVariantPicker
+import com.vankorno.vankornocompose.sp1
 import com.vankorno.vankornocompose.theme_main.LibAccentColor
+import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.MOD_MaxSize
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.values.MOD_W90
@@ -42,7 +43,7 @@ fun TestScreen() {
     var popupON = remember { mutableStateOf(false) }
     
     if (popupON.value) {
-        MaterialPopup(
+        GreyPopup(
             MOD_MaxSize, scrType,
             clickScrim = {
                 popupON.value = false
@@ -54,9 +55,9 @@ fun TestScreen() {
                 ,
                 text = "Test text\n" +
                 "MaterialTheme.colorScheme.onSecondaryContainer horizontalAlignment = Alignment.CenterHorizontally",
-                style = MaterialTheme.typography.bodySmall,
+                fontSize = 18.sp1(),
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                color = LibColor.WhiteText.color
             )
         }
         return //\/\/\/\/\/\

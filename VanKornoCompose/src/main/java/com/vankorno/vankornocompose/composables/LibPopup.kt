@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -25,22 +24,22 @@ import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.LibScreen.Companion.microUI
 import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
 import com.vankorno.vankornocompose.ScrType
-import com.vankorno.vankornocompose.actions.tweakTransparency
 import com.vankorno.vankornocompose.dp4
 import com.vankorno.vankornocompose.dp5
+import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.MOD_W90
 import com.vankorno.vankornohelpers.values.hideKeyboard
 
 
 @Composable
-fun MaterialPopup(                                       modifier: Modifier,
+fun GreyPopup(                                           modifier: Modifier,
                                                           scrType: ScrType,
-                                                       clickScrim: () -> Unit,
+                                                       clickScrim: ()->Unit,
                                                       composables: @Composable ColumnScope.()->Unit,
 ) {
     LibPopup(modifier, scrType, 
-        MaterialTheme.colorScheme.background.tweakTransparency(0.8f),
-        MaterialTheme.colorScheme.secondaryContainer,
+        LibColor.BlackScrim.color,
+        LibColor.Surface.color,
         clickScrim,
         composables
     )
@@ -54,7 +53,7 @@ fun LibPopup(                                            modifier: Modifier,
                                                           scrType: ScrType,
                                                        scrimColor: Color,
                                                         cardColor: Color,
-                                                       clickScrim: () -> Unit,
+                                                       clickScrim: ()->Unit,
                                                       composables: @Composable ColumnScope.()->Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
