@@ -11,10 +11,10 @@ private const val IntColorTextFieldDark = 0xFF2A2A2A.toInt()
 
 private const val IntColorWhiteText = 0xFFECECEC.toInt()
 
-private const val IntColorBlackBtn = 0xFF000000.toInt()
-private const val IntColorBlackBtnDisabled = 0x4D000000.toInt()
-private const val IntColorBlackBtnBorder = 0xFF5A5A5A.toInt()
-private const val IntColorBlackBtnBorderDisabled = 0x1AFFFFFF.toInt()
+private const val IntColorBlackSurf = 0xFF000000.toInt()
+private const val IntColorBlackSurfDisabled = 0x4D000000.toInt()
+private const val IntColorBlackSurfBorder = 0xFF5A5A5A.toInt()
+private const val IntColorBlackSurfBorderDisabled = 0x1AFFFFFF.toInt()
 
 
 
@@ -27,10 +27,10 @@ enum class LibColor(                                                           v
     TextFieldDark(Color(IntColorTextFieldDark), IntColorTextFieldDark),
     
     WhiteText(Color(IntColorWhiteText), IntColorWhiteText),
-    BlackBtn(Color(IntColorBlackBtn), IntColorBlackBtn),
-    BlackBtnDisabled(Color(IntColorBlackBtnDisabled), IntColorBlackBtnDisabled),
-    BlackBtnBorder(Color(IntColorBlackBtnBorder), IntColorBlackBtnBorder),
-    BlackBtnBorderDisabled(Color(IntColorBlackBtnBorderDisabled), IntColorBlackBtnBorderDisabled),
+    BlackSurf(Color(IntColorBlackSurf), IntColorBlackSurf),
+    BlackSurfDisabled(Color(IntColorBlackSurfDisabled), IntColorBlackSurfDisabled),
+    BlackSurfBorder(Color(IntColorBlackSurfBorder), IntColorBlackSurfBorder),
+    BlackSurfBorderDisabled(Color(IntColorBlackSurfBorderDisabled), IntColorBlackSurfBorderDisabled),
 }
 
 

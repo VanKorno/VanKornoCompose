@@ -21,6 +21,7 @@ import com.vankorno.vankornocompose.vm.LibViewModel
 import com.vankorno.vankornohelpers.LibClipBoard
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.dLog
+import com.vankorno.vankornohelpers.values.LibColors.PlainBlack
 import com.vankorno.vankornohelpers.values.LibGlobals.actExists
 import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
@@ -34,8 +35,8 @@ import com.vankorno.vankornohelpers.values.shortToast
 private const val TAG = "MAIN Act."
 
 abstract class LibMainActivity(              val usesMinuteUpdater: Boolean = true,
-                                                val statusBarColor: Color = LibColor.BlackBtn.color,
-                                                 val underAppColor: Int = LibColor.Background.argb,
+                                                val statusBarColor: Color = LibColor.BlackSurf.color,
+                                                 val underAppColor: Int = PlainBlack,
                                                     val typography: Typography = Typography(),
 ) : ComponentActivity() {
     companion object {

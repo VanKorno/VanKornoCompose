@@ -30,7 +30,7 @@ import com.vankorno.vankornohelpers.values.showKeyboard
 
 
 @Composable
-fun LibMainScaffold(                              statusBarColor: Color = LibColor.BlackBtn.color,
+fun LibMainScaffold(                              statusBarColor: Color = LibColor.BlackSurf.color,
                                                       typography: Typography = Typography(),
                                                          content: @Composable ()->Unit,
 ) {
