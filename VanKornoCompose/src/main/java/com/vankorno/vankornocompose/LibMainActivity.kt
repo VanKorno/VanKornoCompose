@@ -15,8 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
+import com.vankorno.vankornocompose.navig.PopStateOFF
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
+import com.vankorno.vankornocompose.values.goBack
+import com.vankorno.vankornocompose.values.popupOFF
+import com.vankorno.vankornocompose.values.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
 import com.vankorno.vankornohelpers.LibClipBoard
 import com.vankorno.vankornohelpers.LibMisc
@@ -27,6 +31,7 @@ import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
 import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
 import com.vankorno.vankornohelpers.values.getBuffer
+import com.vankorno.vankornohelpers.values.hideKeyboard
 import com.vankorno.vankornohelpers.values.longToast
 import com.vankorno.vankornohelpers.values.minimizeApp
 import com.vankorno.vankornohelpers.values.setBuffer
@@ -107,12 +112,20 @@ abstract class LibMainActivity(             val usesMinuteUpdater: Boolean = tru
     
     protected open fun doEveryMinute() {}
     
-    protected open fun doOnBackPressed() {}
     
     
     
     private fun initLibLambdas() {
         minimizeApp = { finishAffinity() }
+        
+        popupON = {
+            hideKeyboard()
+            libVm.popState = it
+        }
+        popupOFF = {
+            hideKeyboard()
+            libVm.popState = PopStateOFF
+        }
         
         longToast = { LibMisc().makeToast(this, it, Toast.LENGTH_LONG) }
         shortToast = { LibMisc().makeToast(this, it, Toast.LENGTH_SHORT) }
@@ -125,7 +138,7 @@ abstract class LibMainActivity(             val usesMinuteUpdater: Boolean = tru
     
     
     private fun setBackBtn() {
-        onBackPressedDispatcher.addCallback(this) { doOnBackPressed() }
+        onBackPressedDispatcher.addCallback(this) { goBack() }
     }
     
     

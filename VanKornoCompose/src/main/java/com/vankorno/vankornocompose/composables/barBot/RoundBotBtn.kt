@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
+import com.vankorno.vankornocompose.R
 import com.vankorno.vankornocompose.ScrMEDIUM
 import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.actions.applyIf
@@ -33,6 +34,8 @@ import com.vankorno.vankornocompose.dp1
 import com.vankorno.vankornocompose.sp1
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.LocalScrType
+import com.vankorno.vankornocompose.values.goBack
+import com.vankorno.vankornocompose.values.goHome
 import com.vankorno.vankornohelpers.values.LibColors.*
 
 val RoundBtnBorderW = 3.dp
@@ -127,7 +130,7 @@ fun RoundBottomBtn(                                                       icon: 
 fun BackBtn() {
     RoundBottomBtn(
         R.drawable.ic_arrow_back_and_up,
-        onClick = { dbh.goBack() },
+        onClick = goBack,
         onLongClick = goHome
     )
 }
