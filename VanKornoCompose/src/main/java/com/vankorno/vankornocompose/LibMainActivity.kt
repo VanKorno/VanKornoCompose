@@ -44,7 +44,6 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
                                                 val underAppColor: Int = PlainBlack,
                                                    val typography: Typography = Typography(),
                                             val usesMinuteUpdater: Boolean = true,
-                                          val useClipboardTracker: Boolean = true,
 ) : ComponentActivity() {
     companion object {
         lateinit var libVm: LibViewModel
@@ -107,6 +106,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     
     protected open fun doOnPause() {}
+    protected open fun doOnStart() {}
     protected open fun doOnStop() {}
     protected open fun doOnDestroy() {}
     protected open fun doOnResumeAfterPause() {}
@@ -171,18 +171,15 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     override fun onStart() {
         super.onStart()
-        if (useClipboardTracker)
-            LibClipboard.attachSystemListener(this)
+        doOnStart()
     }
+    
     override fun onStop() {
         super.onStop()
         // region LOG
             dLog(TAG, "onStop()")
         // endregion
         actRunning = false
-        
-        if (useClipboardTracker)
-            LibClipboard.detachSystemListener(this)
         
         doOnStop()
     }
