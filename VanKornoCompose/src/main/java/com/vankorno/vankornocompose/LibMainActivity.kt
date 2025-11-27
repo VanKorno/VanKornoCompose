@@ -23,8 +23,8 @@ import com.vankorno.vankornocompose.values.goBack
 import com.vankorno.vankornocompose.values.popupOFF
 import com.vankorno.vankornocompose.values.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
-import com.vankorno.vankornohelpers.LibClipboard
 import com.vankorno.vankornohelpers.LibMisc
+import com.vankorno.vankornohelpers.clipboard.LibClipboard
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibColors.PlainBlack
 import com.vankorno.vankornohelpers.values.LibGlobals.actExists
@@ -40,10 +40,11 @@ import com.vankorno.vankornohelpers.values.shortToast
 
 private const val TAG = "MAIN Act."
 
-abstract class LibMainActivity(             val usesMinuteUpdater: Boolean = true,
-                                               val statusBarColor: Color = LibColor.BlackSurf.color,
+abstract class LibMainActivity(                val statusBarColor: Color = LibColor.BlackSurf.color,
                                                 val underAppColor: Int = PlainBlack,
                                                    val typography: Typography = Typography(),
+                                            val usesMinuteUpdater: Boolean = true,
+                                          val useClipboardTracker: Boolean = true,
 ) : ComponentActivity() {
     companion object {
         lateinit var libVm: LibViewModel
@@ -142,8 +143,8 @@ abstract class LibMainActivity(             val usesMinuteUpdater: Boolean = tru
         longToast = { LibMisc().makeToast(this, it, Toast.LENGTH_LONG) }
         shortToast = { LibMisc().makeToast(this, it, Toast.LENGTH_SHORT) }
         
-        getClipboard = { LibClipboard().getClipboard(this) }
-        setClipboard = { LibClipboard().setClipboard(this, it) }
+        getClipboard = { LibClipboard.getClipboard(this) }
+        setClipboard = { LibClipboard.setClipboard(this, it) }
     }
     
     
@@ -168,13 +169,20 @@ abstract class LibMainActivity(             val usesMinuteUpdater: Boolean = tru
         doOnPause()
     }
     
-    
+    override fun onStart() {
+        super.onStart()
+        if (useClipboardTracker)
+            LibClipboard.attachSystemListener(this)
+    }
     override fun onStop() {
         super.onStop()
         // region LOG
             dLog(TAG, "onStop()")
         // endregion
         actRunning = false
+        
+        if (useClipboardTracker)
+            LibClipboard.detachSystemListener(this)
         
         doOnStop()
     }
