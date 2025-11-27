@@ -18,11 +18,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.vankorno.vankornocompose.navig.PopStateOFF
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
+import com.vankorno.vankornocompose.values.exitApp
 import com.vankorno.vankornocompose.values.goBack
 import com.vankorno.vankornocompose.values.popupOFF
 import com.vankorno.vankornocompose.values.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
-import com.vankorno.vankornohelpers.LibClipBoard
+import com.vankorno.vankornohelpers.LibClipboard
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibColors.PlainBlack
@@ -30,11 +31,11 @@ import com.vankorno.vankornohelpers.values.LibGlobals.actExists
 import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
 import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
-import com.vankorno.vankornohelpers.values.getBuffer
+import com.vankorno.vankornohelpers.values.getClipboard
 import com.vankorno.vankornohelpers.values.hideKeyboard
 import com.vankorno.vankornohelpers.values.longToast
 import com.vankorno.vankornohelpers.values.minimizeApp
-import com.vankorno.vankornohelpers.values.setBuffer
+import com.vankorno.vankornohelpers.values.setClipboard
 import com.vankorno.vankornohelpers.values.shortToast
 
 private const val TAG = "MAIN Act."
@@ -112,11 +113,21 @@ abstract class LibMainActivity(             val usesMinuteUpdater: Boolean = tru
     
     protected open fun doEveryMinute() {}
     
+    protected open fun doAfterPopupOFF() {}
+    protected open fun doBeforeMinimizingApp() {}
+    protected open fun doBeforeForceExit() {}
     
     
     
     private fun initLibLambdas() {
-        minimizeApp = { finishAffinity() }
+        minimizeApp = {
+            doBeforeMinimizingApp()
+            finishAffinity()
+        }
+        exitApp = {
+            doBeforeForceExit()
+            finishAndRemoveTask()
+        }
         
         popupON = {
             hideKeyboard()
@@ -125,13 +136,14 @@ abstract class LibMainActivity(             val usesMinuteUpdater: Boolean = tru
         popupOFF = {
             hideKeyboard()
             libVm.popState = PopStateOFF
+            doAfterPopupOFF()
         }
         
         longToast = { LibMisc().makeToast(this, it, Toast.LENGTH_LONG) }
         shortToast = { LibMisc().makeToast(this, it, Toast.LENGTH_SHORT) }
         
-        getBuffer = { LibClipBoard().getTxt(this) }
-        setBuffer = { LibClipBoard().setTxt(this, it) }
+        getClipboard = { LibClipboard().getClipboard(this) }
+        setClipboard = { LibClipboard().setClipboard(this, it) }
     }
     
     
