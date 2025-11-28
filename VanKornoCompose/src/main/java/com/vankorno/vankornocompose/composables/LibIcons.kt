@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.vankorno.vankornocompose.R
 import com.vankorno.vankornocompose.theme_main.LibColor
+import com.vankorno.vankornocompose.values.LibIcon
 import com.vankorno.vankornohelpers.LibUI
 
 private val MOD_CheckCircle = Modifier.size(37.dp).padding(6.dp)
@@ -40,9 +40,9 @@ fun LibPinIcon(                                            pinned: Boolean,
         modifier = modifier,
         painter = painterResource(
             id = if (pinned)
-                R.drawable.ic_pin_filled
+                LibIcon.PinFilled
             else
-                R.drawable.ic_pin
+                LibIcon.Pin
         ),
         tint = if (pinned) colorPinned else colorNotPinned,
         contentDescription = null

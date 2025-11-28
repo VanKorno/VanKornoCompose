@@ -173,17 +173,17 @@ fun ReorderController(                                                    upEnab
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
-        RoundBottomBtn(R.drawable.ic_arrow_left_35, enabled=leftEnabled, onClick=leftClick, onLongClick=leftLongClick)
+        RoundBottomBtn(R.drawable.ic_arrow_left, enabled=leftEnabled, onClick=leftClick, onLongClick=leftLongClick)
         
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
         ) {
-            RoundBottomBtn(R.drawable.ic_arrow_up_35, enabled=upEnabled, onClick=upClick, onLongClick=upLongClick)
-            RoundBottomBtn(R.drawable.ic_arrow_down_35, enabled=downEnabled, onClick=downClick, onLongClick=downLongClick)
+            RoundBottomBtn(R.drawable.ic_arrow_up, enabled=upEnabled, onClick=upClick, onLongClick=upLongClick)
+            RoundBottomBtn(R.drawable.ic_arrow_down, enabled=downEnabled, onClick=downClick, onLongClick=downLongClick)
         }
         
-        RoundBottomBtn(R.drawable.ic_arrow_right_35, enabled=rightEnabled, onClick=rightClick, onLongClick=rightLongClick)
+        RoundBottomBtn(R.drawable.ic_arrow_right, enabled=rightEnabled, onClick=rightClick, onLongClick=rightLongClick)
     }
 }
 
@@ -194,11 +194,11 @@ fun OkCancelBotBtns(                                                           o
                                                                                  clickOK: ()->Unit,
                                                                              clickCancel: ()->Unit,
 ) {
-    RoundBottomBtn(R.drawable.ic_x_35, Color.Red,
+    RoundBottomBtn(R.drawable.ic_x, Color.Red,
         isBig = true,
         onClick = clickCancel
     )
-    RoundBottomBtn(R.drawable.ic_check_60, Color.Green,
+    RoundBottomBtn(R.drawable.ic_check, Color.Green,
         enabled = okEnabled,
         isBig = true,
         onClick = clickOK
@@ -302,7 +302,7 @@ fun SmallClearBtn(                                                              
 ) {
     SmallCircleBtn(
         enabled = txt.isNotEmpty(),
-        icon = R.drawable.ic_x_35,
+        icon = R.drawable.ic_x,
         icColor = Color.Red,
         onClick = onClick
     )
