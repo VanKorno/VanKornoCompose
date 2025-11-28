@@ -35,6 +35,14 @@ class MainActivity : LibMainActivity() {
         TestScreen()
     }
     
+    override fun goingHome() {
+        
+    }
+    
+    override fun goingBack() {
+        
+    }
+    
 }
 
 
