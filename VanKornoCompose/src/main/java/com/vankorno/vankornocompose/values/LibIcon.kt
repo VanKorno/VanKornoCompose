@@ -24,6 +24,7 @@ object LibIcon {
     val Clear = R.drawable.ic_clear
     
     val X = R.drawable.ic_x
+    val Check = R.drawable.ic_check
     
     val Pin = R.drawable.ic_pin
     val PinFilled = R.drawable.ic_pin_filled

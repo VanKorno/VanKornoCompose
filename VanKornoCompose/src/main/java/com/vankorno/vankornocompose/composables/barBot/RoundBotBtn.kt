@@ -26,7 +26,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
-import com.vankorno.vankornocompose.R
 import com.vankorno.vankornocompose.ScrMEDIUM
 import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.actions.applyIf
@@ -35,6 +34,7 @@ import com.vankorno.vankornocompose.dp1
 import com.vankorno.vankornocompose.effects.rememberClipboardText
 import com.vankorno.vankornocompose.sp1
 import com.vankorno.vankornocompose.theme_main.LibColor
+import com.vankorno.vankornocompose.values.LibIcon
 import com.vankorno.vankornocompose.values.LocalScrType
 import com.vankorno.vankornocompose.values.goBack
 import com.vankorno.vankornocompose.values.goHome
@@ -131,7 +131,7 @@ fun RoundBottomBtn(                                                       icon: 
 @Composable
 fun BackBtn() {
     RoundBottomBtn(
-        R.drawable.ic_arrow_back_and_up,
+        LibIcon.ArrowBackAndUp,
         onClick = goBack,
         onLongClick = goHome
     )
@@ -145,7 +145,7 @@ fun PasteBtn(                                                          textInFie
     val clipboardText by rememberClipboardText()
     
     if (textInField.isEmpty()) {
-        RoundBottomBtn(R.drawable.ic_paste,
+        RoundBottomBtn(LibIcon.Paste,
             enabled = clipboardText.isNotEmpty(),
             onClick = { onClick(textInField) }
         )
@@ -173,17 +173,17 @@ fun ReorderController(                                                    upEnab
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
-        RoundBottomBtn(R.drawable.ic_arrow_left, enabled=leftEnabled, onClick=leftClick, onLongClick=leftLongClick)
+        RoundBottomBtn(LibIcon.ArrowLeft, enabled=leftEnabled, onClick=leftClick, onLongClick=leftLongClick)
         
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
         ) {
-            RoundBottomBtn(R.drawable.ic_arrow_up, enabled=upEnabled, onClick=upClick, onLongClick=upLongClick)
-            RoundBottomBtn(R.drawable.ic_arrow_down, enabled=downEnabled, onClick=downClick, onLongClick=downLongClick)
+            RoundBottomBtn(LibIcon.ArrowUp, enabled=upEnabled, onClick=upClick, onLongClick=upLongClick)
+            RoundBottomBtn(LibIcon.ArrowDown, enabled=downEnabled, onClick=downClick, onLongClick=downLongClick)
         }
         
-        RoundBottomBtn(R.drawable.ic_arrow_right, enabled=rightEnabled, onClick=rightClick, onLongClick=rightLongClick)
+        RoundBottomBtn(LibIcon.ArrowRight, enabled=rightEnabled, onClick=rightClick, onLongClick=rightLongClick)
     }
 }
 
@@ -194,11 +194,11 @@ fun OkCancelBotBtns(                                                           o
                                                                                  clickOK: ()->Unit,
                                                                              clickCancel: ()->Unit,
 ) {
-    RoundBottomBtn(R.drawable.ic_x, Color.Red,
+    RoundBottomBtn(LibIcon.X, Color.Red,
         isBig = true,
         onClick = clickCancel
     )
-    RoundBottomBtn(R.drawable.ic_check, Color.Green,
+    RoundBottomBtn(LibIcon.Check, Color.Green,
         enabled = okEnabled,
         isBig = true,
         onClick = clickOK
@@ -302,7 +302,7 @@ fun SmallClearBtn(                                                              
 ) {
     SmallCircleBtn(
         enabled = txt.isNotEmpty(),
-        icon = R.drawable.ic_x,
+        icon = LibIcon.X,
         icColor = Color.Red,
         onClick = onClick
     )
