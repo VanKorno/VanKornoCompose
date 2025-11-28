@@ -20,6 +20,7 @@ import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.values.exitApp
 import com.vankorno.vankornocompose.values.goBack
+import com.vankorno.vankornocompose.values.goHome
 import com.vankorno.vankornocompose.values.popupOFF
 import com.vankorno.vankornocompose.values.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
@@ -81,6 +82,9 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     @Composable
     protected abstract fun AppUI()
+    
+    protected abstract fun goingHome()
+    protected abstract fun goingBack()
     
     
     protected open fun beforeStartup() {}
@@ -145,6 +149,9 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         
         getClipboard = { LibClipboard.getClipboard(this) }
         setClipboard = { LibClipboard.setClipboard(this, it) }
+        
+        goHome = { goingHome() }
+        goBack = { goingBack() }
     }
     
     

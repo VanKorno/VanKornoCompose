@@ -5,8 +5,19 @@ import com.vankorno.vankornohelpers.lambdaError
 
 var exitApp: ()->Unit = { lambdaError("exitApp") }
 
+var popupON: (PopState)->Unit = { lambdaError("popupON") }
+var popupOFF: ()->Unit = { lambdaError("popupOFF") }
+
+
+
+// Must be initialized in a project:
+
 var goHome: ()->Unit = { lambdaError("goHome") }
 var goBack: ()->Unit = { lambdaError("goBack") }
 
-var popupON: (PopState)->Unit = { lambdaError("popupON") }
-var popupOFF: ()->Unit = { lambdaError("popupOFF") }
+
+
+
+
+
+
