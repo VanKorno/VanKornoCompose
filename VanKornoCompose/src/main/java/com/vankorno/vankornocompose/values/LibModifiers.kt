@@ -16,3 +16,21 @@ val MOD_W50 = Modifier.fillMaxWidth(0.5f)
 
 val MOD_DefaultSpacer = Modifier.height(35.dp)
 
+
+
+data class LibLayoutModifiers(
+                                  val body: Modifier,
+                                   val top: Modifier = MOD_MaxW,
+                             val topShadow: Modifier = MOD_MaxW,
+                                val bottom: Modifier = MOD_MaxW,
+                                 val popup: Modifier = MOD_MaxW,
+                               val leftBar: Modifier = MOD_MaxH,
+                              val rightBar: Modifier = MOD_MaxH,
+                              val fullManu: Modifier = MOD_MaxSize,
+                                 val snack: Modifier = MOD_MaxW,
+)
+
+
+
+
+

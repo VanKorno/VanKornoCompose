@@ -32,7 +32,7 @@ enum class LibColor(                                                           v
     BlackSurfBorder(Color(IntColorBlackSurfBorder), IntColorBlackSurfBorder),
     BlackSurfBorderDisabled(Color(IntColorBlackSurfBorderDisabled), IntColorBlackSurfBorderDisabled),
     
-    BlackScrim(Color(IntColorBlackSurfDisabled), IntColorBlackSurfDisabled),
+    BlackScrim(Color(BlackT90), BlackT90),
 }
 
 

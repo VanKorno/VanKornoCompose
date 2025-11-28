@@ -20,7 +20,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AppForComposeLib"
+rootProject.name = "VanKornoCompose"
 include(":app")
 include(":VanKornoCompose")
  
