@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.actions.applyIf
 import com.vankorno.vankornocompose.actions.tweakTransparency
 import com.vankorno.vankornocompose.dp1
+import com.vankorno.vankornocompose.effects.rememberClipboardText
 import com.vankorno.vankornocompose.sp1
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.LocalScrType
@@ -133,6 +135,21 @@ fun BackBtn() {
         onClick = goBack,
         onLongClick = goHome
     )
+}
+
+
+@Composable
+fun PasteBtn(                                                          textInField: String,
+                                                                           onClick: (String)->Unit,
+) {
+    val clipboardText by rememberClipboardText()
+    
+    if (textInField.isEmpty()) {
+        RoundBottomBtn(R.drawable.ic_paste,
+            enabled = clipboardText.isNotEmpty(),
+            onClick = { onClick(textInField) }
+        )
+    }
 }
 
 
