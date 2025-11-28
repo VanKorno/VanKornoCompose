@@ -30,3 +30,10 @@ fun rememberClipboardText(): State<String> {
     }
     return remember { derivedStateOf { clipboardText } }
 }
+
+
+
+
+
+
+

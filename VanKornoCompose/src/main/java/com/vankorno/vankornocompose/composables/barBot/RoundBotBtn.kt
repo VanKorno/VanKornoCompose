@@ -39,6 +39,7 @@ import com.vankorno.vankornocompose.values.LocalScrType
 import com.vankorno.vankornocompose.values.goBack
 import com.vankorno.vankornocompose.values.goHome
 import com.vankorno.vankornohelpers.values.LibColors.*
+import com.vankorno.vankornohelpers.values.getClipboard
 
 val RoundBtnBorderW = 3.dp
 val SmallRoundBtnBorderW = 2.dp
@@ -147,7 +148,9 @@ fun PasteBtn(                                                          textInFie
     if (textInField.isEmpty()) {
         RoundBottomBtn(LibIcon.Paste,
             enabled = clipboardText.isNotEmpty(),
-            onClick = { onClick(textInField) }
+            onClick = {
+                onClick(getClipboard())
+            }
         )
     }
 }
