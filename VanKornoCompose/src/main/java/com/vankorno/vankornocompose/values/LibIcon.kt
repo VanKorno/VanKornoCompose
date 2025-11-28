@@ -4,6 +4,13 @@ import com.vankorno.vankornocompose.R
 import com.vankorno.vankornohelpers.R as LibR
 
 object LibIcon {
+    val CircleEmpty = LibR.drawable.ic_check_circle_empty
+    val CircleFilled = LibR.drawable.ic_check_circle_filled
+    
+    val CheckBoxEmpty = LibR.drawable.ic_check_box_empty
+    val CheckBoxFilled = LibR.drawable.ic_check_box_filled
+    
+    
     val Play = R.drawable.ic_play
     val Pause = R.drawable.ic_pause
     val Stop = R.drawable.ic_stop
@@ -29,25 +36,21 @@ object LibIcon {
     val Pin = R.drawable.ic_pin
     val PinFilled = R.drawable.ic_pin_filled
     
+    val Time = R.drawable.ic_time
+    val Timer = R.drawable.ic_timer
+    val TimerOFF = R.drawable.ic_timer_off
+    
+    val VisibilityON = R.drawable.ic_visibility_on
+    val VisibilityOFF = R.drawable.ic_visibility_off
+    
     val Dice = R.drawable.ic_dice
     val Search = R.drawable.ic_search
     val Cog = R.drawable.ic_cog
     val Speaker = R.drawable.ic_speaker
     val Talker = R.drawable.ic_talker
     val Text = R.drawable.ic_text
-    
-    val Time = R.drawable.ic_time
-    val Timer = R.drawable.ic_timer
-    val TimerOFF = R.drawable.ic_timer_off
-    val VisibilityON = R.drawable.ic_visibility_on
-    val VisibilityOFF = R.drawable.ic_visibility_off
-    
-    val CircleEmpty = LibR.drawable.ic_check_circle_empty
-    val CircleFilled = LibR.drawable.ic_check_circle_filled
-    
-    val CheckBoxEmpty = LibR.drawable.ic_check_box_empty
-    val CheckBoxFilled = LibR.drawable.ic_check_box_filled
-    
+    val Edit = R.drawable.ic_edit
+    val Plus = R.drawable.ic_plus
     
     
     
