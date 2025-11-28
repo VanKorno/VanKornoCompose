@@ -26,7 +26,7 @@ data class LibLayoutModifiers(
                                  val popup: Modifier = MOD_MaxW,
                                val leftBar: Modifier = MOD_MaxH,
                               val rightBar: Modifier = MOD_MaxH,
-                              val fullManu: Modifier = MOD_MaxSize,
+                              val fullMenu: Modifier = MOD_MaxSize,
                                  val snack: Modifier = MOD_MaxW,
 )
 

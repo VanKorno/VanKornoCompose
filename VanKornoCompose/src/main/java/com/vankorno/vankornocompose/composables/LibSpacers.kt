@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.vankorno.vankornocompose.ScrType
+import com.vankorno.vankornocompose.values.LocalScrType
 import com.vankorno.vankornocompose.values.MOD_DefaultSpacer
 
 @Composable
@@ -33,7 +35,14 @@ fun Spa_______________cerH(width: Int) { Spacer(Modifier.width(width.dp)) }
 
 
 
-
+@Composable
+fun Spa_______________cerEndScr() {
+    val height = when (LocalScrType.current) {
+        ScrType.PortraitMedium, ScrType.PortraitLarge -> 220.dp
+        else -> 150.dp
+    }
+    Spa_______________cer(height)
+}
 
 
 
