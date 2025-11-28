@@ -63,9 +63,9 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         
         LibScreen().scrConfig(this, underAppColor)
         
-        initLibLambdas()
-        
         libVm = ViewModelProvider(this)[LibViewModel::class.java]
+        
+        initLibLambdas()
         
         beforeStartup()
         startup()
