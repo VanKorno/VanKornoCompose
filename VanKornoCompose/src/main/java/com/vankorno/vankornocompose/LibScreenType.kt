@@ -74,14 +74,14 @@ class LibScreen {
             when {
                 height < 450 -> ScrType.PortraitMicro
                 height < 600 -> ScrType.PortraitSmall
-                height < 900 -> ScrType.PortraitMedium
+                height < 1200 -> ScrType.PortraitMedium
                 else -> ScrType.PortraitLarge
             }
         } else {
             when {
                 width < 450 -> ScrType.LandscapeMicro
                 width < 600 -> ScrType.LandscapeSmall
-                width < 900 -> ScrType.LandscapeMedium
+                width < 1200 -> ScrType.LandscapeMedium
                 else -> ScrType.LandscapeLarge
             }
         }
