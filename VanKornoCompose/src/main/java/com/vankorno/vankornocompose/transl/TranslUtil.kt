@@ -5,6 +5,7 @@ import com.vankorno.vankornocompose.transl.data.TrWeekDayLetters
 import com.vankorno.vankornocompose.values.LibGlobals2
 import com.vankorno.vankornohelpers.values.LibConstants.ENG
 import com.vankorno.vankornohelpers.values.LibConstants.LangAuto
+import com.vankorno.vankornohelpers.values.LibConstants.UKR
 import java.util.Locale
 
 class TranslUtil {
@@ -18,7 +19,7 @@ class TranslUtil {
     
     fun isLangWithFemForms(                                      lang: String = LibGlobals2.language
     ): Boolean {
-        val language = getActuallyUsedLang()
+        val language = getActuallyUsedLang(lang)
         return LanguagesWithFemForms.value.contains(language)
     }
     
