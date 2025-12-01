@@ -57,7 +57,10 @@ val TrName = lazy { mapOf(
     UKR to lazy { "Назва" },
 )}
 
-
+val TrUnknownError = lazy { mapOf(
+    ENG to lazy { "Sorry, something went wrong" },
+    UKR to lazy { "Вибачте, щось пішло не так" },
+)}
 
 
 
