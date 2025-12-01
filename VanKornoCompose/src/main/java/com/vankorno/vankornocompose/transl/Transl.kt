@@ -1,7 +1,7 @@
 package com.vankorno.vankornocompose.transl
 
 import com.vankorno.vankornocompose.values.LibGlobals2
-import com.vankorno.vankornohelpers.values.LibConstants.ENG
+import com.vankorno.vankornohelpers.values.LibLangConst.ENG
 
 /**
  * Only need to pass lang from the Flow on the same screen where the language picker is.
