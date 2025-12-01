@@ -3,7 +3,7 @@ package com.vankorno.vankornocompose.transl.data
 import com.vankorno.vankornohelpers.values.LibLangConst.ENG
 import com.vankorno.vankornohelpers.values.LibLangConst.UKR
 
-var ExcludedTranslations = emptySet<TranslLang>()
+var excludedTranslLangs = emptySet<TranslLang>()
 
 val LanguagesWithFemForms = lazy { setOf(UKR) }
 
