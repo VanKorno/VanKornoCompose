@@ -6,7 +6,7 @@ import com.vankorno.vankornocompose.navig.PopState
 import com.vankorno.vankornocompose.navig.PopStateOFF
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.navig.Screen
-import com.vankorno.vankornohelpers.values.LibConstants.ENG
+import com.vankorno.vankornohelpers.values.LibLangConst.ENG
 
 val LocalLanguage = compositionLocalOf { ENG }
 

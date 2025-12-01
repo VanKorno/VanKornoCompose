@@ -3,8 +3,8 @@ package com.vankorno.vankornocompose.values
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornohelpers.dLog
-import com.vankorno.vankornohelpers.values.LibConstants.LangAuto
 import com.vankorno.vankornohelpers.values.LibGlobals
+import com.vankorno.vankornohelpers.values.LibLangConst.LangAuto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
