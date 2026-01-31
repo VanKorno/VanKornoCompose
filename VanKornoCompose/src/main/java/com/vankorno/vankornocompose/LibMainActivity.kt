@@ -52,7 +52,8 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     }
     private lateinit var minUpdateReceiver: BroadcastReceiver
     
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(                                            savedInstanceState: Bundle?
+    ) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         // region LOG
