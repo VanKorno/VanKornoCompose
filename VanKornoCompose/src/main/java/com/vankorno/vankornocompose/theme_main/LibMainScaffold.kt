@@ -17,8 +17,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vankorno.vankornocompose.LibMainActivity.Companion.libVm
 import com.vankorno.vankornocompose.LibScreen.Companion.scrTypeFlow
-import com.vankorno.vankornocompose.values.LibGlobals2.currScrFlow
-import com.vankorno.vankornocompose.values.LibGlobals2.langFlow
 import com.vankorno.vankornocompose.values.LocalLanguage
 import com.vankorno.vankornocompose.values.LocalPopState
 import com.vankorno.vankornocompose.values.LocalScrType
@@ -47,9 +45,9 @@ fun LibMainScaffold(                              statusBarColor: Color = LibCol
         ) {
             KeyboardActions()
             
-            val lang by langFlow.collectAsStateWithLifecycle()
+            val lang by libVm.langFlow.collectAsStateWithLifecycle()
             val scrType by scrTypeFlow.collectAsStateWithLifecycle()
-            val currScreen by currScrFlow.collectAsStateWithLifecycle()
+            val currScreen by libVm.currScreenFlow.collectAsStateWithLifecycle()
             val popState by libVm.popStateFlow.collectAsStateWithLifecycle()
             
             CompositionLocalProvider(
