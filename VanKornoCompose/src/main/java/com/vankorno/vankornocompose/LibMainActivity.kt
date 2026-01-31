@@ -32,6 +32,7 @@ import com.vankorno.vankornohelpers.values.LibGlobals.actExists
 import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
 import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
+import com.vankorno.vankornohelpers.values.LibGlobals.configChangeJustHappened
 import com.vankorno.vankornohelpers.values.getClipboard
 import com.vankorno.vankornohelpers.values.hideKeyboard
 import com.vankorno.vankornohelpers.values.longToast
@@ -68,7 +69,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         initLibLambdas()
         
         beforeStartup()
-        startup()
+        startup(savedInstanceState)
         afterStartup()
         
         setBackBtn()
@@ -89,22 +90,34 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     protected open fun beforeStartup() {}
     
-    protected open fun isEssentialDataMissing(): Boolean = false
     protected open fun startupFirstLaunch() {}
     protected open fun startupConfigChange() {}
+    protected open fun startupAfterProcessDeath() {}
     
-    private fun startup() {
-        if (!appStarted || isEssentialDataMissing()) {
-            // region LOG
-                dLog(TAG, "startup(): Full startup logic runs (not config change)...")
-            // endregion
-            startupFirstLaunch()
-        } else {
-            // region LOG
-                dLog(TAG, "startup(): Config change logic runs...")
-            // endregion
-            startupConfigChange()
+    
+    private fun startup(                                              savedInstanceState: Bundle?
+    ) {
+        when {
+            savedInstanceState == null -> {
+                // region LOG
+                    dLog(TAG, "startup(): Full startup logic runs...")
+                // endregion
+                startupFirstLaunch()
+            }
+            configChangeJustHappened -> {
+                // region LOG
+                    dLog(TAG, "startup(): Config change logic runs...")
+                // endregion
+                startupConfigChange()
+            }
+            else -> {
+                // region LOG
+                    dLog(TAG, "startup(): Starting after process death...")
+                // endregion
+                startupAfterProcessDeath()
+            }
         }
+        configChangeJustHappened = false // Just in case
     }
     protected open fun afterStartup() {}
     
@@ -198,6 +211,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
             dLog(TAG, "onDestroy()")
         // endregion
         actExists = false
+        configChangeJustHappened = isChangingConfigurations
         
         doOnDestroy()
     }
