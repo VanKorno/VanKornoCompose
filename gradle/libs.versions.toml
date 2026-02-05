@@ -13,6 +13,7 @@ kotlinxCoroutinesAndroid = "1.10.2"
 kotlinxCoroutinesCore = "1.10.2"
 testManifest = "1.10.2"
 vankornoHelpers = "2.77"
+vankornoDB = "0.185"
 
 
 [libraries]
@@ -37,6 +38,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 vankornohelpers = { module = "com.github.VanKorno:VanKornoHelpers", version.ref = "vankornoHelpers" }
+vankornodb = { module = "com.github.VanKorno:VanKornoDB", version.ref = "vankornoDB" }
 
 
 

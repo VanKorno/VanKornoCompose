@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     
     implementation(libs.vankornohelpers)
+    implementation(libs.vankornodb)
 }
 
 val versionTag = System.getenv("VERSION") ?: "unspecified"

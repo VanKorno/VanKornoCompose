@@ -76,4 +76,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     
     implementation(libs.vankornohelpers)
+    implementation(libs.vankornodb)
 }
