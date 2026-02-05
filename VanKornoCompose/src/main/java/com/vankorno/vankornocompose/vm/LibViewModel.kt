@@ -6,25 +6,12 @@ import com.vankorno.vankornocompose.navig.PopStateOFF
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornohelpers.dLog
-import com.vankorno.vankornohelpers.values.LibLangConst.LangAuto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 private const val TAG = "LibViewModel"
 
 class LibViewModel() : ViewModel() {
-    
-    private val _language = MutableStateFlow(LangAuto)
-    val langFlow: StateFlow<String> = _language
-    var language: String
-        get() = _language.value
-        set(new) {
-            _language.value = new
-            // region LOG
-                dLog(TAG, "language = $new")
-            // endregion
-        }
-    
     
     private val _currScreen = MutableStateFlow<Screen>(ScrHome)
     val currScreenFlow: StateFlow<Screen> = _currScreen

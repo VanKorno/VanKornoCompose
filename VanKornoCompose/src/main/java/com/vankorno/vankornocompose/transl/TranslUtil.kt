@@ -1,23 +1,23 @@
 package com.vankorno.vankornocompose.transl
 
-import com.vankorno.vankornocompose.LibMainActivity.Companion.libVm
 import com.vankorno.vankornocompose.transl.data.LanguagesWithFemForms
 import com.vankorno.vankornocompose.transl.data.TrWeekDayLetters
 import com.vankorno.vankornocompose.transl.data.TranslLang
+import com.vankorno.vankornocompose.values.LibGlobals2
 import com.vankorno.vankornohelpers.values.LibLangConst.ENG
 import com.vankorno.vankornohelpers.values.LibLangConst.LangAuto
 import java.util.Locale
 
 class TranslUtil {
     
-    fun getActuallyUsedLang(                                           lang: String = libVm.language // TODO Revisit
+    fun getActuallyUsedLang(                                     lang: String = LibGlobals2.language
     ): String = when (lang) {
                     LangAuto -> Locale.getDefault().language
                     else -> lang
                 }
     
     
-    fun isLangWithFemForms(                                            lang: String = libVm.language // TODO Revisit
+    fun isLangWithFemForms(                                      lang: String = LibGlobals2.language
     ): Boolean {
         val language = getActuallyUsedLang(lang)
         return LanguagesWithFemForms.value.contains(language)
