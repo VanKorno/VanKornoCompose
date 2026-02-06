@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.vankorno.vankornocompose.navig.PopStateOFF
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
+import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.exitApp
 import com.vankorno.vankornocompose.values.goBack
 import com.vankorno.vankornocompose.values.goHome
@@ -31,7 +32,6 @@ import com.vankorno.vankornohelpers.values.LibColors.PlainBlack
 import com.vankorno.vankornohelpers.values.LibGlobals.actExists
 import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
-import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
 import com.vankorno.vankornohelpers.values.LibGlobals.configChangeJustHappened
 import com.vankorno.vankornohelpers.values.getClipboard
 import com.vankorno.vankornohelpers.values.hideKeyboard
@@ -47,9 +47,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
                                                    val typography: Typography = Typography(),
                                             val usesMinuteUpdater: Boolean = true,
 ) : ComponentActivity() {
-    companion object {
-        lateinit var libVm: LibViewModel
-    }
+    
     private lateinit var minUpdateReceiver: BroadcastReceiver
     
     override fun onCreate(                                            savedInstanceState: Bundle?
