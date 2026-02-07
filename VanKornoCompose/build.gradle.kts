@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("maven-publish")
+    id("kotlin-parcelize")
 }
 
 android {

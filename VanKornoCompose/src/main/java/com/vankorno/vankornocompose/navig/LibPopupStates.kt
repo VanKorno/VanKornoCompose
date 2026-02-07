@@ -1,10 +1,15 @@
 package com.vankorno.vankornocompose.navig
 
-sealed interface PopupState { val name: String }
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-abstract class BasePopupState(override val name: String) : PopupState
+@Parcelize
+sealed interface PopupState : Parcelable {
+    val name: String
+        get() = this::class.simpleName!!
+}
 
-object PopupOFF : BasePopupState("OFF")
-object PopupContextInfo : BasePopupState("ContextInfo")
+@Parcelize object PopupOFF : PopupState
+@Parcelize object PopupContextInfo : PopupState
 
 

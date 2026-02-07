@@ -1,9 +1,13 @@
 package com.vankorno.vankornocompose.navig
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-sealed interface Screen { val name: String }
+@Parcelize
+sealed interface Screen : Parcelable {
+    val name: String
+        get() = this::class.simpleName!!
+}
 
-abstract class BaseScreen(override val name: String) : Screen
-
-object ScrHome : BaseScreen("Home")
-object ScrSett : BaseScreen("Sett")
+@Parcelize object ScrHome : Screen
+@Parcelize object ScrSett : Screen
