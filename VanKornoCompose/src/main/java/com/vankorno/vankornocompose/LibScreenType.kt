@@ -11,10 +11,9 @@ import com.vankorno.vankornocompose.LibScreen.Companion.scrDiff3
 import com.vankorno.vankornocompose.LibScreen.Companion.scrDiff4
 import com.vankorno.vankornocompose.LibScreen.Companion.scrDiff5
 import com.vankorno.vankornocompose.theme_main.LibColor
+import com.vankorno.vankornocompose.vm.VmVal
 import com.vankorno.vankornohelpers.LibUI
 import com.vankorno.vankornohelpers.values.LibGlobals
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 const val ScrMICRO = 0
 const val ScrSMALL = 1
@@ -48,18 +47,14 @@ class LibScreen {
         var scrDiff4 = 0
         var scrDiff5 = 0
         
-        private val _scrType = MutableStateFlow(ScrType.PortraitSmall)
-        val scrTypeFlow: StateFlow<ScrType> = _scrType
-        var scrType: ScrType
-            get() = _scrType.value
-            set(new){ _scrType.value = new }
+        val scrType = VmVal<ScrType>(ScrType.PortraitSmall)
     }
     
     fun scrConfig(                                              act: Activity,
                                                               color: Int = LibColor.Background.argb,
     ) {
         LibUI().setWindowBackgroundColor(act, color)
-        scrType = calculateScreenType(act.resources.configuration)
+        scrType.value = calculateScreenType(act.resources.configuration)
         LibGlobals.screenDensity = act.resources.displayMetrics.density
     }
     

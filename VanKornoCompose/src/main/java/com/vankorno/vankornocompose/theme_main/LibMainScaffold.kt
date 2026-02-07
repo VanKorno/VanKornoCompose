@@ -14,15 +14,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.vankorno.vankornocompose.LibScreen.Companion.scrTypeFlow
-import com.vankorno.vankornocompose.values.LibGlobals2.langFlow
+import com.vankorno.vankornocompose.LibScreen.Companion.scrType
+import com.vankorno.vankornocompose.values.LibGlobals2
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.LocalLanguage
 import com.vankorno.vankornocompose.values.LocalPopState
 import com.vankorno.vankornocompose.values.LocalScrType
 import com.vankorno.vankornocompose.values.LocalScreen
 import com.vankorno.vankornocompose.values.MOD_MaxSize
+import com.vankorno.vankornocompose.vm.state
 import com.vankorno.vankornohelpers.values.clearFocus
 import com.vankorno.vankornohelpers.values.hideKeyboard
 import com.vankorno.vankornohelpers.values.showKeyboard
@@ -46,10 +46,10 @@ fun LibMainScaffold(                              statusBarColor: Color = LibCol
         ) {
             KeyboardActions()
             
-            val lang by langFlow.collectAsStateWithLifecycle()
-            val scrType by scrTypeFlow.collectAsStateWithLifecycle()
-            val currScreen by libVm.currScreenFlow.collectAsStateWithLifecycle()
-            val popState by libVm.popStateFlow.collectAsStateWithLifecycle()
+            val lang by LibGlobals2.language.state()
+            val scrType by scrType.state()
+            val currScreen by libVm.currScreen.state()
+            val popState by libVm.popupState.state()
             
             CompositionLocalProvider(
                 LocalLanguage provides lang,

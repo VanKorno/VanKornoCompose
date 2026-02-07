@@ -1,13 +1,12 @@
 package com.vankorno.vankornocompose.values
 
 import com.vankorno.vankornocompose.vm.LibViewModel
+import com.vankorno.vankornocompose.vm.VmVal
 import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibGlobals
 import com.vankorno.vankornohelpers.values.LibLangConst.LangAuto
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 object LibGlobals2 {
     private const val TAG = "LibGlobals2"
@@ -19,16 +18,11 @@ object LibGlobals2 {
     lateinit var libVm: LibViewModel
     
     
-    private val _language = MutableStateFlow(LangAuto)
-    val langFlow: StateFlow<String> = _language
-    var language: String
-        get() = _language.value
-        set(new) {
-            _language.value = new
-            // region LOG
-                dLog(TAG, "language = $new")
-            // endregion
-        }
+    val language = VmVal(LangAuto) { new ->
+        // region LOG
+            dLog(TAG, "language = $new")
+        // endregion
+    }
     
     
     
@@ -40,7 +34,7 @@ object LibGlobals2 {
         if (resetGlobals1)
             LibGlobals.reset()
         
-        _language.value = LangAuto
+        language.value = LangAuto
         
     }
 }
