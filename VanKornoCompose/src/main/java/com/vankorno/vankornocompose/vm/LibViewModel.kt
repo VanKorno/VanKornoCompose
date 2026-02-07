@@ -10,22 +10,22 @@ import com.vankorno.vankornohelpers.dLog
 
 private const val TAG = "LibViewModel"
 
-class LibViewModel(                                                      ssHandle: SavedStateHandle
+class LibViewModel(                                                           ssh: SavedStateHandle
 ) : ViewModel() {
     
-    val currScreen = VmSavedVal<Screen>(ssHandle, "currScreen", ScrHome) { new ->
+    val currScreen = VmSavedVal<Screen>(ssh, "currScreen", ScrHome) { new ->
         // region LOG
             dLog(TAG, "currScreen = $new")
         // endregion
     }
     
-    val previousScreen = VmSavedVal<Screen>(ssHandle, "previousScreen", ScrHome) { new ->
+    val previousScreen = VmSavedVal<Screen>(ssh, "previousScreen", ScrHome) { new ->
         // region LOG
             dLog(TAG, "previousScreen = $new")
         // endregion
     }
     
-    val popupState = VmSavedVal<PopupState>(ssHandle, "popupState", PopupOFF) { new ->
+    val popupState = VmSavedVal<PopupState>(ssh, "popupState", PopupOFF) { new ->
         // region LOG
             dLog(TAG, "popupState = $new")
         // endregion

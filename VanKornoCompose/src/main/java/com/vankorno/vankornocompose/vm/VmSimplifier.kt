@@ -19,18 +19,18 @@ class VmVal<T>(                                                        default: 
         }
 }
 
-class VmSavedVal<T>(                                              val ssHandle: SavedStateHandle,
+class VmSavedVal<T>(                                                   val ssh: SavedStateHandle,
                                                                        val key: String,
                                                                        default: T,
                                                              private val onSet: ((T)->Unit)? = null,
 ) {
-    val flow = MutableStateFlow(ssHandle[key] ?: default)
+    val flow = MutableStateFlow(ssh[key] ?: default)
     
     var value: T
         get() = flow.value
         set(new) {
             flow.value = new
-            ssHandle[key] = new
+            ssh[key] = new
             onSet?.invoke(new)
         }
 }
