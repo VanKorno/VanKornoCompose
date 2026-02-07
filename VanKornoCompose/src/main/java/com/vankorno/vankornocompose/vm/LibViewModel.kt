@@ -2,8 +2,8 @@ package com.vankorno.vankornocompose.vm
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.vankorno.vankornocompose.navig.PopState
-import com.vankorno.vankornocompose.navig.PopStateOFF
+import com.vankorno.vankornocompose.navig.PopupOFF
+import com.vankorno.vankornocompose.navig.PopupState
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornohelpers.dLog
@@ -25,7 +25,7 @@ class LibViewModel(                                                      ssHandl
         // endregion
     }
     
-    val popupState = VmSavedVal<PopState>(ssHandle, "popupState", PopStateOFF) { new ->
+    val popupState = VmSavedVal<PopupState>(ssHandle, "popupState", PopupOFF) { new ->
         // region LOG
             dLog(TAG, "popupState = $new")
         // endregion

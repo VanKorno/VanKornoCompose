@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
-import com.vankorno.vankornocompose.navig.PopStateOFF
+import com.vankorno.vankornocompose.navig.PopupOFF
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
@@ -153,7 +153,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         }
         popupOFF = {
             hideKeyboard()
-            libVm.popupState.value = PopStateOFF
+            libVm.popupState.value = PopupOFF
             doAfterPopupOFF()
         }
         

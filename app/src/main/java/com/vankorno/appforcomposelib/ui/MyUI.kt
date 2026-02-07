@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.vankorno.appforcomposelib.popup.PopupMaker
 import com.vankorno.appforcomposelib.scr__Home.LayoutsHome
-import com.vankorno.vankornocompose.navig.PopStateOFF
+import com.vankorno.vankornocompose.navig.PopupOFF
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.LibLayoutModifiers
@@ -20,7 +20,7 @@ fun MyUI() {
     ConstraintLayout(MOD_MaxSize) {
         val (body, barTop, topShadow, barBot, popup) = createRefs()
         
-        val popState by libVm.popupState.state()
+        val popupState by libVm.popupState.state()
         
         val modifBody = MOD_MaxSize.constrainAs(body) {
             top.linkTo(barTop.bottom)
@@ -55,18 +55,18 @@ fun MyUI() {
         
         val modifiers = LibLayoutModifiers(modifBody, modifTop, modifTopShadow, modifBot, modifPopup)
         
-        ScrNavig(modifiers)
+        ScreenNavig(modifiers)
         
         
-        AnimatedVisibility(popState != PopStateOFF) {
-            PopupMaker(popState, modifPopup)
+        AnimatedVisibility(popupState != PopupOFF) {
+            PopupMaker(popupState, modifPopup)
         }
     }
 }
 
 
 @Composable
-fun ScrNavig(                                                          bodyModif: LibLayoutModifiers
+fun ScreenNavig(                                                       bodyModif: LibLayoutModifiers
 ) {
     when (LocalScreen.current) {
         ScrHome -> LayoutsHome(bodyModif)

@@ -18,7 +18,7 @@ import com.vankorno.vankornocompose.LibScreen.Companion.scrType
 import com.vankorno.vankornocompose.values.LibGlobals2
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.LocalLanguage
-import com.vankorno.vankornocompose.values.LocalPopState
+import com.vankorno.vankornocompose.values.LocalPopupState
 import com.vankorno.vankornocompose.values.LocalScrType
 import com.vankorno.vankornocompose.values.LocalScreen
 import com.vankorno.vankornocompose.values.MOD_MaxSize
@@ -55,7 +55,7 @@ fun LibMainScaffold(                              statusBarColor: Color = LibCol
                 LocalLanguage provides lang,
                 LocalScrType provides scrType,
                 LocalScreen provides currScreen,
-                LocalPopState provides popState,
+                LocalPopupState provides popState,
             ) {
                 content()
             }

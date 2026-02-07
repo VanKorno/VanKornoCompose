@@ -1,10 +1,10 @@
 package com.vankorno.vankornocompose.navig
 
-sealed interface PopState { val name: String }
+sealed interface PopupState { val name: String }
 
-abstract class BasePopState(override val name: String) : PopState
+abstract class BasePopupState(override val name: String) : PopupState
 
-object PopStateOFF : BasePopState("OFF")
-object PopStateContextInfo : BasePopState("ContextInfo")
+object PopupOFF : BasePopupState("OFF")
+object PopupContextInfo : BasePopupState("ContextInfo")
 
 

@@ -6,14 +6,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedTextOption
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedToggledVariantPicker
-import com.vankorno.vankornocompose.navig.PopStateContextInfo
+import com.vankorno.vankornocompose.navig.PopupContextInfo
 import com.vankorno.vankornocompose.theme_main.LibAccentColor
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 
 
 @Composable
 fun BodyHome() {
-    TestPerforatedOptions { libVm.popupState.value = PopStateContextInfo }
+    TestPerforatedOptions { libVm.popupState.value = PopupContextInfo }
 }
 
 

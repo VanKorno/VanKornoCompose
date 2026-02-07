@@ -2,14 +2,14 @@ package com.vankorno.appforcomposelib.popup
 
 import androidx.compose.runtime.Composable
 import com.vankorno.appforcomposelib.popup.context_info.ContextInfoPopup
-import com.vankorno.vankornocompose.navig.PopState
-import com.vankorno.vankornocompose.navig.PopStateContextInfo
+import com.vankorno.vankornocompose.navig.PopupContextInfo
+import com.vankorno.vankornocompose.navig.PopupState
 
 @Composable
-fun PopNavig(                                                                   popState: PopState
+fun PopupNavig(                                                               popupState: PopupState
 ) {
-    when (popState) {
-        PopStateContextInfo -> { ContextInfoPopup() }
+    when (popupState) {
+        PopupContextInfo -> { ContextInfoPopup() }
         else -> {}
     }
 }
