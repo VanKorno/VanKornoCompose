@@ -10,10 +10,11 @@ import kotlinx.coroutines.flow.StateFlow
 interface VmValueHolder<T> {
     var value: T
     val flow: StateFlow<T>
+    val default: T
 }
 
 
-class VmVal<T>(                                                        default: T,
+class VmVal<T>(                                           override val default: T,
                                                              private val onSet: ((T)->Unit)? = null,
 ) : VmValueHolder<T> {
 
@@ -31,7 +32,7 @@ class VmVal<T>(                                                        default: 
 
 class VmSavedVal<T>(                                                   val ssh: SavedStateHandle,
                                                                        val key: String,
-                                                                       default: T,
+                                                          override val default: T,
                                                              private val onSet: ((T)->Unit)? = null,
 ) : VmValueHolder<T> {
 
@@ -52,9 +53,11 @@ class VmSavedVal<T>(                                                   val ssh: 
 
 inline fun <T> VmValueHolder<T>.update(block: (T) -> T) { value = block(value) }
 
+fun <T> VmValueHolder<T>.reset() { value = default }
+
 fun VmValueHolder<Boolean>.flip() { value = !value }
 
-fun <T> VmValueHolder<T?>.clear() { value = null }
+fun VmValueHolder<String>.clear() { value = "" }
 
 fun VmValueHolder<Int>.inc() { value++ }
 fun VmValueHolder<Int>.dec() { value-- }
