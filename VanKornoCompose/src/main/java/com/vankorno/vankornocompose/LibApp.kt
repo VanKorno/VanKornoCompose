@@ -2,8 +2,8 @@ package com.vankorno.vankornocompose
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
-import com.vankorno.vankornocompose.values.LibGlobals2.dbh
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
+import com.vankorno.vankornodb.api.DbHelperHolder.dbh
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog

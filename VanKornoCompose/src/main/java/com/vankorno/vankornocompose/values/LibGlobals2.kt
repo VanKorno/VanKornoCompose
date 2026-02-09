@@ -2,7 +2,6 @@ package com.vankorno.vankornocompose.values
 
 import com.vankorno.vankornocompose.vm.LibViewModel
 import com.vankorno.vankornocompose.vm.VmVal
-import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibGlobals
@@ -10,8 +9,6 @@ import com.vankorno.vankornohelpers.values.LibLangConst.LangAuto
 
 object LibGlobals2 {
     private const val TAG = "LibGlobals2"
-    
-    lateinit var dbh: DbHelper
     
     lateinit var soundPoolHelper: LibSoundPool
     
