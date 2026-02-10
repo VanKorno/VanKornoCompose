@@ -1,28 +1,43 @@
 package com.vankorno.vankornocompose.actions
 
 import com.vankorno.vankornodb.api.DbLock
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ActionExecutor(                                                         val dbLock: DbLock
+class ActionExecutor(                                                         val lock: DbLock
 ) {
-    inline fun <T> action(                                                  defaultValue: T,
+
+    inline fun <T> run(                                                     defaultValue: T,
                                                                        crossinline block: ()->T,
     ): T {
         return try {
-            dbLock.withLock {
-                block()
-            }
+            lock.withLock { block() }
         } catch (e: Exception) {
             defaultValue
         }
     }
-    
-    inline fun actionVoid(                                             crossinline block: ()->Unit
+
+
+
+    fun voidRun(                                                              async: Boolean = false,
+                                                                        block: ()->Unit,
     ) {
-        try {
-            dbLock.withLock {
-                block()
+        if (async) {
+            CoroutineScope(Dispatchers.Default).launch {
+                run(Unit) { block() }
             }
-        } catch (_: Exception) {
+        } else {
+            run(Unit) { block() }
         }
+    }
+
+
+
+    suspend fun <T> runSusp(                                                  defaultValue: T,
+                                                                        block: ()->T,
+    ): T = withContext(Dispatchers.Default) {
+        run(defaultValue) { block() }
     }
 }
