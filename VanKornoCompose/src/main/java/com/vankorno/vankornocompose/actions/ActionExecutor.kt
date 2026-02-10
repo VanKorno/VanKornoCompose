@@ -3,41 +3,58 @@ package com.vankorno.vankornocompose.actions
 import com.vankorno.vankornodb.api.DbLock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ActionExecutor(                                                         val lock: DbLock
+class ActionExecutor(
+                   val lock: DbLock,
+          private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
 ) {
 
     inline fun <T> run(                                                     defaultValue: T,
                                                                        crossinline block: ()->T,
     ): T {
         return try {
-            lock.withLock { block() }
-        } catch (e: Exception) {
+            lock.withLock {
+                block()
+            }
+        } catch (_: Exception) {
             defaultValue
         }
     }
 
 
-
-    fun voidRun(                                                              async: Boolean = false,
-                                                                        block: ()->Unit,
-    ) {
-        if (async) {
-            CoroutineScope(Dispatchers.Default).launch {
-                run(Unit) { block() }
+    fun launch(                                                                    block: ()->Unit,
+    ): Job {
+        return scope.launch {
+            try {
+                lock.withLock {
+                    block()
+                }
+            } catch (_: Exception) {
             }
-        } else {
-            run(Unit) { block() }
         }
     }
 
 
-
-    suspend fun <T> runSusp(                                                  defaultValue: T,
-                                                                        block: ()->T,
+    suspend inline fun <T> runSusp(                                         defaultValue: T,
+                                                                       crossinline block: ()->T,
     ): T = withContext(Dispatchers.Default) {
-        run(defaultValue) { block() }
+        try {
+            lock.withLock {
+                block()
+            }
+        } catch (_: Exception) {
+            defaultValue
+        }
     }
 }
+
+
+
+
+
+
+
