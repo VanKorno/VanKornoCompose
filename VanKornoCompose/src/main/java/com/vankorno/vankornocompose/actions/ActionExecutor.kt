@@ -3,16 +3,12 @@ package com.vankorno.vankornocompose.actions
 import com.vankorno.vankornodb.api.DbLock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ActionExecutor(
-                   val lock: DbLock,
-          private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+class ActionExecutor(                                                           val lock: DbLock
 ) {
-
+    
     inline fun <T> run(                                                     defaultValue: T,
                                                                        crossinline block: ()->T,
     ): T {
@@ -24,11 +20,11 @@ class ActionExecutor(
             defaultValue
         }
     }
-
-
+    
+    
     fun launch(                                                                    block: ()->Unit,
-    ): Job {
-        return scope.launch {
+    ) {
+        CoroutineScope(Dispatchers.Default).launch {
             try {
                 lock.withLock {
                     block()
@@ -37,8 +33,8 @@ class ActionExecutor(
             }
         }
     }
-
-
+    
+    
     suspend inline fun <T> runSusp(                                         defaultValue: T,
                                                                        crossinline block: ()->T,
     ): T = withContext(Dispatchers.Default) {
