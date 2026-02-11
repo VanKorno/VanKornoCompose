@@ -19,11 +19,11 @@ suspend fun LOps.goBackSusp() = susp { NavigHooks.goBack() }
 
 
 
-fun LOps.goHome() = exec { NavigHooks.goHome() }
+fun LOps.goHome() = exec { NavigHooks.goTo(ScrHome) }
 
-fun LOps.goHomeAsync() = async { NavigHooks.goHome() }
+fun LOps.goHomeAsync() = async { NavigHooks.goTo(ScrHome) }
 
-suspend fun LOps.goHomeSusp() = susp { NavigHooks.goHome() }
+suspend fun LOps.goHomeSusp() = susp { NavigHooks.goTo(ScrHome) }
 
 
 
