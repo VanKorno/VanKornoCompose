@@ -33,7 +33,7 @@ import com.vankorno.vankornocompose.actions.tweakTransparency
 import com.vankorno.vankornocompose.dp1
 import com.vankorno.vankornocompose.effects.rememberClipboardText
 import com.vankorno.vankornocompose.navig.goBackAsync
-import com.vankorno.vankornocompose.navig.goHomeAsync
+import com.vankorno.vankornocompose.navig.goRootAsync
 import com.vankorno.vankornocompose.sp1
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.LibIcon
@@ -137,7 +137,7 @@ fun BackBtn() {
     RoundBottomBtn(
         LibIcon.ArrowBackAndUp,
         onClick = { lops.goBackAsync() },
-        onLongClick = { lops.goHomeAsync() }
+        onLongClick = { lops.goRootAsync() }
     )
 }
 

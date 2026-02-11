@@ -23,6 +23,7 @@ abstract class LibApp(                                   val soundsToInit: Array
     
     protected abstract fun onGoTo(scr: Screen)
     protected abstract fun onGoBack()
+    protected abstract fun onGoRoot()
     protected abstract fun onUpdateScreen()
     
     
@@ -41,6 +42,7 @@ abstract class LibApp(                                   val soundsToInit: Array
     private fun initLambdas() {
         NavigHooks.goTo = { onGoTo(it) }
         NavigHooks.goBack = { onGoBack() }
+        NavigHooks.goRoot = { onGoRoot() }
         NavigHooks.updateScreen = { onUpdateScreen() }
     }
     
