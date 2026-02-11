@@ -13,9 +13,6 @@ class MainActivity : LibMainActivity() {
         
     }
     
-    override fun goingHome() {  }
-    
-    override fun goingBack() {  }
     
 }
 

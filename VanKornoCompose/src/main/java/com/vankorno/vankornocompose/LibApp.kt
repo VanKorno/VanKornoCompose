@@ -2,6 +2,8 @@ package com.vankorno.vankornocompose
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
+import com.vankorno.vankornocompose.navig.NavigHooks
+import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornohelpers.LibMisc
@@ -13,25 +15,35 @@ import com.vankorno.vankornohelpers.values.playSound
 
 private const val TAG = "LibApp"
 
-abstract class LibApp(
-    val soundsToInit: Array<Int> = emptyArray()
+abstract class LibApp(                                   val soundsToInit: Array<Int> = emptyArray()
 ) : Application() {
     
     protected open fun doOnCreate() {}
     protected open fun dbInit() {}
     
+    protected abstract fun onGoTo(scr: Screen)
+    protected abstract fun onGoHome()
+    protected abstract fun onGoBack()
+    protected abstract fun onUpdateScreen()
+    
+    
     override fun onCreate() {
         super.onCreate()
         
         androidTestRun = LibMisc().isInstrumentedTestRun()
-        
         debugBuild = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         
         dbInit()
-        
         doOnCreate()
-        
+        initLambdas()
         soundInit()
+    }
+    
+    private fun initLambdas() {
+        NavigHooks.goTo = { onGoTo(it) }
+        NavigHooks.goBack = { onGoBack() }
+        NavigHooks.goHome = { onGoHome() }
+        NavigHooks.updateScreen = { onUpdateScreen() }
     }
     
     

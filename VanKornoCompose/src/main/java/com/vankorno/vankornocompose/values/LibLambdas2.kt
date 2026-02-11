@@ -10,11 +10,6 @@ var popupOFF: ()->Unit = { lambdaError("popupOFF") }
 
 
 
-// Must be initialized in a project:
-
-var goHome: ()->Unit = { lambdaError("goHome") }
-var goBack: ()->Unit = { lambdaError("goBack") }
-
 
 
 

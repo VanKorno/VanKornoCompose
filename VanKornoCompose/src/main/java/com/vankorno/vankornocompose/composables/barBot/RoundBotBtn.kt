@@ -32,13 +32,16 @@ import com.vankorno.vankornocompose.actions.applyIf
 import com.vankorno.vankornocompose.actions.tweakTransparency
 import com.vankorno.vankornocompose.dp1
 import com.vankorno.vankornocompose.effects.rememberClipboardText
+import com.vankorno.vankornocompose.navig.goBackAsync
+import com.vankorno.vankornocompose.navig.goHomeAsync
 import com.vankorno.vankornocompose.sp1
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.LibIcon
 import com.vankorno.vankornocompose.values.LocalScrType
-import com.vankorno.vankornocompose.values.goBack
-import com.vankorno.vankornocompose.values.goHome
-import com.vankorno.vankornohelpers.values.LibColors.*
+import com.vankorno.vankornodb.api.DbRuntime.lops
+import com.vankorno.vankornohelpers.values.LibColors.BlackT30
+import com.vankorno.vankornohelpers.values.LibColors.GreyText
+import com.vankorno.vankornohelpers.values.LibColors.PlainBlack
 import com.vankorno.vankornohelpers.values.getClipboard
 
 val RoundBtnBorderW = 3.dp
@@ -133,8 +136,8 @@ fun RoundBottomBtn(                                                       icon: 
 fun BackBtn() {
     RoundBottomBtn(
         LibIcon.ArrowBackAndUp,
-        onClick = goBack,
-        onLongClick = goHome
+        onClick = { lops.goBackAsync() },
+        onLongClick = { lops.goHomeAsync() }
     )
 }
 

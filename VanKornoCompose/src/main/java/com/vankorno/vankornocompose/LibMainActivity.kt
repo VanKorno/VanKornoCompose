@@ -17,15 +17,15 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import com.vankorno.vankornocompose.navig.PopupOFF
+import com.vankorno.vankornocompose.navig.goBackAsync
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.exitApp
-import com.vankorno.vankornocompose.values.goBack
-import com.vankorno.vankornocompose.values.goHome
 import com.vankorno.vankornocompose.values.popupOFF
 import com.vankorno.vankornocompose.values.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
+import com.vankorno.vankornodb.api.DbRuntime.lops
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.clipboard.LibClipboard
 import com.vankorno.vankornohelpers.dLog
@@ -83,10 +83,6 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     @Composable
     protected abstract fun AppUI()
-    
-    protected abstract fun goingHome()
-    protected abstract fun goingBack()
-    
     
     protected open fun beforeStartup() {}
     
@@ -162,16 +158,13 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         
         getClipboard = { LibClipboard.getClipboard(this) }
         setClipboard = { LibClipboard.setClipboard(this, it) }
-        
-        goHome = { goingHome() }
-        goBack = { goingBack() }
     }
     
     
     
     
     private fun setBackBtn() {
-        onBackPressedDispatcher.addCallback(this) { goBack() }
+        onBackPressedDispatcher.addCallback(this) { lops.goBackAsync() }
     }
     
     
