@@ -26,21 +26,21 @@ import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
 import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.dp4
 import com.vankorno.vankornocompose.dp5
+import com.vankorno.vankornocompose.navig.goBackAsync
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.MOD_W90
+import com.vankorno.vankornodb.api.DbRuntime.lops
 import com.vankorno.vankornohelpers.values.hideKeyboard
 
 
 @Composable
 fun GreyPopup(                                           modifier: Modifier,
                                                           scrType: ScrType,
-                                                       clickScrim: ()->Unit,
                                                       composables: @Composable ColumnScope.()->Unit,
 ) {
     LibPopup(modifier, scrType, 
         LibColor.BlackScrim.color,
         LibColor.Surface.color,
-        clickScrim,
         composables
     )
 }
@@ -53,7 +53,6 @@ fun LibPopup(                                            modifier: Modifier,
                                                           scrType: ScrType,
                                                        scrimColor: Color,
                                                         cardColor: Color,
-                                                       clickScrim: ()->Unit,
                                                       composables: @Composable ColumnScope.()->Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -63,8 +62,8 @@ fun LibPopup(                                            modifier: Modifier,
             .background(color = scrimColor)
             .combinedClickable(
                 enabled = true,
-                onClick = clickScrim,
-                onLongClick = clickScrim,
+                onClick = { lops.goBackAsync() },
+                onLongClick = { lops.goBackAsync() },
                 role = Role.Button,
                 interactionSource = interactionSource,
                 indication = null
