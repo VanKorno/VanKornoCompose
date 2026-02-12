@@ -26,10 +26,9 @@ import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
 import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.dp4
 import com.vankorno.vankornocompose.dp5
-import com.vankorno.vankornocompose.navig.goBackAsync
+import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.MOD_W90
-import com.vankorno.vankornodb.api.DbRuntime.lops
 import com.vankorno.vankornohelpers.values.hideKeyboard
 
 
@@ -62,8 +61,8 @@ fun LibPopup(                                            modifier: Modifier,
             .background(color = scrimColor)
             .combinedClickable(
                 enabled = true,
-                onClick = { lops.goBackAsync() },
-                onLongClick = { lops.goBackAsync() },
+                onClick = { Navig.goBackAsync() },
+                onLongClick = { Navig.goBackAsync() },
                 role = Role.Button,
                 interactionSource = interactionSource,
                 indication = null

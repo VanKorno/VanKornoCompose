@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
+import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.navig.PopupOFF
-import com.vankorno.vankornocompose.navig.goBackAsync
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
@@ -25,7 +25,6 @@ import com.vankorno.vankornocompose.values.exitApp
 import com.vankorno.vankornocompose.values.popupOFF
 import com.vankorno.vankornocompose.values.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
-import com.vankorno.vankornodb.api.DbRuntime.lops
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.clipboard.LibClipboard
 import com.vankorno.vankornohelpers.dLog
@@ -164,7 +163,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     
     private fun setBackBtn() {
-        onBackPressedDispatcher.addCallback(this) { lops.goBackAsync() }
+        onBackPressedDispatcher.addCallback(this) { Navig.goBackAsync() }
     }
     
     
