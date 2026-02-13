@@ -33,3 +33,4 @@ captures/
 *.log
 
 deploymentTargetSelector.xml
+/gradle/gradle-daemon-jvm.properties
