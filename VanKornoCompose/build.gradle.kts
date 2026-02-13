@@ -75,7 +75,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.runtime.compose)
     
-    implementation(libs.vankornohelpers)
+    api(libs.vankornohelpers)
     implementation(libs.vankornodb)
 }
 
