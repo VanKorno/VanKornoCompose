@@ -39,9 +39,7 @@ fun TestPerforatedOptions(                                                     s
         variantTexts = arrayOf( "one\n kllkjlkj",   "two",
                                 "three"                      ),
         
-        click = {
-            flip.async()
-        },
+        click = { flip.async() },
         
         variantClick = { idx.intValue = it },
         

@@ -4,7 +4,9 @@ import com.vankorno.vankornocompose.values.LibGlobals2.ops
 
 
 object Navig {
-    val goTo = ops.exec { scr: Screen -> NavigHooks.goTo(scr) }
+    val goTo = ops.exec { scr: Screen ->
+        NavigHooks.goTo(scr)
+    }
     
     val goBack = ops.exec { NavigHooks.goBack() }
     
