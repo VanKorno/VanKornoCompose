@@ -163,7 +163,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     
     private fun setBackBtn() {
-        onBackPressedDispatcher.addCallback(this) { Navig.goBackAsync() }
+        onBackPressedDispatcher.addCallback(this) { Navig.goBack.async() }
     }
     
     

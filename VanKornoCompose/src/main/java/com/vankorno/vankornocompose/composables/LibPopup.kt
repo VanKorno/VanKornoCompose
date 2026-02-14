@@ -61,8 +61,8 @@ fun LibPopup(                                            modifier: Modifier,
             .background(color = scrimColor)
             .combinedClickable(
                 enabled = true,
-                onClick = { Navig.goBackAsync() },
-                onLongClick = { Navig.goBackAsync() },
+                onClick = { Navig.goBack.async() },
+                onLongClick = { Navig.goBack.async() },
                 role = Role.Button,
                 interactionSource = interactionSource,
                 indication = null

@@ -9,6 +9,7 @@ import com.vankorno.vankornocompose.composables.menu_options.PerforatedToggledVa
 import com.vankorno.vankornocompose.navig.PopupContextInfo
 import com.vankorno.vankornocompose.theme_main.LibAccentColor
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
+import com.vankorno.vankornocompose.values.LibGlobals2.ops
 
 
 @Composable
@@ -34,7 +35,11 @@ fun TestPerforatedOptions(                                                     s
         variantTexts = arrayOf( "one\n kllkjlkj",   "two",
                                 "three"                      ),
         
-        click = { isON.value = !isON.value },
+        click = {
+            ops.runAsync {
+                isON.value = !isON.value
+            }
+        },
         
         variantClick = { idx.intValue = it },
         

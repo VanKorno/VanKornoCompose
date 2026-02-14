@@ -134,8 +134,8 @@ fun RoundBottomBtn(                                                       icon: 
 fun BackBtn() {
     RoundBottomBtn(
         LibIcon.ArrowBackAndUp,
-        onClick = { Navig.goBackAsync() },
-        onLongClick = { Navig.goToStartAsync() }
+        onClick = { Navig.goBack.async() },
+        onLongClick = { Navig.goToStart.async() }
     )
 }
 

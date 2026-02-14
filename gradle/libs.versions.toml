@@ -13,7 +13,7 @@ kotlinxCoroutinesAndroid = "1.10.2"
 kotlinxCoroutinesCore = "1.10.2"
 testManifest = "1.10.3"
 vankornoHelpers = "2.82"
-vankornoDB = "0.197"
+vankornoDB = "0.198"
 
 
 [libraries]
