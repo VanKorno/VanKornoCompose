@@ -2,7 +2,7 @@ package com.vankorno.vankornocompose
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
-import com.vankorno.vankornocompose.navig.NavigHooks
+import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
@@ -40,10 +40,12 @@ abstract class LibApp(                                   val soundsToInit: Array
     }
     
     private fun initLambdas() {
-        NavigHooks.goTo = { onGoTo(it) }
-        NavigHooks.goBack = { onGoBack() }
-        NavigHooks.goToStart = { onGoToStart() }
-        NavigHooks.updateScreen = { onUpdateScreen() }
+        Navig.init(
+            goTo = { onGoTo(it) },
+            goBack = { onGoBack() },
+            goToStart = { onGoToStart() },
+            updateScreen = { onUpdateScreen() },
+        )
     }
     
     
