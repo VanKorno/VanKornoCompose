@@ -26,6 +26,10 @@ fun TestPerforatedOptions(                                                     s
     val isON = remember { mutableStateOf(true) }
     val idx = remember { mutableIntStateOf(0) }
     
+    val flip = ops.exec {
+        isON.value = !isON.value
+    }
+    
     PerforatedToggledVariantPicker(
         isON = isON.value,
         chosenIdx = idx.intValue,
@@ -36,9 +40,7 @@ fun TestPerforatedOptions(                                                     s
                                 "three"                      ),
         
         click = {
-            ops.runAsync {
-                isON.value = !isON.value
-            }
+            flip.async()
         },
         
         variantClick = { idx.intValue = it },
