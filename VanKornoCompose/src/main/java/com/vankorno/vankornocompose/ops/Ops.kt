@@ -97,58 +97,59 @@ class GetOp1<P1, R>(lock: DbLock, private val default: R, private val funName: S
     operator fun invoke(p1: P1): R = get(p1)
 }
 
-class GetOp2<P1, P2, R>(lock: DbLock, private val default: R, private val block: (P1, P2) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2): R = try { exec { block(p1, p2) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2): R = try { susp { block(p1, p2) } } catch (_: Exception) { default }
+class GetOp2<P1, P2, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2): R = try { get(default, funName) { block(p1, p2) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2): R = try { getSusp(default, funName) { block(p1, p2) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2): R = get(p1, p2)
 }
 
-class GetOp3<P1, P2, P3, R>(lock: DbLock, private val default: R, private val block: (P1, P2, P3) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2, p3: P3): R = try { exec { block(p1, p2, p3) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2, p3: P3): R = try { susp { block(p1, p2, p3) } } catch (_: Exception) { default }
+class GetOp3<P1, P2, P3, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2, P3) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2, p3: P3): R = try { get(default, funName) { block(p1, p2, p3) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2, p3: P3): R = try { getSusp(default, funName) { block(p1, p2, p3) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2, p3: P3): R = get(p1, p2, p3)
 }
 
-class GetOp4<P1, P2, P3, P4, R>(lock: DbLock, private val default: R, private val block: (P1, P2, P3, P4) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2, p3: P3, p4: P4): R = try { exec { block(p1, p2, p3, p4) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4): R = try { susp { block(p1, p2, p3, p4) } } catch (_: Exception) { default }
+class GetOp4<P1, P2, P3, P4, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2, P3, P4) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2, p3: P3, p4: P4): R = try { get(default, funName) { block(p1, p2, p3, p4) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4): R = try { getSusp(default, funName) { block(p1, p2, p3, p4) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4): R = get(p1, p2, p3, p4)
 }
 
-class GetOp5<P1, P2, P3, P4, P5, R>(lock: DbLock, private val default: R, private val block: (P1, P2, P3, P4, P5) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): R = try { exec { block(p1, p2, p3, p4, p5) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): R = try { susp { block(p1, p2, p3, p4, p5) } } catch (_: Exception) { default }
+class GetOp5<P1, P2, P3, P4, P5, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2, P3, P4, P5) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): R = try { get(default, funName) { block(p1, p2, p3, p4, p5) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): R = try { getSusp(default, funName) { block(p1, p2, p3, p4, p5) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): R = get(p1, p2, p3, p4, p5)
 }
 
-class GetOp6<P1, P2, P3, P4, P5, P6, R>(lock: DbLock, private val default: R, private val block: (P1, P2, P3, P4, P5, P6) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): R = try { exec { block(p1, p2, p3, p4, p5, p6) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): R = try { susp { block(p1, p2, p3, p4, p5, p6) } } catch (_: Exception) { default }
+class GetOp6<P1, P2, P3, P4, P5, P6, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2, P3, P4, P5, P6) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): R = try { get(default, funName) { block(p1, p2, p3, p4, p5, p6) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): R = try { getSusp(default, funName) { block(p1, p2, p3, p4, p5, p6) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): R = get(p1, p2, p3, p4, p5, p6)
 }
 
-class GetOp7<P1, P2, P3, P4, P5, P6, P7, R>(lock: DbLock, private val default: R, private val block: (P1, P2, P3, P4, P5, P6, P7) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7): R = try { exec { block(p1, p2, p3, p4, p5, p6, p7) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7): R = try { susp { block(p1, p2, p3, p4, p5, p6, p7) } } catch (_: Exception) { default }
+class GetOp7<P1, P2, P3, P4, P5, P6, P7, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2, P3, P4, P5, P6, P7) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7): R = try { get(default, funName) { block(p1, p2, p3, p4, p5, p6, p7) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7): R = try { getSusp(default, funName) { block(p1, p2, p3, p4, p5, p6, p7) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7): R = get(p1, p2, p3, p4, p5, p6, p7)
 }
 
-class GetOp8<P1, P2, P3, P4, P5, P6, P7, P8, R>(lock: DbLock, private val default: R, private val block: (P1, P2, P3, P4, P5, P6, P7, P8) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8): R = try { exec { block(p1, p2, p3, p4, p5, p6, p7, p8) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8): R = try { susp { block(p1, p2, p3, p4, p5, p6, p7, p8) } } catch (_: Exception) { default }
+class GetOp8<P1, P2, P3, P4, P5, P6, P7, P8, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2, P3, P4, P5, P6, P7, P8) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8): R = try { get(default, funName) { block(p1, p2, p3, p4, p5, p6, p7, p8) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8): R = try { getSusp(default, funName) { block(p1, p2, p3, p4, p5, p6, p7, p8) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8): R = get(p1, p2, p3, p4, p5, p6, p7, p8)
 }
 
-class GetOp9<P1, P2, P3, P4, P5, P6, P7, P8, P9, R>(lock: DbLock, private val default: R, private val block: (P1, P2, P3, P4, P5, P6, P7, P8, P9) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9): R = try { exec { block(p1, p2, p3, p4, p5, p6, p7, p8, p9) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9): R = try { susp { block(p1, p2, p3, p4, p5, p6, p7, p8, p9) } } catch (_: Exception) { default }
+class GetOp9<P1, P2, P3, P4, P5, P6, P7, P8, P9, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2, P3, P4, P5, P6, P7, P8, P9) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9): R = try { get(default, funName) { block(p1, p2, p3, p4, p5, p6, p7, p8, p9) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9): R = try { getSusp(default, funName) { block(p1, p2, p3, p4, p5, p6, p7, p8, p9) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9): R = get(p1, p2, p3, p4, p5, p6, p7, p8, p9)
 }
 
-class GetOp10<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, R>(lock: DbLock, private val default: R, private val block: (P1, P2, P3, P4, P5, P6, P7, P8, P9, P10) -> R) : OpsByRunType(lock) {
-    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9, p10: P10): R = try { exec { block(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) } } catch (_: Exception) { default }
-    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9, p10: P10): R = try { susp { block(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) } } catch (_: Exception) { default }
+class GetOp10<P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, R>(lock: DbLock, private val default: R, private val funName: String, private val block: (P1, P2, P3, P4, P5, P6, P7, P8, P9, P10) -> R) : OpsByRunType(lock) {
+    fun get(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9, p10: P10): R = try { get(default, funName) { block(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) } } catch (_: Exception) { default }
+    suspend fun susp(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9, p10: P10): R = try { getSusp(default, funName) { block(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) } } catch (_: Exception) { default }
     operator fun invoke(p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9, p10: P10): R = get(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)
 }
+
 
 
