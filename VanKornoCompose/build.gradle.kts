@@ -47,14 +47,14 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    api(libs.androidx.core.ktx)
+    api(libs.androidx.lifecycle.runtime.ktx)
+    api(libs.androidx.activity.compose)
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.ui)
+    api(libs.androidx.ui.graphics)
+    api(libs.androidx.ui.tooling.preview)
+    api(libs.androidx.material3)
     
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -64,16 +64,16 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     
-    implementation(libs.androidx.constraintlayout.compose) // Constraint Layout
+    api(libs.androidx.constraintlayout.compose) // Constraint Layout
     
     // SavedStateHandle API for ViewModel
-    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
+    api(libs.androidx.lifecycle.viewmodel.savedstate)
     // For direct access from a composable and other stuff
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    api(libs.androidx.lifecycle.viewmodel.compose)
     
-    implementation(libs.kotlinx.coroutines.core) // for StateFlow
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.androidx.lifecycle.runtime.compose)
+    api(libs.kotlinx.coroutines.core) // for StateFlow
+    api(libs.kotlinx.coroutines.android)
+    api(libs.androidx.lifecycle.runtime.compose)
     
     api(libs.vankornohelpers)
     implementation(libs.vankornodb)
