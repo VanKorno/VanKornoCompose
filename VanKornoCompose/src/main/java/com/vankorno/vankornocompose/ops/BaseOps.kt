@@ -1,27 +1,56 @@
 package com.vankorno.vankornocompose.ops
 
 import com.vankorno.vankornodb.api.DbLock
+import com.vankorno.vankornohelpers.eLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-sealed class BaseLockedOp(                                            protected val lock: DbLock
+class OpsByRunType(                                                             val lock: DbLock
 ) {
+    inline fun <T> get(                                                    default: T,
+                                                                           funName: String = "get",
+                                                                 crossinline block: ()->T,
+    ): T {
+        return try {
+            lock.withLock { block() }
+        } catch (e: Exception) {
+            // region LOG
+                eLog("LockedOps", "$funName() failed. Details: ${e.message}", e)
+            // endregion
+            default
+        }
+    }
     
-    protected inline fun <T> execLocked(                               crossinline block: ()->T
-    ): T = lock.withLock { block() }
-    
-    
-    protected fun execAsyncLocked(                                                 block: ()->Unit
+    inline fun <T> exec(                                                  funName: String = "exec",
+                                                                crossinline block: ()->T,
     ) {
-        CoroutineScope(Dispatchers.Default).launch { execLocked(block) }
+        get(Unit, funName) { block() }
     }
     
     
-    protected suspend inline fun <T> execSuspLocked(                   crossinline block: ()->T
+    fun async(                                                            funName: String = "async",
+                                                                            block: ()->Unit,
+    ) {
+        CoroutineScope(Dispatchers.Default).launch { exec(funName, block) }
+    }
+    
+    
+    suspend inline fun <T> getSusp(                                     default: T,
+                                                                        funName: String = "getSusp",
+                                                              crossinline block: ()->T,
     ): T = withContext(Dispatchers.Default) {
-        execLocked { block() }
+        get(default, funName) { block() }
+    }
+    
+    
+    suspend inline fun <T> susp(                                          funName: String = "susp",
+                                                                crossinline block: ()->T,
+    ) {
+        withContext(Dispatchers.Default) {
+            exec(funName) { block() }
+        }
     }
     
 }
