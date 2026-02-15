@@ -1,22 +1,9 @@
 package com.vankorno.vankornocompose.ops
 
 import com.vankorno.vankornodb.api.DbLock
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class OpsRunner(                                                                val lock: DbLock
+class BundledOpsRunner(                                                         val lock: DbLock
 ) {
-    inline fun runNow(crossinline block: () -> Unit) {
-        lock.withLock { block() }
-    }
-    
-    fun runAsync(block: () -> Unit) {
-        CoroutineScope(Dispatchers.Default).launch {
-            lock.withLock { block() }
-        }
-    }
-    
     // ======================= Exec ======================= \\
     fun exec(block: () -> Unit) = ExecOp0(lock, block)
     fun <P1> exec(block: (P1) -> Unit) = ExecOp1(lock, block)

@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 sealed class BaseLockedOp(                                            protected val lock: DbLock
 ) {
     
@@ -21,8 +20,9 @@ sealed class BaseLockedOp(                                            protected 
     
     
     protected suspend inline fun <T> execSuspLocked(                   crossinline block: ()->T
-    ): T = withContext(Dispatchers.Default) { execLocked { block() } }
-    
+    ): T = withContext(Dispatchers.Default) {
+        execLocked { block() }
+    }
     
 }
 

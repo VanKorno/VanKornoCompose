@@ -1,49 +1,70 @@
 package com.vankorno.vankornocompose.ops
 
 import com.vankorno.vankornodb.api.DbLock
+import com.vankorno.vankornohelpers.eLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@PublishedApi
+internal const val OpsSimpleTAG = "OpsRunnerSimple"
+
 class OpsRunnerSimple(                                                          val lock: DbLock
 ) {
-    inline fun <T> exec(                                                    defaultValue: T,
-                                                                       crossinline block: ()->T,
+    inline fun <T> get(                                               defaultValue: T,
+                                                                           funName: String = "get",
+                                                                 crossinline block: ()->T,
     ): T {
         return try {
             lock.withLock { block() }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            // region LOG
+                eLog(OpsSimpleTAG, "$funName() failed. Details: ${e.message}", e)
+            // endregion
             defaultValue
         }
     }
     
-    inline fun exec(                                                   crossinline block: ()->Unit
+    inline fun exec(                                                      funName: String = "exec",
+                                                                crossinline block: ()->Unit,
     ) {
-        exec(Unit) { block() }
+        get(Unit, funName) { block() }
     }
     
-    fun async(                                                                     block: ()->Unit
+    
+    fun async(                                                            funName: String = "async",
+                                                                            block: ()->Unit,
     ) {
         CoroutineScope(Dispatchers.Default).launch {
             try {
                 lock.withLock { block() }
-            } catch (_: Exception) { }
+            } catch (e: Exception) {
+                // region LOG
+                    eLog(OpsSimpleTAG, "$funName() failed. Details: ${e.message}", e)
+                // endregion
+            }
         }
     }
     
-    suspend inline fun <T> susp(                                            defaultValue: T,
-                                                                       crossinline block: ()->T,
+    
+    suspend inline fun <T> getSusp(                                defaultValue: T,
+                                                                        funName: String = "getSusp",
+                                                              crossinline block: ()->T,
     ): T = withContext(Dispatchers.Default) {
         try {
             lock.withLock { block() }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            // region LOG
+                eLog(OpsSimpleTAG, "$funName() failed. Details: ${e.message}", e)
+            // endregion
             defaultValue
         }
     }
     
-    suspend inline fun susp(                                           crossinline block: ()->Unit
+    suspend inline fun susp(                                              funName: String = "susp",
+                                                                crossinline block: ()->Unit,
     ) {
-        susp(Unit) { block() }
+        getSusp(Unit, funName) { block() }
     }
 }
