@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class OpsByRunType(                                                             val lock: DbLock
+open class OpsByRunType(                                                        val lock: DbLock
 ) {
     inline fun <T> get(                                                    default: T,
                                                                            funName: String = "get",
