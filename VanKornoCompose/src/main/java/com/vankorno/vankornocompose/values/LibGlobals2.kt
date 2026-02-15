@@ -1,6 +1,7 @@
 package com.vankorno.vankornocompose.values
 
 import com.vankorno.vankornocompose.ops.OpsRunner
+import com.vankorno.vankornocompose.ops.OpsRunnerSimple
 import com.vankorno.vankornocompose.vm.LibViewModel
 import com.vankorno.vankornocompose.vm.VmVal
 import com.vankorno.vankornodb.api.DbRuntime.dbLock
@@ -17,6 +18,7 @@ object LibGlobals2 {
     lateinit var libVm: LibViewModel
     
     var ops = OpsRunner(dbLock)
+    var lops = OpsRunnerSimple(dbLock)
     
     val language = VmVal(LangAuto) { new ->
         // region LOG
