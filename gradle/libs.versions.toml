@@ -12,8 +12,8 @@ constraintlayoutCompose = "1.1.1"
 kotlinxCoroutinesAndroid = "1.10.2"
 kotlinxCoroutinesCore = "1.10.2"
 testManifest = "1.10.3"
-vankornoHelpers = "2.84"
-vankornoDB = "0.201"
+vankornoHelpers = "2.85"
+vankornoDB = "0.202"
 
 
 [libraries]
