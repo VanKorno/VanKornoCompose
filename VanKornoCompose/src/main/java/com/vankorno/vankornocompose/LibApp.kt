@@ -6,10 +6,8 @@ import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
-import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
-import com.vankorno.vankornohelpers.values.LibGlobals.androidTestRun
 import com.vankorno.vankornohelpers.values.LibGlobals.debugBuild
 import com.vankorno.vankornohelpers.values.playSound
 
@@ -30,7 +28,6 @@ abstract class LibApp(                                   val soundsToInit: Array
     override fun onCreate() {
         super.onCreate()
         
-        androidTestRun = LibMisc().isInstrumentedTestRun()
         debugBuild = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         
         dbInit()

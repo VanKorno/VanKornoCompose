@@ -1,4 +1,4 @@
-package com.vankorno.appforcomposelib.scr__Home
+package com.vankorno.appforcomposelib.H_O_M_E
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf

@@ -1,7 +1,7 @@
 package com.vankorno.appforcomposelib
 
 import androidx.compose.runtime.Composable
-import com.vankorno.appforcomposelib.ui.MyUI
+import com.vankorno.appforcomposelib._ui.MyUI
 import com.vankorno.vankornocompose.LibMainActivity
 
 class MainActivity : LibMainActivity() {

@@ -1,4 +1,4 @@
-package com.vankorno.appforcomposelib.popup.context_info
+package com.vankorno.appforcomposelib._menus.Popup.context_info
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text

@@ -1,11 +1,11 @@
-package com.vankorno.appforcomposelib.ui
+package com.vankorno.appforcomposelib._ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.vankorno.appforcomposelib.popup.PopupMaker
-import com.vankorno.appforcomposelib.scr__Home.LayoutsHome
+import com.vankorno.appforcomposelib.H_O_M_E.LayoutsHome
+import com.vankorno.appforcomposelib._menus.Popup.PopupMaker
 import com.vankorno.vankornocompose.navig.PopupOFF
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
