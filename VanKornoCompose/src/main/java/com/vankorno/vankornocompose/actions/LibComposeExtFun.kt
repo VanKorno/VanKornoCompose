@@ -1,9 +1,9 @@
 package com.vankorno.vankornocompose.actions
 
-import android.util.Log
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import com.vankorno.vankornohelpers.eLog
 import kotlinx.coroutines.flow.StateFlow
 
 
@@ -17,15 +17,15 @@ fun StateFlow<String>.toNoNullInt(default: Int = 0) = try {
                                                     }
 
 
-fun FocusRequester.libRequest() =  try {
-                                        this.requestFocus()
-                                        true
-                                    } catch (e: Exception) {
-                                        // region LOG
-                                        Log.e("focusOnTextField", "Error: $e")
-                                        // endregion
-                                        false
-                                    }
+fun FocusRequester.libRequest() {
+    try {
+        requestFocus()
+    } catch (e: Exception) {
+        // region LOG
+            eLog("focusOnTextField", "Error: $e")
+        // endregion
+    }
+}
 
 
 
