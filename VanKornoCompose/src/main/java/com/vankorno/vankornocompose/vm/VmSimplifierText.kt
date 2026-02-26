@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 open class VmText(                                             private val ssh: SavedStateHandle,
                                                                private val key: String,
                                                            private val default: String = "",
-                                                                   val maxSize: Int? = null,
+                                                                 val maxLength: Int? = null,
                                                           private val maxLines: Int? = null,
                                                          private val onTextSet: (String)->Unit = {},
 ) {
@@ -28,7 +28,7 @@ open class VmText(                                             private val ssh: 
     private val _selection = MutableStateFlow(TextRange(_text.value.length))
     val selectionFlow: StateFlow<TextRange> get() = _selection
     
-    protected open val additionalTextModifier: (String) -> String = { it }
+    protected open val additionalTextModifier: (String)->String = { it }
     
     
     protected fun textModifier(                                                    input: String
@@ -40,7 +40,7 @@ open class VmText(                                             private val ssh: 
                 if (split.size > lines) t = split.take(lines).joinToString("\n")
             }
         }
-        maxSize?.let { size ->
+        maxLength?.let { size ->
             if (size > 0 && t.length > size) t = t.take(size)
         }
         return additionalTextModifier(t)
@@ -108,7 +108,8 @@ open class VmText(                                             private val ssh: 
     }
     
     // Insert text at cursor / replace selection
-    fun insertAtCursor(insert: String) {
+    fun insertAtCursor(                                                           insert: String
+    ) {
         val sel = selection
         val newText = text.substring(0, sel.start) + insert + text.substring(sel.end)
         text = newText
@@ -174,9 +175,9 @@ class VmNumericText(                                                       ssh: 
                                                                        default: String = "",
                                                                        maxSize: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = 1, onTextSet = onTextSet) {
     
-    override val additionalTextModifier: (String) -> String = { input ->
+    override val additionalTextModifier: (String)->String = { input ->
         input.filter { it.isDigit() }
     }
     
@@ -199,7 +200,7 @@ class VmNumericText(                                                       ssh: 
     
     override fun updateFrom(                                                    new: TextFieldValue
     ) {
-        if (maxSize == 1) {
+        if (maxLength == 1) {
             val oldText = text
             val insertedIndex = new.selection.start - 1
             val insertedChar = new.text.getOrNull(insertedIndex)
@@ -228,9 +229,9 @@ class VmDecimalText(                                                       ssh: 
                                                                        default: String = "",
                                                                        maxSize: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = 1, onTextSet = onTextSet) {
     
-    override val additionalTextModifier: (String) -> String = { input ->
+    override val additionalTextModifier: (String)->String = { input ->
         val filtered = input.filter { it.isDigit() || it == '.' }
         val firstDotIndex = filtered.indexOf('.')
         if (firstDotIndex < 0) filtered
@@ -262,12 +263,12 @@ class VmPasswordText(                                                      ssh: 
                                                                        maxSize: Int? = null,
                                                                    val minSize: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = 1, onTextSet = onTextSet) {
     
     fun isValid(): Boolean {
         val len = text.length
         minSize?.let { if (len < it) return false }
-        maxSize?.let { if (len > it) return false }
+        maxLength?.let { if (len > it) return false }
         return true
     }
 }
@@ -279,7 +280,7 @@ class VmEmailText(                                                         ssh: 
                                                                        default: String = "",
                                                                        maxSize: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = 1, onTextSet = onTextSet) {
     
     fun isValid(): Boolean {
         val trimmed = text.trim()
@@ -296,7 +297,7 @@ class VmUrlText(                                                           ssh: 
                                                                        default: String = "",
                                                                        maxSize: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = 1, onTextSet = onTextSet) {
     
     fun normalizeUrl(                                           defaultScheme: String = HTTPS_START
     ) {
@@ -316,7 +317,7 @@ class VmHexText(                                                           ssh: 
                                                                        default: String = "",
                                                                        maxSize: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = 1, onTextSet = onTextSet) {
     
     override val additionalTextModifier: (String) -> String = { input ->
         input.filter { it.isDigit() || it in 'A'..'F' || it in 'a'..'f' }
@@ -330,9 +331,9 @@ class VmUpperCaseText(                                                     ssh: 
                                                                        maxSize: Int? = null,
                                                                       maxLines: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
     
-    override val additionalTextModifier: (String) -> String = { it.uppercase() }
+    override val additionalTextModifier: (String)->String = { it.uppercase() }
 }
 
 
@@ -343,9 +344,9 @@ class VmLowerCaseText(                                                     ssh: 
                                                                        maxSize: Int? = null,
                                                                       maxLines: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
     
-    override val additionalTextModifier: (String) -> String = { it.lowercase() }
+    override val additionalTextModifier: (String)->String = { it.lowercase() }
 }
 
 
@@ -356,9 +357,9 @@ class VmTrimmedText(                                                       ssh: 
                                                                        maxSize: Int? = null,
                                                                       maxLines: Int? = null,
                                                                      onTextSet: (String)->Unit = {},
-) : VmText(ssh, key, default, maxSize = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
+) : VmText(ssh, key, default, maxLength = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
     
-    override val additionalTextModifier: (String) -> String = { it.trim() }
+    override val additionalTextModifier: (String)->String = { it.trim() }
 }
 
 
