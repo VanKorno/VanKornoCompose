@@ -8,14 +8,15 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.vankorno.vankornohelpers.normalizeNewlines
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 open class VmText(                                             private val ssh: SavedStateHandle,
                                                                private val key: String,
                                                                        default: String = "",
-                                                                       maxSize: Int? = null,
-                                                                      maxLines: Int? = null,
+                                                           private val maxSize: Int? = null,
+                                                          private val maxLines: Int? = null,
                                                          private val onTextSet: (String)->Unit = {},
 ) {
     private val _text = MutableStateFlow(ssh.get<String>(key) ?: default)
@@ -24,6 +25,21 @@ open class VmText(                                             private val ssh: 
     private val _selection = MutableStateFlow(TextRange(_text.value.length))
     val selectionFlow: StateFlow<TextRange> get() = _selection
     
+    protected open val additionalTextModifier: (String) -> String = { it }
+    
+    protected fun textModifier(input: String): String {
+        var t = input.normalizeNewlines()
+        maxLines?.let { lines ->
+            if (lines > 0) {
+                val split = t.lines()
+                if (split.size > lines) t = split.take(lines).joinToString("\n")
+            }
+        }
+        maxSize?.let { size ->
+            if (size > 0 && t.length > size) t = t.take(size)
+        }
+        return additionalTextModifier(t)
+    }
     
     var value: TextFieldValue
         get() = TextFieldValue(text, selection)
@@ -32,10 +48,11 @@ open class VmText(                                             private val ssh: 
     var text: String
         get() = _text.value
         set(new) {
-            _text.value = new
-            ssh[key] = new
-            _selection.value = _selection.value.constrain(0, new.length)
-            onTextSet.invoke(new)
+            val modified = textModifier(new)
+            _text.value = modified
+            ssh[key] = modified
+            _selection.value = _selection.value.constrain(0, modified.length)
+            onTextSet.invoke(modified)
         }
     
     var selection: TextRange
@@ -43,8 +60,6 @@ open class VmText(                                             private val ssh: 
         set(range) {
             _selection.value = range.constrain(0, _text.value.length)
         }
-    
-    
     
     fun clear() {
         text = ""
@@ -75,24 +90,27 @@ open class VmText(                                             private val ssh: 
     
     
     //    C O N V E N I E N C E
+    fun getSelectedText(): String {
+        val sel = selection
+        return if (sel.start == sel.end)
+                    ""
+               else
+                   text.substring(sel.start, sel.end)
+    }
     
     // Insert text at cursor / replace selection
     fun insertAtCursor(insert: String) {
         val sel = selection
         val newText = text.substring(0, sel.start) + insert + text.substring(sel.end)
         text = newText
-        val newCursor = sel.start + insert.length
-        selection = TextRange(newCursor)
+        selection = TextRange(sel.start + insert.length)
     }
     
-    // Put cursor at start or end
     fun moveCursorToStart() { selection = TextRange(0) }
     fun moveCursorToEnd() { selection = TextRange(text.length) }
     
-    // Select all / unselect
     fun selectAll() { selection = TextRange(0, text.length) }
     fun unselect() { selection = TextRange(selection.end) }
-    
     
     fun deleteSelection() {
         val sel = selection
@@ -102,7 +120,7 @@ open class VmText(                                             private val ssh: 
     }
     
     
-    // Words
+    // Word navigation
     
     fun moveCursorToWordStart() {
         val idx = text.lastIndexOf(' ', selection.start - 1).let { if (it < 0) 0 else it + 1 }
@@ -120,7 +138,8 @@ open class VmText(                                             private val ssh: 
         selection = TextRange(start, end)
     }
     
-    // Lines, paragraphs
+    
+    // Line/paragraph navigation
     
     fun moveCursorToLineStart() {
         val idx = text.lastIndexOf('\n', selection.start - 1).let { if (it < 0) 0 else it + 1 }
@@ -136,12 +155,5 @@ open class VmText(                                             private val ssh: 
         val start = text.lastIndexOf('\n', selection.start - 1).let { if (it < 0) 0 else it + 1 }
         val end = text.indexOf('\n', selection.end).let { if (it < 0) text.length else it }
         selection = TextRange(start, end)
-    }
-    
-    
-    fun getSelectedText(): String {
-        val sel = selection
-        return if (sel.start == sel.end) ""
-               else text.substring(sel.start, sel.end)
     }
 }
