@@ -296,5 +296,47 @@ class VmHexText(                                                           ssh: 
 }
 
 
+class VmUpperCaseText(                                                     ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                      maxLines: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
+    
+    override val additionalTextModifier: (String) -> String = { it.uppercase() }
+}
+
+
+
+class VmLowerCaseText(                                                     ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                      maxLines: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
+    
+    override val additionalTextModifier: (String) -> String = { it.lowercase() }
+}
+
+
+
+class VmTrimmedText(                                                       ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                      maxLines: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = maxLines, onTextSet = onTextSet) {
+    
+    override val additionalTextModifier: (String) -> String = { it.trim() }
+}
+
+
+
+
+
+
 
 
