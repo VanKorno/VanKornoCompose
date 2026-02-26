@@ -9,6 +9,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vankorno.vankornohelpers.normalizeNewlines
+import com.vankorno.vankornohelpers.toNoNullInt
+import com.vankorno.vankornohelpers.toNoNullLong
+import com.vankorno.vankornohelpers.toNoZeroStr
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -171,4 +174,13 @@ class VmNumericText(
     override val additionalTextModifier: (String) -> String = { input ->
         input.filter { it.isDigit() }
     }
+    
+    fun normalizeNumber() {
+        val n = text.toNoNullInt()
+        text = n.toNoZeroStr()
+    }
+    
+    fun asInt(): Int = text.toNoNullInt()
+    fun asLong(): Long = text.toNoNullLong()
+    
 }
