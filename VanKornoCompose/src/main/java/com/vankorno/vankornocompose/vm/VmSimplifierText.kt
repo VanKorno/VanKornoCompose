@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 open class VmText(                                             private val ssh: SavedStateHandle,
                                                                private val key: String,
-                                                                       default: String = "",
-                                                           private val maxSize: Int? = null,
+                                                           private val default: String = "",
+                                                           val maxSize: Int? = null,
                                                           private val maxLines: Int? = null,
                                                          private val onTextSet: (String)->Unit = {},
 ) {
@@ -67,6 +67,10 @@ open class VmText(                                             private val ssh: 
     fun clear() {
         text = ""
         selection = TextRange(0)
+    }
+    
+    fun reset() {
+        if (text.isEmpty()) text = default
     }
     
     fun updateFrom(new: TextFieldValue) {
@@ -163,14 +167,13 @@ open class VmText(                                             private val ssh: 
 
 
 
-class VmNumericText(
-    ssh: SavedStateHandle,
-    key: String,
-    default: String = "",
-    maxSize: Int? = null,
-    onTextSet: (String) -> Unit = {}
+class VmNumericText(                                                       ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
 ) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
-
+    
     override val additionalTextModifier: (String) -> String = { input ->
         input.filter { it.isDigit() }
     }
@@ -179,8 +182,119 @@ class VmNumericText(
         val n = text.toNoNullInt()
         text = n.toNoZeroStr()
     }
-    
     fun asInt(): Int = text.toNoNullInt()
     fun asLong(): Long = text.toNoNullLong()
     
+    
+    var min: Int? = null
+    var max: Int? = null
+    
+    fun clamp() {
+        val n = asInt().coerceIn(min ?: Int.MIN_VALUE, max ?: Int.MAX_VALUE)
+        text = n.toNoZeroStr()
+    }
 }
+
+
+
+class VmDecimalText(                                                       ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+    
+    override val additionalTextModifier: (String) -> String = { input ->
+        val filtered = input.filter { it.isDigit() || it == '.' }
+        val firstDotIndex = filtered.indexOf('.')
+        if (firstDotIndex < 0) filtered
+        else filtered.take(firstDotIndex + 1) + filtered.drop(firstDotIndex + 1).replace(".", "")
+    }
+    
+    fun normalizeNumber() {
+        val n = text.toDoubleOrNull() ?: 0.0
+        text = if (n == 0.0) "" else n.toString()
+    }
+    
+    fun asDouble(): Double = text.toDoubleOrNull() ?: 0.0
+    fun asFloat(): Float = text.toFloatOrNull() ?: 0f
+    
+    var min: Double? = null
+    var max: Double? = null
+    
+    fun clamp() {
+        val n = asDouble().coerceIn(min ?: Double.MIN_VALUE, max ?: Double.MAX_VALUE)
+        text = if (n == 0.0) "" else n.toString()
+    }
+}
+
+
+
+class VmPasswordText(                                                      ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                   val minSize: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+    
+    fun isValid(): Boolean {
+        val len = text.length
+        minSize?.let { if (len < it) return false }
+        maxSize?.let { if (len > it) return false }
+        return true
+    }
+}
+
+
+
+class VmEmailText(                                                         ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+    
+    fun isValid(): Boolean {
+        val trimmed = text.trim()
+        return trimmed.contains('@') && trimmed.substringAfter('@').contains('.')
+    }
+}
+
+
+
+class VmUrlText(                                                           ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+    
+    fun normalizeUrl(                                           defaultScheme: String = "https: //"
+    ) {
+        if (text.isEmpty()) return
+        if (!text.startsWith("http://") && !text.startsWith("https://")) {
+            text = defaultScheme + text
+        }
+    }
+    
+    fun isValid(): Boolean = text.startsWith("http://") || text.startsWith("https://")
+}
+
+
+
+class VmHexText(                                                           ssh: SavedStateHandle,
+                                                                           key: String,
+                                                                       default: String = "",
+                                                                       maxSize: Int? = null,
+                                                                     onTextSet: (String)->Unit = {},
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+    
+    override val additionalTextModifier: (String) -> String = { input ->
+        input.filter { it.isDigit() || it in 'A'..'F' || it in 'a'..'f' }
+    }
+}
+
+
+
+
