@@ -13,7 +13,6 @@ import com.vankorno.vankornohelpers.toNoNullInt
 import com.vankorno.vankornohelpers.toNoNullLong
 import com.vankorno.vankornohelpers.toNoZeroStr
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 open class VmText(                                             private val ssh: SavedStateHandle,
                                                                private val key: String,
@@ -23,10 +22,8 @@ open class VmText(                                             private val ssh: 
                                                          private val onTextSet: (String)->Unit = {},
 ) {
     private val _text = MutableStateFlow(ssh.get<String>(key) ?: default)
-    val textFlow: StateFlow<String> get() = _text
     
     private val _selection = MutableStateFlow(TextRange(_text.value.length))
-    val selectionFlow: StateFlow<TextRange> get() = _selection
     
     protected open val additionalTextModifier: (String)->String = { it }
     
@@ -99,6 +96,8 @@ open class VmText(                                             private val ssh: 
     
     
     //    C O N V E N I E N C E
+    
+    
     fun getSelectedText(): String {
         val sel = selection
         return if (sel.start == sel.end)
