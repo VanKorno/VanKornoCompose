@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 open class VmText(                                             private val ssh: SavedStateHandle,
                                                                private val key: String,
                                                            private val default: String = "",
-                                                           val maxSize: Int? = null,
+                                                                   val maxSize: Int? = null,
                                                           private val maxLines: Int? = null,
                                                          private val onTextSet: (String)->Unit = {},
 ) {
@@ -261,6 +261,8 @@ class VmEmailText(                                                         ssh: 
     }
 }
 
+private const val HTTP_START = "http://"
+private const val HTTPS_START = "https://"
 
 
 class VmUrlText(                                                           ssh: SavedStateHandle,
@@ -270,15 +272,15 @@ class VmUrlText(                                                           ssh: 
                                                                      onTextSet: (String)->Unit = {},
 ) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
     
-    fun normalizeUrl(                                           defaultScheme: String = "https://"
+    fun normalizeUrl(                                           defaultScheme: String = HTTPS_START
     ) {
         if (text.isEmpty()) return
-        if (!text.startsWith("http://") && !text.startsWith("https://")) {
+        if (!text.startsWith(HTTP_START) && !text.startsWith(HTTPS_START)) {
             text = defaultScheme + text
         }
     }
     
-    fun isValid(): Boolean = text.startsWith("http://") || text.startsWith("https://")
+    fun isValid(): Boolean = text.startsWith(HTTP_START) || text.startsWith(HTTPS_START)
 }
 
 
