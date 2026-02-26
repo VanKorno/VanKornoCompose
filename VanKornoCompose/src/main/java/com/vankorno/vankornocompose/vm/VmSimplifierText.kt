@@ -30,7 +30,9 @@ open class VmText(                                             private val ssh: 
     
     protected open val additionalTextModifier: (String) -> String = { it }
     
-    protected fun textModifier(input: String): String {
+    
+    protected fun textModifier(                                                    input: String
+    ): String {
         var t = input.normalizeNewlines()
         maxLines?.let { lines ->
             if (lines > 0) {
@@ -73,7 +75,8 @@ open class VmText(                                             private val ssh: 
         if (text.isEmpty()) text = default
     }
     
-    fun updateFrom(new: TextFieldValue) {
+    open fun updateFrom(                                                        new: TextFieldValue
+    ) {
         text = new.text
         selection = new.selection
     }
@@ -91,9 +94,8 @@ open class VmText(                                             private val ssh: 
         return remember(t, s) { androidx.compose.runtime.mutableStateOf(TextFieldValue(t, s)) }
     }
     
-    private fun TextRange.constrain(min: Int, max: Int): TextRange {
-        return TextRange(start.coerceIn(min, max), end.coerceIn(min, max))
-    }
+    private fun TextRange.constrain(min: Int, max: Int) = TextRange(start.coerceIn(min, max), end.coerceIn(min, max))
+    
     
     
     //    C O N V E N I E N C E
@@ -193,6 +195,30 @@ class VmNumericText(                                                       ssh: 
         val n = asInt().coerceIn(min ?: Int.MIN_VALUE, max ?: Int.MAX_VALUE)
         text = n.toNoZeroStr()
     }
+    
+    
+    override fun updateFrom(                                                    new: TextFieldValue
+    ) {
+        if (maxSize == 1) {
+            val oldText = text
+            val insertedIndex = new.selection.start - 1
+            val insertedChar = new.text.getOrNull(insertedIndex)
+            
+            if (insertedChar != null && insertedChar.isDigit()) {
+                // Replace entire value with typed digit
+                super.text = insertedChar.toString()
+                super.selection = TextRange(1)
+            } else {
+                // Non-digit typed → keep old value, restore cursor
+                super.text = oldText
+                super.selection = TextRange(oldText.length)
+            }
+            return
+        }
+        
+        // Normal behavior for maxSize > 1
+        super.updateFrom(new)
+    }
 }
 
 
@@ -223,7 +249,7 @@ class VmDecimalText(                                                       ssh: 
     var max: Double? = null
     
     fun clamp() {
-        val n = asDouble().coerceIn(min ?: Double.MIN_VALUE, max ?: Double.MAX_VALUE)
+        val n = asDouble().coerceIn(min ?: -Double.MAX_VALUE, max ?: Double.MAX_VALUE)
         text = if (n == 0.0) "" else n.toString()
     }
 }
