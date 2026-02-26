@@ -270,7 +270,7 @@ class VmUrlText(                                                           ssh: 
                                                                      onTextSet: (String)->Unit = {},
 ) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
     
-    fun normalizeUrl(                                           defaultScheme: String = "https: //"
+    fun normalizeUrl(                                           defaultScheme: String = "https://"
     ) {
         if (text.isEmpty()) return
         if (!text.startsWith("http://") && !text.startsWith("https://")) {
