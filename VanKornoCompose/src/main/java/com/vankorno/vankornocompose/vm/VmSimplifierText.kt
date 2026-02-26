@@ -157,3 +157,18 @@ open class VmText(                                             private val ssh: 
         selection = TextRange(start, end)
     }
 }
+
+
+
+class VmNumericText(
+    ssh: SavedStateHandle,
+    key: String,
+    default: String = "",
+    maxSize: Int? = null,
+    onTextSet: (String) -> Unit = {}
+) : VmText(ssh, key, default, maxSize = maxSize, maxLines = 1, onTextSet = onTextSet) {
+
+    override val additionalTextModifier: (String) -> String = { input ->
+        input.filter { it.isDigit() }
+    }
+}
