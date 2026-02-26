@@ -23,7 +23,7 @@ import com.vankorno.vankornohelpers.values.LibColors.BlackT30
 fun LibTextFieldNum(                                           textFieldVal: TextFieldValue,
                                                                      center: Boolean,
                                                                    modifier: Modifier,
-                                                                  onChanged: (TextFieldValue)->Unit,
+                                                              onValueChange: (TextFieldValue)->Unit,
 ) {
     LibBaseTextFieldNum(
         textFieldVal = textFieldVal,
@@ -31,7 +31,7 @@ fun LibTextFieldNum(                                           textFieldVal: Tex
         modifier = modifier,
         fontSize = 26.sp1(),
         hintSize = 18.sp1(),
-        onChanged = onChanged,
+        onValueChange = onValueChange,
     )
 }
 
@@ -40,7 +40,7 @@ fun LibTextFieldNum(                                           textFieldVal: Tex
 fun LibTextFieldNumSmaller(                                    textFieldVal: TextFieldValue,
                                                                      center: Boolean,
                                                                    modifier: Modifier,
-                                                                  onChanged: (TextFieldValue)->Unit,
+                                                              onValueChange: (TextFieldValue)->Unit,
 ) {
     LibBaseTextFieldNum(
         textFieldVal = textFieldVal,
@@ -48,7 +48,7 @@ fun LibTextFieldNumSmaller(                                    textFieldVal: Tex
         modifier = modifier,
         fontSize = 24.sp1(),
         hintSize = 18.sp1(),
-        onChanged = onChanged,
+        onValueChange = onValueChange,
     )
 }
 
@@ -59,13 +59,13 @@ fun LibBaseTextFieldNum(                                       textFieldVal: Tex
                                                                    modifier: Modifier,
                                                                    fontSize: TextUnit,
                                                                    hintSize: TextUnit,
-                                                                  onChanged: (TextFieldValue)->Unit,
+                                                              onValueChange: (TextFieldValue)->Unit,
 ) {
     SelectionContainer {
         BasicTextField(
             modifier = modifier,
             value = textFieldVal,
-            onValueChange = { onChanged(it) },
+            onValueChange = { onValueChange(it) },
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = fontSize,
@@ -93,9 +93,9 @@ fun LibBaseTextFieldNum(                                       textFieldVal: Tex
 
 @Composable
 private fun HintTextNum(                                                        fontSize: TextUnit,
-                                                                           txtInTxtField: String,
+                                                                         textInTextField: String,
 ) {
-    if (txtInTxtField.isNotEmpty())  return  //\/\/\/\/\/\
+    if (textInTextField.isNotEmpty())  return  //\/\/\/\/\/\
     
     Text(
         "0",
