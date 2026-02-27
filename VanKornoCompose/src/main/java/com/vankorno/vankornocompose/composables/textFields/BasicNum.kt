@@ -11,14 +11,15 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.vankorno.vankornocompose.vm.VmEvent
 import com.vankorno.vankornocompose.vm.normalizeNumTextField
 
 @Composable
 fun LibBasicNumTextField(
-                           value: String,
-                   onValueChange: (String)->Unit,
+                           value: TextFieldValue,
+                   onValueChange: (TextFieldValue)->Unit,
                         modifier: Modifier = Modifier,
                          enabled: Boolean = true,
                         readOnly: Boolean = false,
@@ -56,8 +57,9 @@ fun LibBasicNumTextField(
         decorationBox = decorationBox,
         focusChangeLambda = { focused ->
             if (!focused) {
-                val normalized = normalizeNumTextField(value, canHaveOneZero)
-                if (normalized != value) onValueChange(normalized)
+                val normalized = normalizeNumTextField(value.text, canHaveOneZero)
+                if (normalized != value.text)
+                    onValueChange(value.copy(text = normalized))
             }
         }
     )

@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import com.vankorno.vankornocompose.sp1
@@ -16,16 +17,16 @@ import com.vankorno.vankornocompose.vm.VmEvent
 import com.vankorno.vankornohelpers.values.LibColors.BlackT30
 
 @Composable
-fun LibTextFieldNum(                                              textFieldVal: String,
-                                                                        center: Boolean,
-                                                                      modifier: Modifier = Modifier,
-                                                                 onValueChange: (String)->Unit,
-                                                                  focusRequest: VmEvent? = null,
-                                                             clearFocusRequest: VmEvent? = null,
-                                                                canHaveOneZero: Boolean = false,
+fun LibTextFieldNum(                                                  value: TextFieldValue,
+                                                                     center: Boolean,
+                                                                   modifier: Modifier = Modifier,
+                                                              onValueChange: (TextFieldValue)->Unit,
+                                                               focusRequest: VmEvent? = null,
+                                                          clearFocusRequest: VmEvent? = null,
+                                                             canHaveOneZero: Boolean = false,
 ) {
     LibStandardTextFieldNum(
-        textFieldVal = textFieldVal,
+        value = value,
         center = center,
         modifier = modifier,
         fontSize = 26.sp1(),
@@ -38,16 +39,16 @@ fun LibTextFieldNum(                                              textFieldVal: 
 }
 
 @Composable
-fun LibTextFieldNumSmaller(                                       textFieldVal: String,
-                                                                        center: Boolean,
-                                                                      modifier: Modifier = Modifier,
-                                                                 onValueChange: (String)->Unit,
-                                                                  focusRequest: VmEvent? = null,
-                                                             clearFocusRequest: VmEvent? = null,
-                                                                canHaveOneZero: Boolean = false,
+fun LibTextFieldNumSmaller(                                           value: TextFieldValue,
+                                                                     center: Boolean,
+                                                                   modifier: Modifier = Modifier,
+                                                              onValueChange: (TextFieldValue)->Unit,
+                                                               focusRequest: VmEvent? = null,
+                                                          clearFocusRequest: VmEvent? = null,
+                                                             canHaveOneZero: Boolean = false,
 ) {
     LibStandardTextFieldNum(
-        textFieldVal = textFieldVal,
+        value = value,
         center = center,
         modifier = modifier,
         fontSize = 24.sp1(),
@@ -60,18 +61,18 @@ fun LibTextFieldNumSmaller(                                       textFieldVal: 
 }
 
 @Composable
-fun LibStandardTextFieldNum(                                      textFieldVal: String,
-                                                                        center: Boolean,
-                                                                      modifier: Modifier = Modifier,
-                                                                      fontSize: TextUnit,
-                                                                      hintSize: TextUnit,
-                                                                 onValueChange: (String)->Unit,
-                                                                  focusRequest: VmEvent? = null,
-                                                             clearFocusRequest: VmEvent? = null,
-                                                                canHaveOneZero: Boolean = false,
+fun LibStandardTextFieldNum(                                          value: TextFieldValue,
+                                                                     center: Boolean,
+                                                                   modifier: Modifier = Modifier,
+                                                                   fontSize: TextUnit,
+                                                                   hintSize: TextUnit,
+                                                              onValueChange: (TextFieldValue)->Unit,
+                                                               focusRequest: VmEvent? = null,
+                                                          clearFocusRequest: VmEvent? = null,
+                                                             canHaveOneZero: Boolean = false,
 ) {
     LibBasicNumTextField(
-        value = textFieldVal,
+        value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         textStyle = TextStyle(
@@ -90,7 +91,7 @@ fun LibStandardTextFieldNum(                                      textFieldVal: 
                 contentAlignment = if (center) Alignment.Center else Alignment.CenterStart
             ) {
                 innerTextField()
-                HintTextNum(hintSize, textFieldVal)
+                HintTextNum(hintSize, value.text)
             }
         }
     )

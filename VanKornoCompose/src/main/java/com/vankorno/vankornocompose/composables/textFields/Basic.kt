@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import com.vankorno.vankornocompose.actions.applyIf
 import com.vankorno.vankornocompose.vm.VmEvent
@@ -23,8 +24,8 @@ import com.vankorno.vankornocompose.vm.collect
 
 @Composable
 fun LibBasicTextField(
-                         value: String,
-                 onValueChange: (String)->Unit,
+                         value: TextFieldValue,
+                 onValueChange: (TextFieldValue)->Unit,
                       modifier: Modifier = Modifier,
                        enabled: Boolean = true,
                       readOnly: Boolean = false,
