@@ -8,7 +8,7 @@ import com.vankorno.vankornohelpers.toNoNullLong
 import com.vankorno.vankornohelpers.toNoZeroStr
 
 
-class VmTextNum(                                                       ssh: SavedStateHandle,
+class VmTextNum(                                                           ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,
@@ -19,10 +19,6 @@ class VmTextNum(                                                       ssh: Save
         input.filter { it.isDigit() }
     }
     
-    fun normalizeNumber() {
-        val n = text.toNoNullInt()
-        text = n.toNoZeroStr()
-    }
     fun asInt(): Int = text.toNoNullInt()
     fun asLong(): Long = text.toNoNullLong()
     
@@ -92,3 +88,17 @@ class VmTextDecimal(                                                       ssh: 
         text = if (n == 0.0) "" else n.toString()
     }
 }
+
+
+
+internal fun normalizeNumTextField(                                          text: String,
+                                                                   canHaveOneZero: Boolean = false,
+) = if (canHaveOneZero)
+        text.toNoNullInt().toString()
+    else
+        text.toNoNullInt().toNoZeroStr()
+
+
+
+
+

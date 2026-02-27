@@ -29,19 +29,28 @@ fun FocusRequester.libRequest() {
 
 
 
-/** Convenience functions for applying modifiers conditionally */
+// Convenience functions for applying modifiers conditionally
 
+/**
+ *  Chain multiple mods with a dot!
+ */
 inline fun Modifier.applyIf(                                       condition: Boolean,
                                                                        block: Modifier.()->Modifier,
 ) = if (condition) this.block() else this
 
 
+/**
+ *  Chain multiple mods with a dot!
+ */
 inline fun Modifier.applyIf(                                       condition: Boolean,
                                                                    trueBlock: Modifier.()->Modifier,
                                                                   falseBlock: Modifier.()->Modifier,
 ) = if (condition) this.trueBlock() else this.falseBlock()
 
 
+/**
+ *  Chain multiple mods with a dot!
+ */
 fun Modifier.applyIf(                        vararg conditions: Pair<Boolean, Modifier.()->Modifier>
 ) = conditions.fold(this) { accumulator, (cond, mod) ->
     if (cond) accumulator.mod() else accumulator
