@@ -61,7 +61,7 @@ fun LibStandardTextFieldNum(                                            vmText: 
         ),
         canHaveOneZero = canHaveOneZero,
         enableFocusHandling = true,
-        contentAlignment = if (center) Alignment.Center else Alignment.CenterStart
+        contentAlignment = if (center) Alignment.Center else Alignment.CenterStart,
     )
 }
 
