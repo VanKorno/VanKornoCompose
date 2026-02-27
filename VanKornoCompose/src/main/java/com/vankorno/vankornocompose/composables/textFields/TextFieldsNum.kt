@@ -65,7 +65,7 @@ fun LibBaseTextFieldNum(                                       textFieldVal: Tex
         BasicTextField(
             modifier = modifier,
             value = textFieldVal,
-            onValueChange = { onValueChange(it) },
+            onValueChange = onValueChange,
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = fontSize,
