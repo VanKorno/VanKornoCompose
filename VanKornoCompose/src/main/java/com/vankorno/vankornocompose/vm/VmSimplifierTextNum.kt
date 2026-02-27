@@ -8,7 +8,7 @@ import com.vankorno.vankornohelpers.toNoNullLong
 import com.vankorno.vankornohelpers.toNoZeroStr
 
 
-class VmNumericText(                                                       ssh: SavedStateHandle,
+class VmTextNum(                                                       ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,
@@ -38,7 +38,7 @@ class VmNumericText(                                                       ssh: 
     
     override fun updateFrom(                                                    new: TextFieldValue
     ) {
-        if (this@VmNumericText.maxLength == 1) {
+        if (this@VmTextNum.maxLength == 1) {
             val oldText = text
             val insertedIndex = new.selection.start - 1
             val insertedChar = new.text.getOrNull(insertedIndex)
@@ -62,7 +62,7 @@ class VmNumericText(                                                       ssh: 
 
 
 
-class VmDecimalText(                                                       ssh: SavedStateHandle,
+class VmTextDecimal(                                                       ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,

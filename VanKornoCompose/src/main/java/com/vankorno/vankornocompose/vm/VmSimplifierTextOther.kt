@@ -3,7 +3,7 @@ package com.vankorno.vankornocompose.vm
 import androidx.lifecycle.SavedStateHandle
 
 
-class VmPasswordText(                                                      ssh: SavedStateHandle,
+class VmTextPassword(                                                      ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,
@@ -14,14 +14,14 @@ class VmPasswordText(                                                      ssh: 
     fun isValid(): Boolean {
         val len = text.length
         minSize?.let { if (len < it) return false }
-        this@VmPasswordText.maxLength?.let { if (len > it) return false }
+        this@VmTextPassword.maxLength?.let { if (len > it) return false }
         return true
     }
 }
 
 
 
-class VmEmailText(                                                         ssh: SavedStateHandle,
+class VmTextEmail(                                                         ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,
@@ -38,7 +38,7 @@ private const val HTTP_START = "http://"
 private const val HTTPS_START = "https://"
 
 
-class VmUrlText(                                                           ssh: SavedStateHandle,
+class VmTextUrl(                                                           ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,
@@ -58,7 +58,7 @@ class VmUrlText(                                                           ssh: 
 
 
 
-class VmHexText(                                                           ssh: SavedStateHandle,
+class VmTextHex(                                                           ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,
@@ -71,7 +71,7 @@ class VmHexText(                                                           ssh: 
 }
 
 
-class VmUpperCaseText(                                                     ssh: SavedStateHandle,
+class VmTextUpperCase(                                                     ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,
@@ -84,7 +84,7 @@ class VmUpperCaseText(                                                     ssh: 
 
 
 
-class VmLowerCaseText(                                                     ssh: SavedStateHandle,
+class VmTextLowerCase(                                                     ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,
@@ -97,7 +97,7 @@ class VmLowerCaseText(                                                     ssh: 
 
 
 
-class VmTrimmedText(                                                       ssh: SavedStateHandle,
+class VmTextTrimmed(                                                       ssh: SavedStateHandle,
                                                                            key: String,
                                                                        default: String = "",
                                                                      maxLength: Int? = null,

@@ -22,6 +22,14 @@ open class VmText(                                             private val ssh: 
     
     private val _selection = MutableStateFlow(TextRange(_text.value.length))
     
+    val hasFocus = VmVal(false)
+    val focusRequest = VmEvent()
+    val clearFocusRequest = VmEvent()
+    
+    fun requestFocus() { focusRequest.fire() }
+    fun clearFocus() { clearFocusRequest.fire() }
+    
+    
     protected open val additionalTextModifier: (String)->String = { it }
     
     
