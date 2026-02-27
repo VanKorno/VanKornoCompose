@@ -24,7 +24,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
 import com.vankorno.vankornocompose.actions.applyIf
-import com.vankorno.vankornocompose.sp1
 import com.vankorno.vankornocompose.values.MOD_StandardTextField
 import com.vankorno.vankornocompose.vm.VmText
 import com.vankorno.vankornocompose.vm.collect
@@ -50,7 +49,6 @@ fun LibBasicTextField(                     vmText: VmText,
                                          maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
                                          minLines: Int = 1,
                                              hint: String = "",
-                                     hintFontSize: TextUnit = 18.sp1(),
                                        decorModif: Modifier = MOD_StandardTextField,
                                             decor: @Composable BoxScope.()->Unit = {  },
 ) {
@@ -99,7 +97,7 @@ fun LibBasicTextField(                     vmText: VmText,
                     innerTextField()
                     
                     if (value.text.isEmpty()  &&  hint.isNotEmpty()) {
-                        HintText(hint, hintFontSize)
+                        HintText(hint, textStyle.fontSize)
                     }
                     decor()
                 }

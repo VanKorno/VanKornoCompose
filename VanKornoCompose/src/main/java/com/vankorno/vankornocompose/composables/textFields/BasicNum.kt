@@ -56,6 +56,7 @@ fun LibBasicNumTextField(                  vmText: VmTextNum,
         decor = decor,
         normalizeText = { input ->
             normalizeNumTextField(input, canHaveOneZero)
-        }
+        },
+        hint = "0",
     )
 }
