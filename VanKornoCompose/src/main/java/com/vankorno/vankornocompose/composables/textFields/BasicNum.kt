@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -20,6 +21,7 @@ import com.vankorno.vankornocompose.vm.normalizeNumTextField
 @Composable
 fun LibBasicNumTextField(                  vmText: VmTextNum,
                                          modifier: Modifier = Modifier,
+                                 contentAlignment: Alignment = Alignment.CenterStart,
                                           enabled: Boolean = true,
                                          readOnly: Boolean = false,
                                         textStyle: TextStyle = TextStyle.Default,
@@ -37,6 +39,7 @@ fun LibBasicNumTextField(                  vmText: VmTextNum,
     LibBasicTextField(
         vmText = vmText,
         modifier = modifier,
+        contentAlignment = contentAlignment,
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle,

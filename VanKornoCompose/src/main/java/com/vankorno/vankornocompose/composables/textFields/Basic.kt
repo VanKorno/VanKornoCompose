@@ -32,8 +32,8 @@ import com.vankorno.vankornohelpers.values.LibColors.BlackT30
 
 @Composable
 fun LibBasicTextField(                     vmText: VmText,
-                                 contentAlignment: Alignment = Alignment.CenterStart,
                                          modifier: Modifier = Modifier,
+                                 contentAlignment: Alignment = Alignment.CenterStart,
                                           enabled: Boolean = true,
                                          readOnly: Boolean = false,
                                         textStyle: TextStyle = TextStyle.Default,
