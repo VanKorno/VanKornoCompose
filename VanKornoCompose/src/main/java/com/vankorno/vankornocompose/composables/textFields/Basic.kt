@@ -1,12 +1,17 @@
 package com.vankorno.vankornocompose.composables.textFields
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -16,50 +21,63 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.TextUnit
 import com.vankorno.vankornocompose.actions.applyIf
-import com.vankorno.vankornocompose.vm.VmEvent
+import com.vankorno.vankornocompose.sp1
+import com.vankorno.vankornocompose.values.MOD_StandardTextField
+import com.vankorno.vankornocompose.vm.VmText
 import com.vankorno.vankornocompose.vm.collect
+import com.vankorno.vankornohelpers.values.LibColors.BlackT30
 
 @Composable
-fun LibBasicTextField(
-                         value: TextFieldValue,
-                 onValueChange: (TextFieldValue)->Unit,
-                      modifier: Modifier = Modifier,
-                       enabled: Boolean = true,
-                      readOnly: Boolean = false,
-                     textStyle: TextStyle = TextStyle.Default,
-               keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-               keyboardActions: KeyboardActions = KeyboardActions.Default,
-                    singleLine: Boolean = false,
-          visualTransformation: VisualTransformation = VisualTransformation.None,
-                  onTextLayout: (TextLayoutResult)->Unit = {},
-             interactionSource: MutableInteractionSource? = null,
-                   cursorBrush: Brush = SolidColor(Color.Black),
-           enableFocusHandling: Boolean = true,
-             focusChangeLambda: ((Boolean)->Unit)? = null,
-                  focusRequest: VmEvent? = null,
-             clearFocusRequest: VmEvent? = null,
-        wrapSelectionContainer: Boolean = true,
-                      maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
-                      minLines: Int = 1,
-                 decorationBox: @Composable (innerTextField: @Composable ()->Unit)->Unit = { it() },
+fun LibBasicTextField(                     vmText: VmText,
+                                 contentAlignment: Alignment = Alignment.CenterStart,
+                                         modifier: Modifier = Modifier,
+                                          enabled: Boolean = true,
+                                         readOnly: Boolean = false,
+                                        textStyle: TextStyle = TextStyle.Default,
+                                  keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+                                  keyboardActions: KeyboardActions = KeyboardActions.Default,
+                                       singleLine: Boolean = false,
+                             visualTransformation: VisualTransformation = VisualTransformation.None,
+                                     onTextLayout: (TextLayoutResult)->Unit = {},
+                                interactionSource: MutableInteractionSource? = null,
+                                      cursorBrush: Brush = SolidColor(Color.Black),
+                              enableFocusHandling: Boolean = true,
+                                    normalizeText: (String)->String = { it },
+                           wrapSelectionContainer: Boolean = true,
+                                         maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+                                         minLines: Int = 1,
+                                             hint: String = "",
+                                     hintFontSize: TextUnit = 18.sp1(),
+                                       decorModif: Modifier = MOD_StandardTextField,
+                                            decor: @Composable BoxScope.()->Unit = {  },
 ) {
+    val value by vmText.state()
+
     val requester = remember { FocusRequester() }
 
-    focusRequest?.collect { requester.requestFocus() }
-    clearFocusRequest?.collect { requester.freeFocus() }
+    vmText.focusRequest.collect { requester.requestFocus() }
+    vmText.clearFocusRequest.collect { requester.freeFocus() }
 
     val combinedModifier = modifier.applyIf(enableFocusHandling) {
         focusRequester(requester)
-            .onFocusChanged { focusChangeLambda?.invoke(it.isFocused) }
+            .onFocusChanged {
+                vmText.hasFocus.value = it.isFocused
+                if (!it.isFocused) {
+                    val normalized = normalizeText(vmText.text)
+                    if (normalized != vmText.text) {
+                        vmText.text = normalized
+                    }
+                }
+            }
     }
 
-    val textFieldContent: @Composable () -> Unit = {
+    val textFieldContent: @Composable ()->Unit = {
         BasicTextField(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = vmText::updateFrom,
             modifier = combinedModifier,
             enabled = enabled,
             readOnly = readOnly,
@@ -73,10 +91,34 @@ fun LibBasicTextField(
             onTextLayout = onTextLayout,
             interactionSource = interactionSource ?: remember { MutableInteractionSource() },
             cursorBrush = cursorBrush,
-            decorationBox = decorationBox
+            decorationBox = { innerTextField ->
+                Box(
+                    modifier = decorModif,
+                    contentAlignment = contentAlignment
+                ) {
+                    innerTextField()
+                    
+                    if (value.text.isEmpty()  &&  hint.isNotEmpty()) {
+                        HintText(hint, hintFontSize)
+                    }
+                    decor()
+                }
+            }
         )
     }
 
     if (wrapSelectionContainer) SelectionContainer { textFieldContent() }
     else textFieldContent()
+}
+
+
+@Composable
+private fun HintText(                                                               text: String,
+                                                                                fontSize: TextUnit,
+) {
+    Text(
+        text = text,
+        fontSize = fontSize,
+        color = Color(BlackT30)
+    )
 }
