@@ -19,32 +19,31 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import com.vankorno.vankornocompose.actions.applyIf
 import com.vankorno.vankornocompose.vm.VmEvent
-import com.vankorno.vankornocompose.vm.VmVal
 import com.vankorno.vankornocompose.vm.collect
 
 @Composable
 fun LibBasicTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
-    textStyle: TextStyle = TextStyle.Default,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = false,
-    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
-    minLines: Int = 1,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    onTextLayout: (TextLayoutResult) -> Unit = {},
-    interactionSource: MutableInteractionSource? = null,
-    cursorBrush: Brush = SolidColor(Color.Black),
-    decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit = { it() },
-    enableFocusHandling: Boolean = true,
-    hasFocus: VmVal<Boolean>? = null,
-    focusRequest: VmEvent? = null,
-    clearFocusRequest: VmEvent? = null,
-    wrapSelectionContainer: Boolean = true,
+                         value: String,
+                 onValueChange: (String)->Unit,
+                      modifier: Modifier = Modifier,
+                       enabled: Boolean = true,
+                      readOnly: Boolean = false,
+                     textStyle: TextStyle = TextStyle.Default,
+               keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+               keyboardActions: KeyboardActions = KeyboardActions.Default,
+                    singleLine: Boolean = false,
+          visualTransformation: VisualTransformation = VisualTransformation.None,
+                  onTextLayout: (TextLayoutResult)->Unit = {},
+             interactionSource: MutableInteractionSource? = null,
+                   cursorBrush: Brush = SolidColor(Color.Black),
+           enableFocusHandling: Boolean = true,
+             focusChangeLambda: ((Boolean)->Unit)? = null,
+                  focusRequest: VmEvent? = null,
+             clearFocusRequest: VmEvent? = null,
+        wrapSelectionContainer: Boolean = true,
+                      maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+                      minLines: Int = 1,
+                 decorationBox: @Composable (innerTextField: @Composable ()->Unit)->Unit = { it() },
 ) {
     val requester = remember { FocusRequester() }
 
@@ -53,7 +52,7 @@ fun LibBasicTextField(
 
     val combinedModifier = modifier.applyIf(enableFocusHandling) {
         focusRequester(requester)
-            .onFocusChanged { hasFocus?.value = it.isFocused }
+            .onFocusChanged { focusChangeLambda?.invoke(it.isFocused) }
     }
 
     val textFieldContent: @Composable () -> Unit = {
