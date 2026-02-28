@@ -47,6 +47,24 @@ open class VmText(
 
     fun setText(newText: String) {
         val modified = textModifier(newText)
+        if (maxLength == 1 && modified.isNotEmpty()) {
+            val char = modified.last().toString()
+            launchEdit(char)
+        } else {
+            launchEdit(modified)
+        }
+    }
+
+    fun setSelection(range: TextRange) {
+        CoroutineScope(Dispatchers.Main).launch {
+            value.edit { select { setSelection(range) } }
+        }
+    }
+
+    fun clear() { setText("") }
+    fun reset() { setText(default) }
+
+    private fun launchEdit(modified: String) {
         CoroutineScope(Dispatchers.Main).launch {
             value.edit {
                 replace(0, length, modified)
@@ -57,20 +75,8 @@ open class VmText(
         }
     }
 
-    fun setSelection(range: TextRange) {
-        CoroutineScope(Dispatchers.Main).launch {
-            value.edit {
-                select { setSelection(range) }
-            }
-        }
-    }
-
-    fun clear() { setText("") }
-    fun reset() { setText(default) }
-
     private fun TextRange.constrain(min: Int, max: Int) =
         TextRange(start.coerceIn(min, max), end.coerceIn(min, max))
-
 
     // --- Convenience functions ---
 
@@ -132,16 +138,3 @@ open class VmText(
         setSelection(TextRange(start, end))
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

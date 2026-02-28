@@ -26,7 +26,7 @@ class VmTextNum(                                                           ssh: 
     
     fun clamp() {
         val n = asInt().coerceIn(min ?: Int.MIN_VALUE, max ?: Int.MAX_VALUE)
-        text = n.toNoZeroStr()
+        setText(n.toNoZeroStr())
     }
 }
 
@@ -48,7 +48,7 @@ class VmTextDecimal(                                                       ssh: 
     
     fun normalizeNumber() {
         val n = text.toDoubleOrNull() ?: 0.0
-        text = if (n == 0.0) "" else n.toString()
+        setText(if (n == 0.0) "" else n.toString())
     }
     
     fun asDouble(): Double = text.toDoubleOrNull() ?: 0.0
@@ -59,7 +59,7 @@ class VmTextDecimal(                                                       ssh: 
     
     fun clamp() {
         val n = asDouble().coerceIn(min ?: -Double.MAX_VALUE, max ?: Double.MAX_VALUE)
-        text = if (n == 0.0) "" else n.toString()
+        setText(if (n == 0.0) "" else n.toString())
     }
 }
 
