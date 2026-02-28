@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.theme_main.LibColor
+import com.vankorno.vankornohelpers.values.LibColors.WhiteTransp
 
 @Composable
 fun LibTopBarIconBtn(                                                            enabled: Boolean,
@@ -45,7 +47,11 @@ fun LibTopBarIconBtn(                                                           
         Icon(
             modifier = Modifier.matchParentSize(),
             painter = painterResource(id = icon),
-            tint = LibColor.WhiteText.color,
+            tint =  if (enabled)
+                        LibColor.WhiteText.color
+                    else
+                        Color(WhiteTransp)
+            ,
             contentDescription = null
         )
     }
