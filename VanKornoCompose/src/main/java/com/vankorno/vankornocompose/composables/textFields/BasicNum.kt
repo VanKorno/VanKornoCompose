@@ -19,7 +19,7 @@ import com.vankorno.vankornocompose.vm.VmTextNum
 import com.vankorno.vankornocompose.vm.normalizeNumTextField
 
 @Composable
-fun LibBasicNumTextField(                  vmText: VmTextNum,
+fun LibBasicNumField(                      vmText: VmTextNum,
                                          modifier: Modifier = Modifier,
                                  contentAlignment: Alignment = Alignment.CenterStart,
                                           enabled: Boolean = true,

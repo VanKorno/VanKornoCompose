@@ -16,13 +16,13 @@ import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.vm.VmText
 
 @Composable
-fun LibWhiteTextField(                                                  vmText: VmText,
+fun WhiteTextField(                                                     vmText: VmText,
                                                                       modifier: Modifier = MOD_MaxW,
                                                                       fontSize: TextUnit = 26.sp1(),
                                                                         center: Boolean = false,
                                                                     capitalize: Boolean = true,
                                                                    autoCorrect: Boolean = true,
-) = LibWhiteMultilineField(
+) = WhiteMultilineField(
     vmText = vmText,
     center = center,
     modifier = modifier,
@@ -34,7 +34,7 @@ fun LibWhiteTextField(                                                  vmText: 
 
 
 @Composable
-fun LibWhiteMultilineField(                                     vmText: VmText,
+fun WhiteMultilineField(                                        vmText: VmText,
                                                               modifier: Modifier = MOD_MaxW,
                                                               fontSize: TextUnit = 26.sp1(),
                                                         lineQuantRange: IntRange = 1..Int.MAX_VALUE,

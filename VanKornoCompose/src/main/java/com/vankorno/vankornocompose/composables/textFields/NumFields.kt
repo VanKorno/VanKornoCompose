@@ -9,48 +9,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import com.vankorno.vankornocompose.sp1
+import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.vm.VmTextNum
 
+
+// LibTextFieldNumSmaller
 @Composable
-fun LibTextFieldNum(                                                    vmText: VmTextNum,
+fun WhiteNumFieldSmall(                                                 vmText: VmTextNum,
                                                                         center: Boolean,
                                                                       modifier: Modifier = Modifier,
                                                                 canHaveOneZero: Boolean = false,
 ) {
-    LibStandardTextFieldNum(
+    WhiteNumField(
         vmText = vmText,
-        center = center,
-        modifier = modifier,
-        fontSize = 26.sp1(),
-        canHaveOneZero = canHaveOneZero
-    )
-}
-
-
-@Composable
-fun LibTextFieldNumSmaller(                                             vmText: VmTextNum,
-                                                                        center: Boolean,
-                                                                      modifier: Modifier = Modifier,
-                                                                canHaveOneZero: Boolean = false,
-) {
-    LibStandardTextFieldNum(
-        vmText = vmText,
-        center = center,
         modifier = modifier,
         fontSize = 24.sp1(),
+        center = center,
         canHaveOneZero = canHaveOneZero
     )
 }
 
 
 @Composable
-fun LibStandardTextFieldNum(                                            vmText: VmTextNum,
-                                                                        center: Boolean,
-                                                                      modifier: Modifier = Modifier,
-                                                                      fontSize: TextUnit,
+fun WhiteNumField(                                                      vmText: VmTextNum,
+                                                                      modifier: Modifier = MOD_MaxW,
+                                                                      fontSize: TextUnit = 26.sp1(),
+                                                                        center: Boolean = true,
                                                                 canHaveOneZero: Boolean = false,
 ) {
-    LibBasicNumTextField(
+    LibBasicNumField(
         vmText = vmText,
         modifier = modifier,
         textStyle = TextStyle(
