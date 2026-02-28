@@ -11,7 +11,6 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,6 +26,7 @@ import androidx.compose.ui.unit.TextUnit
 import com.vankorno.vankornocompose.values.MOD_StandardTextField
 import com.vankorno.vankornocompose.vm.VmText
 import com.vankorno.vankornohelpers.values.LibColors.BlackT30
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -62,12 +62,9 @@ fun LibBasicTextField(
 ) {
     val requester = remember { FocusRequester() }
 
-    // collect focus events
-    LaunchedEffect(vmText.focusRequest) {
-        vmText.focusRequest.flow.collect { requester.requestFocus() }
-    }
-    LaunchedEffect(vmText.clearFocusRequest) {
-        vmText.clearFocusRequest.flow.collect { requester.freeFocus() }
+    LaunchedEffect(vmText) {
+        launch { vmText.focusRequest.flow.collect { requester.requestFocus() } }
+        launch { vmText.clearFocusRequest.flow.collect { requester.freeFocus() } }
     }
 
     val decorator: TextFieldDecorator = { inner ->
@@ -83,6 +80,12 @@ fun LibBasicTextField(
         }
     }
 
+    val lineLimits = if (lineQuantRange.first == 1 && lineQuantRange.last == 1) {
+        TextFieldLineLimits.SingleLine
+    } else {
+        TextFieldLineLimits.MultiLine(lineQuantRange.first, lineQuantRange.last)
+    }
+
     val textFieldContent: @Composable () -> Unit = {
         BasicTextField(
             state = vmText.value,
@@ -92,12 +95,9 @@ fun LibBasicTextField(
             textStyle = textStyle,
             keyboardOptions = keyboardOptions,
             onKeyboardAction = keyboardActions,
-            lineLimits = object : TextFieldLineLimits {
-                override val minLines: Int = lineQuantRange.first
-                override val maxLines: Int = lineQuantRange.last
-            },
-            onTextLayout = { density ->
-                density.getResult()?.let { onTextLayout(it) }
+            lineLimits = lineLimits,
+            onTextLayout = { getResult ->
+                getResult()?.let { onTextLayout(it) }
             },
             interactionSource = interactionSource,
             cursorBrush = cursorBrush,
@@ -105,12 +105,10 @@ fun LibBasicTextField(
         )
 
         if (enableFocusHandling) {
-            DisposableEffect(Unit) {
-                onDispose {
-                    val normalized = normalizeText(vmText.text)
-                    if (normalized != vmText.text) {
-                        vmText.setText(normalized)
-                    }
+            LaunchedEffect(vmText.text) {
+                val normalized = normalizeText(vmText.text)
+                if (normalized != vmText.text) {
+                    vmText.setText(normalized)
                 }
             }
         }
