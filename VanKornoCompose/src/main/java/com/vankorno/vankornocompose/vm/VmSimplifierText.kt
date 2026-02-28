@@ -70,11 +70,10 @@ open class VmText(                                             private val ssh: 
     
     fun clear() {
         text = ""
-        selection = TextRange(0)
     }
     
     fun reset() {
-        if (text.isEmpty()) text = default
+        text = default
     }
     
     open fun updateFrom(                                                        new: TextFieldValue
