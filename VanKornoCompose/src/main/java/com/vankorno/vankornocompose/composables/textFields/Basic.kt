@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.KeyboardActionHandler
-import androidx.compose.foundation.text.input.TextFieldDecorator
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
@@ -17,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -44,6 +44,7 @@ private fun HintText(                                                           
 fun LibBasicTextField(
     vmText: VmText,
     modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.CenterStart,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     lineQuantRange: IntRange = 1..Int.MAX_VALUE,
@@ -67,51 +68,43 @@ fun LibBasicTextField(
         launch { vmText.clearFocusRequest.flow.collect { requester.freeFocus() } }
     }
 
-    val decorator: TextFieldDecorator = { inner ->
-        Box(
-            modifier = decorModif.then(if (enableFocusHandling) Modifier.focusRequester(requester) else Modifier),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            inner()
-            if (vmText.text.isEmpty() && hint.isNotEmpty()) {
-                HintText(hint, textStyle.fontSize)
-            }
-            decor()
-        }
-    }
-
-    val lineLimits = if (lineQuantRange.first == 1 && lineQuantRange.last == 1) {
+    val lineLimits = if (lineQuantRange.first == 1 && lineQuantRange.last == 1)
         TextFieldLineLimits.SingleLine
-    } else {
+    else
         TextFieldLineLimits.MultiLine(lineQuantRange.first, lineQuantRange.last)
-    }
 
     val textFieldContent: @Composable () -> Unit = {
         BasicTextField(
             state = vmText.value,
-            modifier = modifier,
+            modifier = modifier.then(
+                if (enableFocusHandling) Modifier.focusRequester(requester).onFocusChanged {
+                    vmText.hasFocus.value = it.isFocused
+                    if (!it.isFocused) {
+                        val normalized = normalizeText(vmText.text)
+                        if (normalized != vmText.text) vmText.setText(normalized)
+                    }
+                } else Modifier
+            ),
             enabled = enabled,
             readOnly = readOnly,
             textStyle = textStyle,
             keyboardOptions = keyboardOptions,
             onKeyboardAction = keyboardActions,
             lineLimits = lineLimits,
-            onTextLayout = { getResult ->
-                getResult()?.let { onTextLayout(it) }
-            },
+            onTextLayout = { getResult -> getResult()?.let { onTextLayout(it) } },
             interactionSource = interactionSource,
             cursorBrush = cursorBrush,
-            decorator = decorator
-        )
-
-        if (enableFocusHandling) {
-            LaunchedEffect(vmText.text) {
-                val normalized = normalizeText(vmText.text)
-                if (normalized != vmText.text) {
-                    vmText.setText(normalized)
+            decorator = { inner ->
+                Box(
+                    modifier = decorModif,
+                    contentAlignment = contentAlignment
+                ) {
+                    inner()
+                    if (vmText.text.isEmpty() && hint.isNotEmpty()) HintText(hint, textStyle.fontSize)
+                    decor()
                 }
             }
-        }
+        )
     }
 
     if (wrapSelectionContainer) SelectionContainer { textFieldContent() }
