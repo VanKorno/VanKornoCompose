@@ -9,13 +9,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
 
-open class VmText(
-    private val ssh: SavedStateHandle,
-    private val key: String,
-    private val default: String = "",
-    val maxLength: Int? = null,
-    private val maxLines: Int? = null,
-    private val onTextSet: (String) -> Unit = {},
+open class VmText(                                             private val ssh: SavedStateHandle,
+                                                               private val key: String,
+                                                           private val default: String = "",
+                                                                 val maxLength: Int? = null,
+                                                          private val maxLines: Int? = null,
+                                                         private val onTextSet: (String)->Unit = {},
 ) {
     val value = TextFieldState(initialText = ssh.get<String>(key) ?: default)
 
@@ -45,11 +44,21 @@ open class VmText(
     val text: String get() = value.text.toString()
     val selection: TextRange get() = TextRange(value.selection.start, value.selection.end)
 
+    private fun launchEdit(modified: String, sel: TextRange? = null) {
+        CoroutineScope(Dispatchers.Main).launch {
+            value.edit {
+                replace(0, length, modified)
+                sel?.let { select { setSelection(it) } } ?: select { setSelection(TextRange(modified.length)) }
+            }
+            ssh[key] = modified
+            onTextSet(modified)
+        }
+    }
+
     fun setText(newText: String) {
         val modified = textModifier(newText)
         if (maxLength == 1 && modified.isNotEmpty()) {
-            val char = modified.last().toString()
-            launchEdit(char)
+            launchEdit(modified.last().toString())
         } else {
             launchEdit(modified)
         }
@@ -64,22 +73,9 @@ open class VmText(
     fun clear() { setText("") }
     fun reset() { setText(default) }
 
-    private fun launchEdit(modified: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            value.edit {
-                replace(0, length, modified)
-                select { setSelection(TextRange(modified.length)) }
-            }
-            ssh[key] = modified
-            onTextSet(modified)
-        }
-    }
-
-    private fun TextRange.constrain(min: Int, max: Int) =
-        TextRange(start.coerceIn(min, max), end.coerceIn(min, max))
-
-    // --- Convenience functions ---
-
+    
+    // Convenience helpers
+    
     fun getSelectedText(): String {
         val sel = selection
         return if (sel.start == sel.end) "" else text.substring(sel.start, sel.end)
@@ -88,21 +84,20 @@ open class VmText(
     fun insertAtCursor(insert: String) {
         val sel = selection
         val newText = text.substring(0, sel.start) + insert + text.substring(sel.end)
-        setText(newText)
-        setSelection(TextRange(sel.start + insert.length))
+        launchEdit(newText, TextRange(sel.start + insert.length))
     }
 
     fun deleteSelection() {
         val sel = selection
         if (sel.start == sel.end) return
-        setText(text.removeRange(sel.start, sel.end))
-        setSelection(TextRange(sel.start))
+        val newText = text.removeRange(sel.start, sel.end)
+        launchEdit(newText, TextRange(sel.start))
     }
 
-    fun moveCursorToStart() { setSelection(TextRange(0)) }
-    fun moveCursorToEnd() { setSelection(TextRange(text.length)) }
-    fun selectAll() { setSelection(TextRange(0, text.length)) }
-    fun unselect() { setSelection(TextRange(selection.end)) }
+    fun moveCursorToStart() = setSelection(TextRange(0))
+    fun moveCursorToEnd() = setSelection(TextRange(text.length))
+    fun selectAll() = setSelection(TextRange(0, text.length))
+    fun unselect() = setSelection(TextRange(selection.end))
 
     // Word navigation
     fun moveCursorToWordStart() {
