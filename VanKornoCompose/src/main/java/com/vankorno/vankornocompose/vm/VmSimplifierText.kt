@@ -1,40 +1,34 @@
 package com.vankorno.vankornocompose.vm
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vankorno.vankornohelpers.normalizeNewlines
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.selects.select
 
-open class VmText(                                             private val ssh: SavedStateHandle,
-                                                               private val key: String,
-                                                           private val default: String = "",
-                                                                 val maxLength: Int? = null,
-                                                          private val maxLines: Int? = null,
-                                                         private val onTextSet: (String)->Unit = {},
+open class VmText(
+    private val ssh: SavedStateHandle,
+    private val key: String,
+    private val default: String = "",
+    val maxLength: Int? = null,
+    private val maxLines: Int? = null,
+    private val onTextSet: (String) -> Unit = {},
 ) {
-    private val _text = MutableStateFlow(ssh.get<String>(key) ?: default)
-    
-    private val _selection = MutableStateFlow(TextRange(_text.value.length))
-    
+    val value = TextFieldState(initialText = ssh.get<String>(key) ?: default)
+
     val hasFocus = VmVal(false)
     val focusRequest = VmEvent()
     val clearFocusRequest = VmEvent()
-    
+
     fun requestFocus() { focusRequest.fire() }
     fun clearFocus() { clearFocusRequest.fire() }
-    
-    
-    protected open val additionalTextModifier: (String)->String = { it }
-    
-    
-    protected fun textModifier(                                                    input: String
-    ): String {
+
+    protected open val additionalTextModifier: (String) -> String = { it }
+
+    protected fun textModifier(input: String): String {
         var t = input.normalizeNewlines()
         maxLines?.let { lines ->
             if (lines > 0) {
@@ -47,141 +41,95 @@ open class VmText(                                             private val ssh: 
         }
         return additionalTextModifier(t)
     }
-    
-    var value: TextFieldValue
-        get() = TextFieldValue(text, selection)
-        set(new) = updateFrom(new)
-    
-    var text: String
-        get() = _text.value
-        set(new) {
-            val modified = textModifier(new)
-            _text.value = modified
-            ssh[key] = modified
-            _selection.value = _selection.value.constrain(0, modified.length)
-            onTextSet.invoke(modified)
-        }
-    
-    var selection: TextRange
-        get() = _selection.value
-        set(range) {
-            _selection.value = range.constrain(0, _text.value.length)
-        }
-    
-    fun clear() {
-        text = ""
-    }
-    
-    fun reset() {
-        text = default
-    }
-    
-    private fun updateFrom(                                                     new: TextFieldValue
-    ) {
-        if (maxLength == 1) {
-            val oldText = text
-            val insertedIndex = new.selection.start - 1
-            val insertedChar = new.text.getOrNull(insertedIndex)
-            
-            if (insertedChar != null) {
-                text = insertedChar.toString()
-                selection = TextRange(1)
-            } else {
-                text = oldText
-                selection = TextRange(oldText.length)
+
+    val text: String get() = value.text.toString()
+    val selection: TextRange get() = TextRange(value.selection.start, value.selection.end)
+
+    fun setText(newText: String) {
+        val modified = textModifier(newText)
+        CoroutineScope(Dispatchers.Main).launch {
+            value.edit {
+                replace(0, length, modified)
+                select { setSelection(TextRange(modified.length)) }
             }
-            return
+            ssh[key] = modified
+            onTextSet(modified)
         }
-        text = new.text
-        selection = new.selection
     }
-    
-    @Composable
-    fun textState(): State<String> = _text.collectAsStateWithLifecycle()
-    
-    @Composable
-    fun selectionState(): State<TextRange> = _selection.collectAsStateWithLifecycle()
-    
-    @Composable
-    fun state(): State<TextFieldValue> {
-        val t by textState()
-        val s by selectionState()
-        return remember(t, s) { androidx.compose.runtime.mutableStateOf(TextFieldValue(t, s)) }
+
+    fun setSelection(range: TextRange) {
+        CoroutineScope(Dispatchers.Main).launch {
+            value.edit {
+                select { setSelection(range) }
+            }
+        }
     }
-    
-    private fun TextRange.constrain(min: Int, max: Int) = TextRange(start.coerceIn(min, max), end.coerceIn(min, max))
-    
-    
-    
-    //    C O N V E N I E N C E
-    
-    
+
+    fun clear() { setText("") }
+    fun reset() { setText(default) }
+
+    private fun TextRange.constrain(min: Int, max: Int) =
+        TextRange(start.coerceIn(min, max), end.coerceIn(min, max))
+
+
+    // --- Convenience functions ---
+
     fun getSelectedText(): String {
         val sel = selection
-        return if (sel.start == sel.end)
-                    ""
-               else
-                   text.substring(sel.start, sel.end)
+        return if (sel.start == sel.end) "" else text.substring(sel.start, sel.end)
     }
-    
-    // Insert text at cursor / replace selection
-    fun insertAtCursor(                                                           insert: String
-    ) {
+
+    fun insertAtCursor(insert: String) {
         val sel = selection
         val newText = text.substring(0, sel.start) + insert + text.substring(sel.end)
-        text = newText
-        selection = TextRange(sel.start + insert.length)
+        setText(newText)
+        setSelection(TextRange(sel.start + insert.length))
     }
-    
-    fun moveCursorToStart() { selection = TextRange(0) }
-    fun moveCursorToEnd() { selection = TextRange(text.length) }
-    
-    fun selectAll() { selection = TextRange(0, text.length) }
-    fun unselect() { selection = TextRange(selection.end) }
-    
+
     fun deleteSelection() {
         val sel = selection
         if (sel.start == sel.end) return
-        text = text.removeRange(sel.start, sel.end)
-        selection = TextRange(sel.start)
+        setText(text.removeRange(sel.start, sel.end))
+        setSelection(TextRange(sel.start))
     }
-    
-    
+
+    fun moveCursorToStart() { setSelection(TextRange(0)) }
+    fun moveCursorToEnd() { setSelection(TextRange(text.length)) }
+    fun selectAll() { setSelection(TextRange(0, text.length)) }
+    fun unselect() { setSelection(TextRange(selection.end)) }
+
     // Word navigation
-    
     fun moveCursorToWordStart() {
         val idx = text.lastIndexOf(' ', selection.start - 1).let { if (it < 0) 0 else it + 1 }
-        selection = TextRange(idx)
+        setSelection(TextRange(idx))
     }
-    
+
     fun moveCursorToWordEnd() {
         val idx = text.indexOf(' ', selection.end).let { if (it < 0) text.length else it }
-        selection = TextRange(idx)
+        setSelection(TextRange(idx))
     }
-    
+
     fun selectWordAtCursor() {
         val start = text.lastIndexOf(' ', selection.start - 1).let { if (it < 0) 0 else it + 1 }
         val end = text.indexOf(' ', selection.end).let { if (it < 0) text.length else it }
-        selection = TextRange(start, end)
+        setSelection(TextRange(start, end))
     }
-    
-    
+
     // Line/paragraph navigation
-    
     fun moveCursorToLineStart() {
         val idx = text.lastIndexOf('\n', selection.start - 1).let { if (it < 0) 0 else it + 1 }
-        selection = TextRange(idx)
+        setSelection(TextRange(idx))
     }
-    
+
     fun moveCursorToLineEnd() {
         val idx = text.indexOf('\n', selection.end).let { if (it < 0) text.length else it }
-        selection = TextRange(idx)
+        setSelection(TextRange(idx))
     }
-    
+
     fun selectLineAtCursor() {
         val start = text.lastIndexOf('\n', selection.start - 1).let { if (it < 0) 0 else it + 1 }
         val end = text.indexOf('\n', selection.end).let { if (it < 0) text.length else it }
-        selection = TextRange(start, end)
+        setSelection(TextRange(start, end))
     }
 }
 
