@@ -76,8 +76,22 @@ open class VmText(                                             private val ssh: 
         text = default
     }
     
-    open fun updateFrom(                                                        new: TextFieldValue
+    private fun updateFrom(                                                     new: TextFieldValue
     ) {
+        if (maxLength == 1) {
+            val oldText = text
+            val insertedIndex = new.selection.start - 1
+            val insertedChar = new.text.getOrNull(insertedIndex)
+            
+            if (insertedChar != null) {
+                text = insertedChar.toString()
+                selection = TextRange(1)
+            } else {
+                text = oldText
+                selection = TextRange(oldText.length)
+            }
+            return
+        }
         text = new.text
         selection = new.selection
     }

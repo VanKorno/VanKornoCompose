@@ -1,7 +1,5 @@
 package com.vankorno.vankornocompose.vm
 
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import com.vankorno.vankornohelpers.toNoNullInt
 import com.vankorno.vankornohelpers.toNoNullLong
@@ -29,30 +27,6 @@ class VmTextNum(                                                           ssh: 
     fun clamp() {
         val n = asInt().coerceIn(min ?: Int.MIN_VALUE, max ?: Int.MAX_VALUE)
         text = n.toNoZeroStr()
-    }
-    
-    
-    override fun updateFrom(                                                    new: TextFieldValue
-    ) {
-        if (this@VmTextNum.maxLength == 1) {
-            val oldText = text
-            val insertedIndex = new.selection.start - 1
-            val insertedChar = new.text.getOrNull(insertedIndex)
-            
-            if (insertedChar != null && insertedChar.isDigit()) {
-                // Replace entire value with typed digit
-                super.text = insertedChar.toString()
-                super.selection = TextRange(1)
-            } else {
-                // Non-digit typed → keep old value, restore cursor
-                super.text = oldText
-                super.selection = TextRange(oldText.length)
-            }
-            return
-        }
-        
-        // Normal behavior for maxSize > 1
-        super.updateFrom(new)
     }
 }
 

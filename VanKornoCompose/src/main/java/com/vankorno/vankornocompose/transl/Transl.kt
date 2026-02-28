@@ -3,11 +3,13 @@ package com.vankorno.vankornocompose.transl
 import com.vankorno.vankornocompose.values.LibGlobals2.language
 import com.vankorno.vankornohelpers.values.LibLangConst.ENG
 
+typealias Transl = Lazy<Map<String, Lazy<String>>>
+
 /**
  * Only need to pass lang from the Flow on the same screen where the language picker is.
  */
-fun translate(                                              transl: Lazy<Map<String, Lazy<String>>>,
-                                                              lang: String = language.value,
+fun translate(                                                      transl: Transl,
+                                                                      lang: String = language.value,
 ): String {
     val actualLang = TranslUtil().getActuallyUsedLang(lang)
     return defaultToEng(transl.value, actualLang)
