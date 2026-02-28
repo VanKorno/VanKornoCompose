@@ -13,11 +13,10 @@ import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.vm.VmTextNum
 
 
-// LibTextFieldNumSmaller
 @Composable
 fun WhiteNumFieldSmall(                                                 vmText: VmTextNum,
-                                                                        center: Boolean,
                                                                       modifier: Modifier = Modifier,
+                                                                        center: Boolean = true,
                                                                 canHaveOneZero: Boolean = false,
 ) {
     WhiteNumField(
