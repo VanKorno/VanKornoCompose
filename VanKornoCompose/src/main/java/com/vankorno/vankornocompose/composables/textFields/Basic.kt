@@ -35,30 +35,28 @@ fun LibBasicTextField(                     vmText: VmText,
                                  contentAlignment: Alignment = Alignment.CenterStart,
                                           enabled: Boolean = true,
                                          readOnly: Boolean = false,
+                                   lineQuantRange: IntRange = 1..Int.MAX_VALUE,
                                         textStyle: TextStyle = TextStyle.Default,
+                                             hint: String = "",
                                   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
                                   keyboardActions: KeyboardActions = KeyboardActions.Default,
-                                       singleLine: Boolean = false,
                              visualTransformation: VisualTransformation = VisualTransformation.None,
-                                     onTextLayout: (TextLayoutResult)->Unit = {},
-                                interactionSource: MutableInteractionSource? = null,
                                       cursorBrush: Brush = SolidColor(Color.Black),
                               enableFocusHandling: Boolean = true,
                                     normalizeText: (String)->String = { it },
-                           wrapSelectionContainer: Boolean = true,
-                                         maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
-                                         minLines: Int = 1,
-                                             hint: String = "",
+                                interactionSource: MutableInteractionSource? = null,
                                        decorModif: Modifier = MOD_StandardTextField,
-                                            decor: @Composable BoxScope.()->Unit = {  },
+                           wrapSelectionContainer: Boolean = true,
+                                     onTextLayout: (TextLayoutResult)->Unit = {},
+                                            decor: @Composable BoxScope.()->Unit = {},
 ) {
     val value by vmText.state()
-
+    
     val requester = remember { FocusRequester() }
-
+    
     vmText.focusRequest.collect { requester.requestFocus() }
     vmText.clearFocusRequest.collect { requester.freeFocus() }
-
+    
     val combinedModifier = modifier.applyIf(enableFocusHandling) {
         focusRequester(requester)
             .onFocusChanged {
@@ -71,7 +69,7 @@ fun LibBasicTextField(                     vmText: VmText,
                 }
             }
     }
-
+    
     val textFieldContent: @Composable ()->Unit = {
         BasicTextField(
             value = value,
@@ -82,9 +80,9 @@ fun LibBasicTextField(                     vmText: VmText,
             textStyle = textStyle,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
-            singleLine = singleLine,
-            maxLines = maxLines,
-            minLines = minLines,
+            singleLine = lineQuantRange.first == 1 && lineQuantRange.last == 1,
+            minLines = lineQuantRange.first,
+            maxLines = lineQuantRange.last,
             visualTransformation = visualTransformation,
             onTextLayout = onTextLayout,
             interactionSource = interactionSource ?: remember { MutableInteractionSource() },
@@ -104,9 +102,11 @@ fun LibBasicTextField(                     vmText: VmText,
             }
         )
     }
-
-    if (wrapSelectionContainer) SelectionContainer { textFieldContent() }
-    else textFieldContent()
+    
+    if (wrapSelectionContainer)
+        SelectionContainer { textFieldContent() }
+    else
+        textFieldContent()
 }
 
 

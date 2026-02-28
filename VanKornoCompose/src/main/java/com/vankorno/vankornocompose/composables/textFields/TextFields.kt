@@ -15,14 +15,32 @@ import com.vankorno.vankornocompose.sp1
 import com.vankorno.vankornocompose.values.MOD_MaxW
 import com.vankorno.vankornocompose.vm.VmText
 
-
 @Composable
-fun LibTextField(                                                       vmText: VmText,
+fun LibWhiteTextField(                                                  vmText: VmText,
                                                                         center: Boolean,
                                                                       modifier: Modifier = MOD_MaxW,
                                                                       fontSize: TextUnit = 26.sp1(),
                                                                     capitalize: Boolean = true,
                                                                    autoCorrect: Boolean = true,
+) = LibWhiteMultilineField(
+    vmText = vmText,
+    center = center,
+    modifier = modifier,
+    fontSize = fontSize,
+    lineQuantRange = 1..1,
+    capitalize = capitalize,
+    autoCorrect = autoCorrect
+)
+
+
+@Composable
+fun LibWhiteMultilineField(                                     vmText: VmText,
+                                                                center: Boolean,
+                                                              modifier: Modifier = MOD_MaxW,
+                                                              fontSize: TextUnit = 26.sp1(),
+                                                        lineQuantRange: IntRange = 1..Int.MAX_VALUE,
+                                                            capitalize: Boolean = true,
+                                                           autoCorrect: Boolean = true,
 ) {
     LibBasicTextField(
         vmText = vmText,
@@ -34,7 +52,7 @@ fun LibTextField(                                                       vmText: 
             fontWeight = FontWeight.Bold,
             textAlign = if (center)  TextAlign.Center  else  TextAlign.Start
         ),
-        singleLine = true,
+        lineQuantRange = lineQuantRange,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             capitalization = if (capitalize) KeyboardCapitalization.Sentences else KeyboardCapitalization.None,
@@ -44,20 +62,6 @@ fun LibTextField(                                                       vmText: 
 }
 
 
-
-
-@Composable
-fun LibTextFieldLong(                                                   vmText: VmText,
-                                                                      modifier: Modifier = MOD_MaxW,
-                                                                      fontSize: TextUnit = 26.sp1(),
-) = LibTextField(
-        vmText = vmText,
-        center = false,
-        modifier = modifier,
-        fontSize = fontSize,
-        capitalize = true,
-        autoCorrect = true,
-)
 
 
 
