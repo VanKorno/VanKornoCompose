@@ -4,8 +4,12 @@ import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.placeCursorAtEnd
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.text.TextRange
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vankorno.vankornohelpers.normalizeNewlines
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -182,4 +186,14 @@ open class VmText(                                             private val ssh: 
         val end = text.indexOf('\n', selection.end).let { if (it < 0) text.length else it }
         selection = TextRange(start, end)
     }
+    
+    
+    @Composable
+    fun textState(): State<String> = snapshotFlow { value.text.toString() }
+        .collectAsStateWithLifecycle(initialValue = value.text.toString())
+    
+    @Composable
+    fun selectionState(): State<TextRange> = snapshotFlow { value.selection }
+        .collectAsStateWithLifecycle(initialValue = value.selection)
+    
 }
