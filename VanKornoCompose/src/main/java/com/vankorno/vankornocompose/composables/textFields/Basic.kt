@@ -81,7 +81,7 @@ fun LibBasicTextField(
                     vmText.hasFocus.value = it.isFocused
                     if (!it.isFocused) {
                         val normalized = normalizeText(vmText.text)
-                        if (normalized != vmText.text) vmText.setText(normalized)
+                        if (normalized != vmText.text) vmText.text = normalized
                     }
                 } else Modifier
             ),
@@ -94,6 +94,8 @@ fun LibBasicTextField(
             onTextLayout = { getResult -> getResult()?.let { onTextLayout(it) } },
             interactionSource = interactionSource,
             cursorBrush = cursorBrush,
+            inputTransformation = vmText.inputTransform,
+            outputTransformation = vmText.outputTransform,
             decorator = { inner ->
                 Box(
                     modifier = decorModif,

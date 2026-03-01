@@ -49,7 +49,7 @@ class VmTextUrl(                                                           ssh: 
     ) {
         if (text.isEmpty()) return
         if (!text.startsWith(HTTP_START) && !text.startsWith(HTTPS_START)) {
-            setText(defaultScheme + text)
+            text = defaultScheme + text
         }
     }
     
