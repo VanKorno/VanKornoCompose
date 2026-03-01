@@ -8,6 +8,8 @@ import com.vankorno.vankornocompose.vm.VmTextNum
 class VmMain(                                                                 ssh: SavedStateHandle
 ) : ViewModel() {
     
+    val inputSingleLine = VmText(ssh, "inputSingleLine")
+    
     val input1 = VmText(ssh, "input1")
     
     val inputNum1 = VmTextNum(ssh, "inputNum1")
