@@ -2,6 +2,7 @@ package com.vankorno.vankornocompose.db.miscTable
 
 import android.database.sqlite.SQLiteDatabase
 import android.os.Parcelable
+import com.vankorno.vankornocompose.db.LibDbVals._TTTMisc
 import com.vankorno.vankornodb.add.addObj
 import com.vankorno.vankornodb.api.CurrEntity
 import com.vankorno.vankornodb.api.EntityColumns

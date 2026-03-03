@@ -16,6 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
+import com.vankorno.vankornocompose.db.LibDbVals.TTTMisc
+import com.vankorno.vankornocompose.launcher.LibAppLauncher.beforeFirstLaunch
+import com.vankorno.vankornocompose.launcher.LibAppLauncher.beforeNotFirstLaunch
 import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.navig.PopupOFF
 import com.vankorno.vankornocompose.theme_main.LibColor
@@ -25,6 +28,7 @@ import com.vankorno.vankornocompose.values.exitApp
 import com.vankorno.vankornocompose.values.popupOFF
 import com.vankorno.vankornocompose.values.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
+import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.clipboard.LibClipboard
 import com.vankorno.vankornohelpers.dLog
@@ -32,6 +36,7 @@ import com.vankorno.vankornohelpers.values.LibColors.PlainBlack
 import com.vankorno.vankornohelpers.values.LibGlobals.actExists
 import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
+import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
 import com.vankorno.vankornohelpers.values.LibGlobals.configChangeJustHappened
 import com.vankorno.vankornohelpers.values.getClipboard
 import com.vankorno.vankornohelpers.values.hideKeyboard
@@ -86,6 +91,8 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     protected open fun beforeStartup() {}
     
     protected open fun startupFirstLaunch() {}
+    protected open fun startupNotFirstLaunch() {}
+    protected open fun startupLaunch() {}
     protected open fun startupConfigChange() {}
     protected open fun startupAfterProcessDeath() {}
     
@@ -97,7 +104,16 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
                 // region LOG
                     dLog(TAG, "startup(): Full startup logic runs...")
                 // endregion
-                startupFirstLaunch()
+                val miscTableExists = dbh.tableExists(TTTMisc)
+                
+                if (!miscTableExists) {
+                    beforeFirstLaunch()
+                    startupFirstLaunch()
+                } else {
+                    beforeNotFirstLaunch()
+                    startupNotFirstLaunch()
+                }
+                startupLaunch()
             }
             configChangeJustHappened -> {
                 // region LOG
@@ -113,6 +129,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
             }
         }
         configChangeJustHappened = false // Just in case
+        appStarted = true
     }
     protected open fun afterStartup() {}
     
