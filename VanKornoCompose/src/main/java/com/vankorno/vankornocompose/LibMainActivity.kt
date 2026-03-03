@@ -93,8 +93,13 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     protected open fun startupFirstLaunch() {}
     protected open fun startupNotFirstLaunch() {}
     protected open fun startupLaunch() {}
+    
     protected open fun startupConfigChange() {}
-    protected open fun startupAfterProcessDeath() {}
+    
+    protected open fun startupAfterProcessDeath() {
+        startupNotFirstLaunch()
+        startupLaunch()
+    }
     
     
     private fun startup(                                              savedInstanceState: Bundle?
@@ -108,11 +113,20 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
                 
                 if (!miscTableExists) {
                     beforeFirstLaunch()
+                    // region LOG
+                        dLog(TAG, "startupFirstLaunch()")
+                    // endregion
                     startupFirstLaunch()
                 } else {
                     beforeNotFirstLaunch()
+                    // region LOG
+                        dLog(TAG, "startupFirstLaunch()")
+                    // endregion
                     startupNotFirstLaunch()
                 }
+                // region LOG
+                    dLog(TAG, "startupLaunch()")
+                // endregion
                 startupLaunch()
             }
             configChangeJustHappened -> {
@@ -151,10 +165,16 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     private fun initLibLambdas() {
         minimizeApp = {
+            // region LOG
+                dLog(TAG, "minimizeApp()")
+            // endregion
             doBeforeMinimizingApp()
             finishAffinity()
         }
         exitApp = {
+            // region LOG
+                dLog(TAG, "exitApp()")
+            // endregion
             doBeforeForceExit()
             finishAndRemoveTask()
         }

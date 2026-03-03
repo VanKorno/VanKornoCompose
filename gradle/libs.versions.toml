@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.1"
+agp = "9.1.0"
 kotlin = "2.3.10"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -11,7 +11,7 @@ composeBom = "2026.02.01"
 constraintlayoutCompose = "1.1.1"
 kotlinxCoroutines = "1.10.2"
 testManifest = "1.10.4"
-vankornoHelpers = "2.87"
+vankornoHelpers = "2.89"
 vankornoDB = "0.202"
 
 
