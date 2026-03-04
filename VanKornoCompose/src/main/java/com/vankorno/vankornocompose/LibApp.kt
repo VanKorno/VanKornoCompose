@@ -5,6 +5,8 @@ import android.content.pm.ApplicationInfo
 import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
+import com.vankorno.vankornocompose.values.internal.DummyEntityMeta
+import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
@@ -17,7 +19,14 @@ abstract class LibApp(                                   val soundsToInit: Array
 ) : Application() {
     
     protected open fun doOnCreate() {}
-    protected open fun dbInit() {}
+    protected open fun dbInit() {
+        dbh = DbHelper(
+            context = this,
+            dbName = ":memory:",
+            dbVersion = 1,
+            entityMeta = DummyEntityMeta.entries,
+        )
+    }
     
     protected abstract fun onGoTo(scr: Screen)
     protected abstract fun onGoBack()
