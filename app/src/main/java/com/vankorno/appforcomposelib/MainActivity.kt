@@ -11,7 +11,7 @@ class MainActivity : LibMainActivity() {
     override fun AppUI() { MyUI() }
     
     override fun beforeStartup() {
-        vm.init(this, application)
+        vm.init(this)
     }
     
     
