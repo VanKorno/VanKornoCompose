@@ -10,6 +10,7 @@ import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
+import com.vankorno.vankornohelpers.eLog
 import com.vankorno.vankornohelpers.values.LibGlobals.debugBuild
 import com.vankorno.vankornohelpers.values.playSound
 
@@ -57,7 +58,18 @@ abstract class LibApp(                                   val soundsToInit: Array
     
     private fun soundInit() {
         soundPoolHelper = LibSoundPool(this, soundsToInit)
-        playSound = { soundPoolHelper.playSound(it, this) }
+        
+        playSound = { sound ->
+            // region LOG
+            try {
+                dLog("playSound", "play req = $sound  name=" + this.resources.getResourceName(sound))
+            }
+            catch (e: Exception) {
+                eLog("playSound", "invalid sound id = $sound")
+            }
+            // endregion
+            soundPoolHelper.playSound(sound, this)
+        }
     }
     
     
