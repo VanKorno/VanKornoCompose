@@ -83,6 +83,8 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
                 AppUI()
             }
         }
+        
+        afterCompose()
     }
     
     @Composable
@@ -146,6 +148,8 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         appStarted = true
     }
     protected open fun afterStartup() {}
+    
+    protected open fun afterCompose() {}
     
     
     protected open fun doOnPause() {}
