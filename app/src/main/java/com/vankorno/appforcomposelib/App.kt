@@ -1,4 +1,4 @@
-package com.vankorno.appforcomposelib.AppStart
+package com.vankorno.appforcomposelib
 
 import com.vankorno.appforcomposelib._entities.DbNAME
 import com.vankorno.appforcomposelib._entities.DbVersion
