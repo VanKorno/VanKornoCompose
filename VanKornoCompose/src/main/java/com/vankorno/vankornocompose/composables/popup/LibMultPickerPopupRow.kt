@@ -16,8 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.vankorno.vankornocompose.sp1
+import com.vankorno.vankornocompose.values.LibLambdas2.popupOFF
 import com.vankorno.vankornocompose.values.MOD_MaxW
-import com.vankorno.vankornocompose.values.popupOFF
 import com.vankorno.vankornohelpers.LibUI
 
 @Composable

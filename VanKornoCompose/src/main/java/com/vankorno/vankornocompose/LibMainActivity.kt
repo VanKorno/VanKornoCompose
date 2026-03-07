@@ -24,9 +24,9 @@ import com.vankorno.vankornocompose.navig.PopupOFF
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
-import com.vankorno.vankornocompose.values.exitApp
-import com.vankorno.vankornocompose.values.popupOFF
-import com.vankorno.vankornocompose.values.popupON
+import com.vankorno.vankornocompose.values.LibLambdas2.exitApp
+import com.vankorno.vankornocompose.values.LibLambdas2.popupOFF
+import com.vankorno.vankornocompose.values.LibLambdas2.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornohelpers.LibMisc
@@ -38,12 +38,12 @@ import com.vankorno.vankornohelpers.values.LibGlobals.actPaused
 import com.vankorno.vankornohelpers.values.LibGlobals.actRunning
 import com.vankorno.vankornohelpers.values.LibGlobals.appStarted
 import com.vankorno.vankornohelpers.values.LibGlobals.configChangeJustHappened
-import com.vankorno.vankornohelpers.values.getClipboard
-import com.vankorno.vankornohelpers.values.hideKeyboard
-import com.vankorno.vankornohelpers.values.longToast
-import com.vankorno.vankornohelpers.values.minimizeApp
-import com.vankorno.vankornohelpers.values.setClipboard
-import com.vankorno.vankornohelpers.values.shortToast
+import com.vankorno.vankornohelpers.values.LibLambdas.getClipboard
+import com.vankorno.vankornohelpers.values.LibLambdas.hideKeyboard
+import com.vankorno.vankornohelpers.values.LibLambdas.longToast
+import com.vankorno.vankornohelpers.values.LibLambdas.minimizeApp
+import com.vankorno.vankornohelpers.values.LibLambdas.setClipboard
+import com.vankorno.vankornohelpers.values.LibLambdas.shortToast
 
 private const val TAG = "MAIN Act."
 

@@ -4,7 +4,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import com.vankorno.vankornohelpers.values.getClipboard
+import com.vankorno.vankornohelpers.values.LibLambdas.getClipboard
 
 @Composable
 fun rememberClipboardText(): State<String> {

@@ -29,7 +29,7 @@ import com.vankorno.vankornocompose.dp5
 import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.MOD_W90
-import com.vankorno.vankornohelpers.values.hideKeyboard
+import com.vankorno.vankornohelpers.values.LibLambdas.hideKeyboard
 
 
 @Composable

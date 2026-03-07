@@ -23,9 +23,9 @@ import com.vankorno.vankornocompose.values.LocalScrType
 import com.vankorno.vankornocompose.values.LocalScreen
 import com.vankorno.vankornocompose.values.MOD_MaxSize
 import com.vankorno.vankornocompose.vm.state
-import com.vankorno.vankornohelpers.values.clearFocus
-import com.vankorno.vankornohelpers.values.hideKeyboard
-import com.vankorno.vankornohelpers.values.showKeyboard
+import com.vankorno.vankornohelpers.values.LibLambdas.clearFocus
+import com.vankorno.vankornohelpers.values.LibLambdas.hideKeyboard
+import com.vankorno.vankornohelpers.values.LibLambdas.showKeyboard
 
 
 @Composable

@@ -40,7 +40,7 @@ import com.vankorno.vankornocompose.values.LocalScrType
 import com.vankorno.vankornohelpers.values.LibColors.BlackT30
 import com.vankorno.vankornohelpers.values.LibColors.GreyText
 import com.vankorno.vankornohelpers.values.LibColors.PlainBlack
-import com.vankorno.vankornohelpers.values.getClipboard
+import com.vankorno.vankornohelpers.values.LibLambdas.getClipboard
 
 val RoundBtnBorderW = 3.dp
 val SmallRoundBtnBorderW = 2.dp

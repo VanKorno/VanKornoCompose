@@ -12,7 +12,7 @@ import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.eLog
 import com.vankorno.vankornohelpers.values.LibGlobals.debugBuild
-import com.vankorno.vankornohelpers.values.playSound
+import com.vankorno.vankornohelpers.values.LibLambdas.playSound
 
 private const val TAG = "LibApp"
 
