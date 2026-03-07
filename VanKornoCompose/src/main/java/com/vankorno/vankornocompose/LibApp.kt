@@ -8,6 +8,7 @@ import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
 import com.vankorno.vankornocompose.values.internal.DummyEntityMeta
 import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
+import com.vankorno.vankornodb.core.data.DbConstants.InMemoryDB
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibGlobals.debugBuild
@@ -22,7 +23,7 @@ abstract class LibApp(                                   val soundsToInit: Array
     protected open fun dbInit() {
         dbh = DbHelper(
             context = this,
-            dbName = ":memory:",
+            dbName = InMemoryDB,
             dbVersion = 1,
             entityMeta = DummyEntityMeta.entries,
         )
