@@ -1,5 +1,6 @@
 package com.vankorno.vankornocompose.fileOps
 
+import android.R.attr.name
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
@@ -42,12 +43,12 @@ object LibFileOps {
     
     
     fun fileExists(                                                              dirName: String,
-                                                                                    name: String,
+                                                                                fileName: String,
     ): Boolean {
         // region LOG
-            dLog(TAG, "fileExists(dirName = $dirName, name = $name")
+            dLog(TAG, "fileExists(dirName = $dirName, name = $fileName")
         // endregion
-        return File(getDirInstance(dirName), name).exists()
+        return File(getDirInstance(dirName), fileName).exists()
     }
     
     fun fileExists(                                                                 file: File
@@ -88,16 +89,16 @@ object LibFileOps {
     
     
     fun deleteFile(                                                              dirName: String,
-                                                                                    name: String,
+                                                                                fileName: String,
     ): Boolean {
         // region LOG
-            dLog(TAG, "deleteFile(dirName = $dirName, name = $name")
+            dLog(TAG, "deleteFile(dirName = $dirName, name = $fileName")
         // endregion
-        val file = File(getDirInstance(dirName), name)
+        val file = File(getDirInstance(dirName), fileName)
         val deleted = file.exists() && file.delete()
         if (!deleted) {
             // region LOG
-                wLog(TAG, "deleteFile() failed for $name")
+                wLog(TAG, "deleteFile() failed for $fileName")
             // endregion
         }
         return deleted
@@ -138,43 +139,45 @@ object LibFileOps {
     
     
     fun writeTextToFile(                                                         dirName: String,
-                                                                                    name: String,
+                                                                                fileName: String,
                                                                                     text: String,
     ): String {
         // region LOG
-            dLog(TAG, "writeTextToFile(dirName = $dirName, name = $name")
+            dLog(TAG, "writeTextToFile(dirName = $dirName, name = $fileName")
         // endregion
-        val file = File(getDirInstance(dirName), name)
+        val file = File(getDirInstance(dirName), fileName)
         file.writeText(text)
-        return "$dirName/$name"
+        return "$dirName/$fileName"
     }
     
     
     fun readTextFromFile(                                                        dirName: String,
-                                                                                    name: String,
+                                                                                fileName: String,
     ): String? {
         // region LOG
-            dLog(TAG, "readTextFromFile(dirName = $dirName, name = $name)")
+            dLog(TAG, "readTextFromFile(dirName = $dirName, name = $fileName)")
         // endregion
         return try {
-            File(getDirInstance(dirName), name).readText()
+            File(getDirInstance(dirName), fileName).readText()
         } catch (e: Exception) {
             // region LOG
-                eLog(TAG, "readTextFromFile() failed for $name", e)
+                eLog(TAG, "readTextFromFile() failed for $fileName", e)
             // endregion
             null
         }
     }
     
     
-    fun saveFileFromUri(                                                         dirName: String,
-                                                                                     uri: Uri,
-                                                                                    name: String,
+    fun saveFileFromUri(                                                  dirName: String,
+                                                                              uri: Uri,
+                                                                           prefix: String = "file",
     ): String? {
         // region LOG
             dLog(TAG, "saveFileFromUri(dirName = $dirName, name = $name)")
         // endregion
-        val file = File(getDirInstance(dirName), name)
+        val ext = getExtensionFromUri(uri) ?: "bin"
+        val fileName = generateUniqueFilename(prefix, ext)
+        val file = File(getDirInstance(dirName), fileName)
         
         return try {
             appContext.contentResolver.openInputStream(uri)?.use { input ->
@@ -183,18 +186,26 @@ object LibFileOps {
                 }
             } ?: run {
                 // region LOG
-                    eLog(TAG, "saveFileFromUri(): input stream is null for $name")
+                    eLog(TAG, "saveFileFromUri(): input stream is null for $fileName")
                 // endregion
                 return null //\/\/\/\/\/\
             }
-            "$dirName/$name"
+            "$dirName/$fileName"
         } catch (e: Exception) {
             // region LOG
-                eLog(TAG, "saveFileFromUri() failed for $name", e)
+                eLog(TAG, "saveFileFromUri() failed for $fileName", e)
             // endregion
             null
         }
     }
+    
+    
+    fun getExtensionFromUri(                                                         uri: Uri
+    ): String? {
+        val type = appContext.contentResolver.getType(uri) ?: return null
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(type)
+    }
+    
     
     fun getMimeType(                                                                path: String
         ): String? {
