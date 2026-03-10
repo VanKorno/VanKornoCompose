@@ -1,8 +1,13 @@
 package com.vankorno.vankornocompose.fileOps
 
 import android.net.Uri
+import android.webkit.MimeTypeMap
+import androidx.core.net.toUri
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
+import com.vankorno.vankornocompose.values.LibGlobals2.lops
 import com.vankorno.vankornohelpers.dLog
+import com.vankorno.vankornohelpers.eLog
+import com.vankorno.vankornohelpers.wLog
 import java.io.File
 import java.io.FileOutputStream
 
@@ -45,6 +50,42 @@ object LibFileOps {
         return File(getDirInstance(dirName), name).exists()
     }
     
+    fun fileExists(                                                                 file: File
+    ): Boolean {
+        // region LOG
+            dLog(TAG, "fileExists(file = ${file.absolutePath})")
+        // endregion
+        return file.exists()
+    }
+    
+    fun fileExists(                                                                 path: String
+    ): Boolean {
+        // region LOG
+            dLog(TAG, "fileExists(path = $path)")
+        // endregion
+        return getFile(path).exists()
+    }
+    
+    
+    fun getFile(                                                                    path: String
+    ): File {
+        // region LOG
+            dLog(TAG, "getFile(path = $path)")
+        // endregion
+        return File(appContext.filesDir, path)
+    }
+    
+    fun getUriForFile(                                                              path: String
+    ): Uri {
+        // region LOG
+            dLog(TAG, "getUriForFile(path = $path)")
+        // endregion
+        return getFile(path).toUri()
+    }
+    
+    fun getAbsolutePath(path: String): String = getFile(path).absolutePath
+    
+    
     
     fun deleteFile(                                                              dirName: String,
                                                                                     name: String,
@@ -53,7 +94,13 @@ object LibFileOps {
             dLog(TAG, "deleteFile(dirName = $dirName, name = $name")
         // endregion
         val file = File(getDirInstance(dirName), name)
-        return file.exists() && file.delete()
+        val deleted = file.exists() && file.delete()
+        if (!deleted) {
+            // region LOG
+                wLog(TAG, "deleteFile() failed for $name")
+            // endregion
+        }
+        return deleted
     }
     
     
@@ -65,7 +112,13 @@ object LibFileOps {
             dLog(TAG, "renameFile(dirName = $dirName, oldName = $oldName, newName = $newName")
         // endregion
         val oldFile = File(getDirInstance(dirName), oldName)
-        if (!oldFile.exists()) return null //\/\/\/\/\/\
+        
+        if (!oldFile.exists()) {
+            // region LOG
+                eLog(TAG, "renameFile(): old file does not exist: $oldName")
+            // endregion
+            return null //\/\/\/\/\/\
+        }
         
         val ext = oldFile.extension
         val newFile = File(
@@ -73,10 +126,14 @@ object LibFileOps {
             if (ext.isBlank()) newName else "$newName.$ext"
         )
         
-        return if (oldFile.renameTo(newFile))
+        return if (oldFile.renameTo(newFile)) {
                     "$dirName/${newFile.name}"
-               else
+                } else {
+                    // region LOG
+                        eLog(TAG, "renameFile(): rename failed for $oldName -> $newName")
+                    // endregion
                     null
+               }
     }
     
     
@@ -102,6 +159,9 @@ object LibFileOps {
         return try {
             File(getDirInstance(dirName), name).readText()
         } catch (e: Exception) {
+            // region LOG
+                eLog(TAG, "readTextFromFile() failed for $name", e)
+            // endregion
             null
         }
     }
@@ -121,14 +181,35 @@ object LibFileOps {
                 FileOutputStream(file).use { out ->
                     input.copyTo(out)
                 }
-            } ?: return null
-            
+            } ?: run {
+                // region LOG
+                    eLog(TAG, "saveFileFromUri(): input stream is null for $name")
+                // endregion
+                return null //\/\/\/\/\/\
+            }
             "$dirName/$name"
         } catch (e: Exception) {
+            // region LOG
+                eLog(TAG, "saveFileFromUri() failed for $name", e)
+            // endregion
             null
         }
     }
     
+    fun getMimeType(                                                                path: String
+        ): String? {
+        val ext = File(path).extension.lowercase()
+        return  if (ext.isBlank())
+                    null
+                else
+                    MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext)
+    }
     
+    
+    fun generateUniqueFilename(                                                   prefix: String,
+                                                                                     ext: String,
+    ): String = lops.get("", "generateUniqueFilename") {
+        "${prefix}__${System.currentTimeMillis()}.$ext"
+    }
     
 }

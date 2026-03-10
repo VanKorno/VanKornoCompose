@@ -1,7 +1,6 @@
 package com.vankorno.vankornocompose.values
 
 import android.content.Context
-import com.vankorno.vankornocompose.fileOps.AppStorage
 import com.vankorno.vankornocompose.ops.BundledOpsRunner
 import com.vankorno.vankornocompose.ops.OpsByRunType
 import com.vankorno.vankornocompose.vm.LibViewModel
@@ -23,8 +22,6 @@ object LibGlobals2 {
     
     var ops = BundledOpsRunner(dbLock)
     var lops = OpsByRunType(dbLock)
-    
-    val appStorage by lazy { AppStorage(appContext) }
     
     
     val language = VmVal(LangAuto) { new ->

@@ -1,90 +1,34 @@
 package com.vankorno.vankornocompose.fileOps.media
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.system.Os.rename
 import androidx.core.graphics.scale
-import com.vankorno.vankornocompose.fileOps.LibFileGetter
-import com.vankorno.vankornocompose.fileOps.generateUniqueFilename
-import com.vankorno.vankornocompose.values.LibGlobals2.appStorage
+import com.vankorno.vankornocompose.fileOps.LibFileOps.generateUniqueFilename
+import com.vankorno.vankornocompose.fileOps.LibFileOps.getFile
+import com.vankorno.vankornocompose.fileOps.LibFileOps.saveFileFromUri
+import com.vankorno.vankornocompose.values.LibGlobals2.appContext
 import com.vankorno.vankornohelpers.SizeWH
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.eLog
 import com.vankorno.vankornohelpers.getRealScreenSizePx
-import java.io.File
 import java.io.FileOutputStream
-import java.nio.file.Files.delete
 
 private const val TAG = "LibPic"
+const val PicFolderName = "user_pics"
+const val PicFileNamePrefix = "pic"
 
-class LibPic(                                             private val context: Context,
-                                                   private val fileNamePrefix: String = "pic",
-                                                    private val picFolderName: String = "user_pics",
-) {
-    private val fileGetter = LibFileGetter(context)
+object LibPic {
     
     fun saveImageFromUri(                                                      uri: Uri,
                                                                          extension: String = "png",
     ): String {
         // region LOG
-            dLog(TAG, "saveImageFromUri()")
+            dLog(TAG, "saveImageFromUri(extension = .$extension)")
         // endregion
-        val filename = generateUniqueFilename(fileNamePrefix, extension)
+        val fileName = generateUniqueFilename(PicFileNamePrefix, extension)
         
-        var result = ""
-        
-        appStorage.pics {
-            result = saveFromUri(uri, filename) ?: ""
-        }
-        return result
-    }
-    
-    
-    
-    fun deleteImage(                                                                path: String
-    ): Boolean {
-        // region LOG
-            dLog(TAG, "deleteImage(path = $path)")
-        // endregion
-        if (path.isBlank()) {
-            // region LOG
-                eLog(TAG, "deleteImage(): path is blank. Returning...")
-            // endregion
-            return false //\/\/\/\/\/\ 
-        }
-        val name = File(path).name
-        
-        var result = false
-        
-        appStorage.pics {
-            result = delete(name)
-        }
-        return result
-    }
-    
-    
-    fun listImageFiles(): List<File> {
-        var paths: List<String> = emptyList()
-        
-        appStorage.pics {
-            paths = getAllFileNames()
-        }
-        return paths.map { fileGetter.getFileInAppStorage(it) }
-    }
-    
-    
-    fun clearAllImages(): Int {
-        // region LOG
-            dLog(TAG, "clearAllImages()")
-        // endregion
-        var count = 0
-        
-        appStorage.pics {
-            count = deleteAll()
-        }
-        return count
+        return saveFileFromUri(PicFolderName, uri, fileName) ?: ""
     }
     
     
@@ -92,7 +36,7 @@ class LibPic(                                             private val context: C
     ): SizeWH? {
         return try {
             val opts = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-            BitmapFactory.decodeFile(fileGetter.getFileInAppStorage(path).absolutePath, opts)
+            BitmapFactory.decodeFile(getFile(path).absolutePath, opts)
             val w = opts.outWidth
             val h = opts.outHeight
             // region LOG
@@ -114,24 +58,9 @@ class LibPic(                                             private val context: C
     }
     
     
-    fun updateImageFromUri(                                                          uri: Uri,
-                                                                                filename: String,
-    ): Boolean {
-        // region LOG
-            dLog(TAG, "updateImageFromUri(filename = $filename)")
-        // endregion
-        var result: String? = null
-        
-        appStorage.pics {
-            result = saveFromUri(uri, filename)
-        }
-        return result != null
-    }
-    
-    
     fun getBitmapFromPath(                                                          path: String
     ): Bitmap? = BitmapFactory.decodeFile(
-        fileGetter.getFileInAppStorage(path).absolutePath
+        getFile(path).absolutePath
     )
     
     
@@ -148,8 +77,8 @@ class LibPic(                                             private val context: C
             Bitmap.CompressFormat.WEBP -> "webp"
             else -> "img"
         }
-        val filename = generateUniqueFilename(fileNamePrefix, extension)
-        val relativePath = "$picFolderName/$filename"
+        val filename = generateUniqueFilename(PicFileNamePrefix, extension)
+        val relativePath = "$PicFolderName/$filename"
         val ok = saveBitmapAt(relativePath, bitmap, format, quality)
         return if (ok) relativePath else ""
     }
@@ -170,7 +99,7 @@ class LibPic(                                             private val context: C
             return false //\/\/\/\/\/\
         }
         return try {
-            val file = fileGetter.getFileInAppStorage(path)
+            val file = getFile(path)
             
             file.parentFile?.mkdirs() /*This ensures that
                 if someone ever passes a path with subdirectories (e.g., "subfolder/my_image.png"),
@@ -190,7 +119,6 @@ class LibPic(                                             private val context: C
             false
         }
     }
-    
     
     
     
@@ -229,7 +157,7 @@ class LibPic(                                             private val context: C
                                                                          longestSideOnly: Boolean,
     ): Pair<Int, Int> {
         val safeFraction = fraction.coerceIn(0.1f, 1f)
-        val screen = getRealScreenSizePx(context)
+        val screen = getRealScreenSizePx(appContext)
         var maxW = (screen.w * safeFraction).toInt()
         var maxH = (screen.h * safeFraction).toInt()
         
@@ -282,40 +210,6 @@ class LibPic(                                             private val context: C
     }
     
     internal data class ResizeBitmapResult(val resized: Boolean, val bitmap: Bitmap)
-    
-    
-    
-    
-    
-    // ------------------------------------  N A M I N G  ------------------------------------ \\
-    
-    fun renameImage(                                                             oldPath: String,
-                                                                                 newName: String,
-    ): String? {
-        // region LOG
-            dLog(TAG, "renameImage(oldPath = $oldPath, newName = $newName)")
-        // endregion
-        if (oldPath.isBlank()) {
-            // region LOG
-                eLog(TAG, "renameImage(): oldPath is blank. Returning null...")
-            // endregion
-            return null //\/\/\/\/\/\
-        } else if (newName.isBlank()) {
-            // region LOG
-                eLog(TAG, "renameImage(): newName is blank. Returning null...")
-            // endregion
-            return null //\/\/\/\/\/\
-        }
-        val oldName = File(oldPath).name
-        
-        var result: String? = null
-        
-        appStorage.pics {
-            result = rename(oldName, newName)
-        }
-        return result
-    }
-    
     
 }
 
