@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.system.Os.rename
 import androidx.core.graphics.scale
 import com.vankorno.vankornocompose.fileOps.LibFileGetter
 import com.vankorno.vankornocompose.fileOps.generateUniqueFilename
@@ -14,6 +15,7 @@ import com.vankorno.vankornohelpers.eLog
 import com.vankorno.vankornohelpers.getRealScreenSizePx
 import java.io.File
 import java.io.FileOutputStream
+import java.nio.file.Files.delete
 
 private const val TAG = "LibPic"
 
@@ -67,7 +69,7 @@ class LibPic(                                             private val context: C
         var paths: List<String> = emptyList()
         
         appStorage.pics {
-            paths = list()
+            paths = getAllFileNames()
         }
         return paths.map { fileGetter.getFileInAppStorage(it) }
     }

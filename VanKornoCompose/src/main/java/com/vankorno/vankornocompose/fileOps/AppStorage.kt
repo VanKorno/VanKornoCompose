@@ -6,8 +6,8 @@ class AppStorage(                                                               
 ) {
     val files = AppFiles(context)
     
-    fun pics(block: FileOps.()->Unit) = files.dir("user_pics", block)
+    fun pics(block: LibFileOps.()->Unit) = files.dir("user_pics", block)
     
-    fun exports(block: FileOps.()->Unit) = files.dir("exports", block)
+    fun exports(block: LibFileOps.()->Unit) = files.dir("exports", block)
     
 }
