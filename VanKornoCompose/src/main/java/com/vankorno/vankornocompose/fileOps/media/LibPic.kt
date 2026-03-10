@@ -15,7 +15,7 @@ import com.vankorno.vankornohelpers.getRealScreenSizePx
 import java.io.FileOutputStream
 
 private const val TAG = "LibPic"
-const val PicFolderName = "user_pics"
+const val PicDirName = "user_pics"
 const val PicFileNamePrefix = "pic"
 
 object LibPic {
@@ -28,7 +28,7 @@ object LibPic {
         // endregion
         val fileName = generateUniqueFilename(PicFileNamePrefix, extension)
         
-        return saveFileFromUri(PicFolderName, uri, fileName) ?: ""
+        return saveFileFromUri(PicDirName, uri, fileName) ?: ""
     }
     
     
@@ -78,7 +78,7 @@ object LibPic {
             else -> "img"
         }
         val filename = generateUniqueFilename(PicFileNamePrefix, extension)
-        val relativePath = "$PicFolderName/$filename"
+        val relativePath = "$PicDirName/$filename"
         val ok = saveBitmapAt(relativePath, bitmap, format, quality)
         return if (ok) relativePath else ""
     }
