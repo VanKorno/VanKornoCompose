@@ -5,9 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.core.graphics.scale
-import com.vankorno.vankornocompose.fileOps.AppStorage
 import com.vankorno.vankornocompose.fileOps.LibFileGetter
 import com.vankorno.vankornocompose.fileOps.generateUniqueFilename
+import com.vankorno.vankornocompose.values.LibGlobals2.appStorage
 import com.vankorno.vankornohelpers.SizeWH
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.eLog
@@ -21,7 +21,6 @@ class LibPic(                                             private val context: C
                                                    private val fileNamePrefix: String = "pic",
                                                     private val picFolderName: String = "user_pics",
 ) {
-    private val storage = AppStorage(context)
     private val fileGetter = LibFileGetter(context)
     
     fun saveImageFromUri(                                                      uri: Uri,
@@ -34,7 +33,7 @@ class LibPic(                                             private val context: C
         
         var result = ""
         
-        storage.pics {
+        appStorage.pics {
             result = saveFromUri(uri, filename) ?: ""
         }
         return result
@@ -57,7 +56,7 @@ class LibPic(                                             private val context: C
         
         var result = false
         
-        storage.pics {
+        appStorage.pics {
             result = delete(name)
         }
         return result
@@ -67,7 +66,7 @@ class LibPic(                                             private val context: C
     fun listImageFiles(): List<File> {
         var paths: List<String> = emptyList()
         
-        storage.pics {
+        appStorage.pics {
             paths = list()
         }
         return paths.map { fileGetter.getFileInAppStorage(it) }
@@ -80,7 +79,7 @@ class LibPic(                                             private val context: C
         // endregion
         var count = 0
         
-        storage.pics {
+        appStorage.pics {
             count = deleteAll()
         }
         return count
@@ -121,7 +120,7 @@ class LibPic(                                             private val context: C
         // endregion
         var result: String? = null
         
-        storage.pics {
+        appStorage.pics {
             result = saveFromUri(uri, filename)
         }
         return result != null
@@ -309,7 +308,7 @@ class LibPic(                                             private val context: C
         
         var result: String? = null
         
-        storage.pics {
+        appStorage.pics {
             result = rename(oldName, newName)
         }
         return result

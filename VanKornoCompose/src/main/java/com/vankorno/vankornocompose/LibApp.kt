@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.navig.Screen
+import com.vankorno.vankornocompose.values.LibGlobals2.appContext
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
 import com.vankorno.vankornocompose.values.internal.DummyEntityMeta
 import com.vankorno.vankornodb.api.DbHelper
@@ -37,6 +38,7 @@ abstract class LibApp(                                   val soundsToInit: Array
     
     override fun onCreate() {
         super.onCreate()
+        appContext = applicationContext
         
         debugBuild = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         
