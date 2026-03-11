@@ -9,6 +9,7 @@ import com.vankorno.vankornocompose._entities.pic.TTTPic
 import com.vankorno.vankornocompose._entities.pic.getPic
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
+import com.vankorno.vankornodb.misc.data.SharedCol.cID
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.getCurrTime
 
@@ -43,7 +44,8 @@ object LibPicDb {
     
     
     
-    fun cleanupPic() {
+    fun cleanupPic(                                            doForEachFileLoser: (Int)->Unit = {}
+    ) {
         // region LOG
             dLog(TAG, "cleanupPic()")
         // endregion
@@ -54,7 +56,32 @@ object LibPicDb {
             Usages less 1
             and { BecameUnused less delLine }
         }
+        handleFileLosers(doForEachFileLoser)
+        
         deleteOrphanPicFiles()
     }
     
+    private fun handleFileLosers(                              doForEachFileLoser: (Int)->Unit = {}
+    ) {
+        val fileLosers = getFileLoserIDs()
+        
+        for (loserId in fileLosers) {
+            doForEachFileLoser(loserId)
+        }
+        dbh.deleteRows(TTTPic) {
+            cID less 0 // just to simplify the loop
+            
+            for (loserId in fileLosers) {
+                or { ID = loserId }
+            }
+        }
+    }
+    
+    
+    /**
+     * PicEntt rows that don't have the actual files.
+     */
+    fun getFileLoserIDs(): List<Int> = buildList {
+        // TODO
+    }
 }
