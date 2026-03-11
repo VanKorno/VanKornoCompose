@@ -6,6 +6,7 @@ import com.vankorno.vankornocompose._entities.pic.CPic.PreviewPath
 import com.vankorno.vankornocompose._entities.pic.CPic.Usages
 import com.vankorno.vankornocompose._entities.pic.PicEntt
 import com.vankorno.vankornocompose._entities.pic.TTTPic
+import com.vankorno.vankornocompose._entities.pic._TTTPic
 import com.vankorno.vankornocompose._entities.pic.getPic
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
@@ -16,6 +17,7 @@ import com.vankorno.vankornohelpers.getCurrTime
 object LibPicDb {
     private const val TAG = "LibPicDb"
     private const val DaysTillDelete = 10
+    const val MillisInDay = 24L * 60 * 60 * 1000
     
     fun getPic(id: Int ) = dbh.read(PicEntt(), "getPic") { db -> db.getPic(id) }
     
@@ -26,12 +28,12 @@ object LibPicDb {
         // endregion
         val fileNames = LibFileOps.getAllFileNames(PicDirName)
         
-        val dbFiles = getAllPicPaths()
+        val dbFileNames = getAllPicPaths()
                             .map { it.substringAfterLast('/') }
                             .toSet()
         
         for (fileName in fileNames) {
-            if (fileName !in dbFiles) {
+            if (fileName !in dbFileNames) {
                 LibFileOps.deleteFile(PicDirName, fileName)
             }
         }
@@ -49,7 +51,7 @@ object LibPicDb {
         // region LOG
             dLog(TAG, "cleanupPic()")
         // endregion
-        val millisTillDelete = DaysTillDelete * 24 * 60 * 60 * 1000L
+        val millisTillDelete = DaysTillDelete * MillisInDay
         val delLine = getCurrTime() - millisTillDelete
         
         dbh.deleteRows(TTTPic) {
@@ -61,12 +63,14 @@ object LibPicDb {
         deleteOrphanPicFiles()
     }
     
-    private fun handleFileLosers(                              doForEachFileLoser: (Int)->Unit = {}
+    private fun handleFileLosers(                     doForEachFileLoserBeforeDel: (Int)->Unit = {}
     ) {
         val fileLosers = getFileLoserIDs()
         
+        if (fileLosers.isEmpty()) return //\/\/\/\/\/\
+        
         for (loserId in fileLosers) {
-            doForEachFileLoser(loserId)
+            doForEachFileLoserBeforeDel(loserId)
         }
         dbh.deleteRows(TTTPic) {
             cID less 0 // just to simplify the loop
@@ -79,9 +83,25 @@ object LibPicDb {
     
     
     /**
-     * PicEntt rows that don't have the actual files.
+     * PicEntt rows that are in use, but don't have the actual files.
      */
-    fun getFileLoserIDs(): List<Int> = buildList {
-        // TODO
+    private fun getFileLoserIDs(): List<Int> {
+        val objToCheck = dbh.getObjects(_TTTPic) {
+            Usages greater 0
+            and { Path notEqual "" } // Just in case
+        }
+        if (objToCheck.isEmpty()) return emptyList() //\/\/\/\/\/\
+        
+        val existingFileNames = LibFileOps.getAllFileNames(PicDirName).toSet()
+        
+        return buildList {
+            for (obj in objToCheck) {
+                val fileName = obj.path.substringAfterLast('/')
+                
+                if (fileName !in existingFileNames) {
+                    add(obj.id)
+                }
+            }
+        }
     }
 }
