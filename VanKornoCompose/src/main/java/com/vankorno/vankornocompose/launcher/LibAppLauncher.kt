@@ -29,8 +29,8 @@ internal object LibAppLauncher {
         dbh.write("miscTable") { db ->
             db.createTable(_TTTMisc)
             
-            MiscEntt(AppLanguage, str1 = LangAuto).new(db)
-            MiscEntt(AppFirstLaunched, long1 = getCurrTime()).new(db)
+            MiscEntt(AppLanguage, str1 = LangAuto).insert(db)
+            MiscEntt(AppFirstLaunched, long1 = getCurrTime()).insert(db)
         }
     }
 }

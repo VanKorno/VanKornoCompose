@@ -25,7 +25,7 @@ data class MiscEntt(
                                 var float1: Float = 0F,
                                     var id: Int = -1,
 ) : CurrEntity, Parcelable {
-    fun new(db: SQLiteDatabase) = db.addObj(_TTTMisc, this)
+    fun insert(db: SQLiteDatabase) = db.addObj(_TTTMisc, this)
 }
 
 
