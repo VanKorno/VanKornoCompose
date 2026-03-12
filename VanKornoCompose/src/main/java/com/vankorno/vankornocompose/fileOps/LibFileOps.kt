@@ -18,7 +18,7 @@ object LibFileOps {
     private fun getDirInstance(                                                  dirName: String
     ): File {
         // region LOG
-            dLog(TAG, "getDirInstance(dirName = $dirName")
+            dLog(TAG, "getDirInstance(dirName = $dirName)")
         // endregion
         return File(appContext.filesDir, dirName)
     }
@@ -27,16 +27,16 @@ object LibFileOps {
     fun getAllFileNames(                                                         dirName: String
     ): List<String> {
         // region LOG
-            dLog(TAG, "getAllFileNames(dirName = $dirName")
+            dLog(TAG, "getAllFileNames(dirName = $dirName)")
         // endregion
-        return getDirInstance(dirName).listFiles()?.map { "$dirName/${it.name}" }.orEmpty()
+        return getDirInstance(dirName).listFiles()?.map { it.name }.orEmpty()
     }
     
     
     fun deleteAllFiles(                                                          dirName: String
     ): Int {
         // region LOG
-            dLog(TAG, "deleteAllFiles(dirName = $dirName")
+            dLog(TAG, "deleteAllFiles(dirName = $dirName)")
         // endregion
         return getDirInstance(dirName).listFiles()?.count { it.delete() } ?: 0
     }
@@ -46,7 +46,7 @@ object LibFileOps {
                                                                                 fileName: String,
     ): Boolean {
         // region LOG
-            dLog(TAG, "fileExists(dirName = $dirName, name = $fileName")
+            dLog(TAG, "fileExists(dirName = $dirName, name = $fileName)")
         // endregion
         return File(getDirInstance(dirName), fileName).exists()
     }
@@ -92,7 +92,7 @@ object LibFileOps {
                                                                                 fileName: String,
     ): Boolean {
         // region LOG
-            dLog(TAG, "deleteFile(dirName = $dirName, name = $fileName")
+            dLog(TAG, "deleteFile(dirName = $dirName, name = $fileName)")
         // endregion
         val file = File(getDirInstance(dirName), fileName)
         val deleted = file.exists() && file.delete()
@@ -110,7 +110,7 @@ object LibFileOps {
                                                                                  newName: String,
     ): String? {
         // region LOG
-            dLog(TAG, "renameFile(dirName = $dirName, oldName = $oldName, newName = $newName")
+            dLog(TAG, "renameFile(dirName = $dirName, oldName = $oldName, newName = $newName)")
         // endregion
         val oldFile = File(getDirInstance(dirName), oldName)
         
@@ -143,7 +143,7 @@ object LibFileOps {
                                                                                     text: String,
     ): String {
         // region LOG
-            dLog(TAG, "writeTextToFile(dirName = $dirName, name = $fileName")
+            dLog(TAG, "writeTextToFile(dirName = $dirName, name = $fileName)")
         // endregion
         val file = File(getDirInstance(dirName), fileName)
         file.writeText(text)

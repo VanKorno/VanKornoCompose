@@ -26,9 +26,7 @@ object LibPic {
         // region LOG
             dLog(TAG, "saveImageFromUri(extension = .$extension)")
         // endregion
-        val fileName = generateUniqueFilename(PicFileNamePrefix, extension)
-        
-        return saveFileFromUri(PicDirName, uri, fileName) ?: ""
+        return saveFileFromUri(PicDirName, uri, PicFileNamePrefix) ?: ""
     }
     
     
