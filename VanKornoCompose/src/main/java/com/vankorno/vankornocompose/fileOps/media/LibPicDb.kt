@@ -65,6 +65,9 @@ object LibPicDb {
     
     private fun handleFileLosers(                     doForEachFileLoserBeforeDel: (Int)->Unit = {}
     ) {
+        // region LOG
+            dLog(TAG, "handleFileLosers()")
+        // endregion
         val fileLosers = getFileLoserIDs()
         
         if (fileLosers.isEmpty()) return //\/\/\/\/\/\
@@ -90,7 +93,12 @@ object LibPicDb {
             Usages greater 0
             and { Path notEqual "" } // Just in case
         }
-        if (objToCheck.isEmpty()) return emptyList() //\/\/\/\/\/\
+        if (objToCheck.isEmpty()) {
+            // region LOG
+                dLog(TAG, "getFileLoserIDs(): No file loss detected.")
+            // endregion
+            return emptyList() //\/\/\/\/\/\ 
+        }
         
         val existingFileNames = LibFileOps.getAllFileNames(PicDirName).toSet()
         
