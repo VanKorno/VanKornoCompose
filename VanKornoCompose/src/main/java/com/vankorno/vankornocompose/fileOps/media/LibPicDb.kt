@@ -13,11 +13,11 @@ import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.misc.data.SharedCol.cID
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.getCurrTime
+import com.vankorno.vankornohelpers.values.LibConstants.MillisInDay
 
 object LibPicDb {
     private const val TAG = "LibPicDb"
     private const val DaysTillDelete = 10
-    const val MillisInDay = 24L * 60 * 60 * 1000
     
     fun getPic(id: Int ) = dbh.read(PicEntt(), "getPic") { db -> db.getPic(id) }
     
