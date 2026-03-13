@@ -13,7 +13,9 @@ import com.vankorno.vankornodb.core.data.DbConstants.InMemoryDB
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibGlobals.debugBuild
-import com.vankorno.vankornohelpers.values.LibGlobals.updatingScreenNow
+import com.vankorno.vankornohelpers.values.LibGlobals.navigating
+import com.vankorno.vankornohelpers.values.LibGlobals.navigatingBack
+import com.vankorno.vankornohelpers.values.LibGlobals.updatingScreen
 import com.vankorno.vankornohelpers.values.LibLambdas.playSound
 
 private const val TAG = "LibApp"
@@ -51,13 +53,25 @@ abstract class LibApp(                                   val soundsToInit: Array
     
     private fun initLambdas() {
         Navig.init(
-            goTo = { onGoTo(it) },
-            goBack = { onGoBack() },
-            goToStart = { onGoToStart() },
+            goTo = {
+                navigating = true
+                onGoTo(it)
+                navigating = false
+            },
+            goBack = {
+                navigatingBack = true
+                onGoBack()
+                navigatingBack = false
+            },
+            goToStart = {
+                navigating = true
+                onGoToStart()
+                navigating = true
+            },
             updateScreen = {
-                updatingScreenNow = true
+                updatingScreen = true
                 onUpdateScreen()
-                updatingScreenNow = false
+                updatingScreen = false
             },
         )
     }
