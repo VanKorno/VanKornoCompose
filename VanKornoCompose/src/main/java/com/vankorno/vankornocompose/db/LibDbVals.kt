@@ -10,7 +10,8 @@ object LibDbVals {
     
     const val AppLanguage = "AppLanguage"
     const val AppFirstLaunched = "AppFirstLaunched"
-    
+    const val AppLastLaunched = "AppLastLaunched"
+    const val AppLaunchCount = "AppLaunchCount"
     
     
     
