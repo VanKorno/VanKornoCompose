@@ -13,6 +13,7 @@ import com.vankorno.vankornodb.core.data.DbConstants.InMemoryDB
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibGlobals.debugBuild
+import com.vankorno.vankornohelpers.values.LibGlobals.updatingScreenNow
 import com.vankorno.vankornohelpers.values.LibLambdas.playSound
 
 private const val TAG = "LibApp"
@@ -53,7 +54,11 @@ abstract class LibApp(                                   val soundsToInit: Array
             goTo = { onGoTo(it) },
             goBack = { onGoBack() },
             goToStart = { onGoToStart() },
-            updateScreen = { onUpdateScreen() },
+            updateScreen = {
+                updatingScreenNow = true
+                onUpdateScreen()
+                updatingScreenNow = false
+            },
         )
     }
     
