@@ -17,13 +17,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MiscEntt(
-                                  var name: String = "",
-                                  var int1: Int = 0,
-                                 var bool1: Boolean = false,
-                                  var str1: String = "",
-                                 var long1: Long = 0L,
-                                var float1: Float = 0F,
-                                    var id: Int = -1,
+                                  val name: String = "",
+                                  val int1: Int = 0,
+                                 val bool1: Boolean = false,
+                                  val str1: String = "",
+                                 val long1: Long = 0L,
+                                val float1: Float = 0F,
+                           override val id: Int = -1,
 ) : CurrEntity, Parcelable {
     fun insert(db: SQLiteDatabase) = db.addObj(_TTTMisc, this)
 }
@@ -61,6 +61,8 @@ object _Misc : CurrSchemaBundle<MiscEntt>(
         cv.put("id", e.id)
         cv
     },
+
+    withId = { obj, newId -> obj.copy(id = newId) }
 )
 
 

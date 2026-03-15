@@ -18,7 +18,7 @@ data class PicEntt(
                                 val usages: Int = 0,
                           val becameUnused: Long = 0L,
                                  val notes: String = "",
-                                    val id: Int = -1,
+                           override val id: Int = -1,
 ) : CurrEntity, Parcelable
 
 
@@ -56,6 +56,8 @@ object _Pic : CurrSchemaBundle<PicEntt>(
         cv.put("id", e.id)
         cv
     },
+
+    withId = { obj, newId -> obj.copy(id = newId) }
 )
 
 

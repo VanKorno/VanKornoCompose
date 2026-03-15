@@ -12,7 +12,7 @@ data class V2_Pic(
                                 val usages: Int = 0,
                           val becameUnused: Long = 0L,
                                  val notes: String = "",
-                                    val id: Int = -1,
+                           override val id: Int = -1,
 ) : OldEntity
 
 
@@ -37,4 +37,6 @@ object _V2_Pic : OldSchemaBundle<V2_Pic>(
             id = cursor.getInt(idx++)
         )
     },
+
+    withId = { obj, newId -> obj.copy(id = newId) }
 )

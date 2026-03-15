@@ -11,7 +11,7 @@ data class V1_Pic(
                              val updatedAt: Long = 0L,
                                  val notes: String = "",
 
-                                    val id: Int = -1,
+                           override val id: Int = -1,
 
 ) : OldEntity
 
@@ -35,4 +35,6 @@ object _V1_Pic : OldSchemaBundle<V1_Pic>(
             id = cursor.getInt(idx++)
         )
     },
+
+    withId = { obj, newId -> obj.copy(id = newId) }
 )
