@@ -4,7 +4,6 @@ import com.vankorno.vankornodb.api.DbLock
 
 class BundledOpsRunner(                                                         val lock: DbLock
 ) {
-    // ======================= Exec ======================= \\
     fun exec(funName: String = "exec", block: () -> Unit) = ExecOp0(lock, funName, block)
     fun <P1> exec(funName: String = "exec", block: (P1) -> Unit) = ExecOp1(lock, funName, block)
     fun <P1, P2> exec(funName: String = "exec", block: (P1, P2) -> Unit) = ExecOp2(lock, funName, block)
