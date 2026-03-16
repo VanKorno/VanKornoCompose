@@ -4,6 +4,7 @@ import android.R.attr.name
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
+import com.vankorno.vankornocompose.fileOps.media.PicDirName
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
 import com.vankorno.vankornocompose.values.LibGlobals2.lops
 import com.vankorno.vankornohelpers.dLog
@@ -222,5 +223,28 @@ object LibFileOps {
     ): String = lops.get("", "generateUniqueFilename") {
         "${prefix}__${System.currentTimeMillis()}.$ext"
     }
+    
+    
+    
+    
+    fun createEmptyFile(                                                         dirName: String,
+                                                                                fileName: String,
+    ): String {
+        val dir = getDirInstance(dirName)
+        dir.mkdirs()
+        
+        val file = File(dir, fileName)
+        file.createNewFile()
+        
+        return "$dirName/$fileName"
+    }
+    
+    fun createDummyPic(): String {
+        val fileName = generateUniqueFilename("dummy", "png")
+        return createEmptyFile(PicDirName, fileName)
+    }
+    
+    
+    
     
 }
