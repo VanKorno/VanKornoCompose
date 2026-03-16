@@ -227,8 +227,8 @@ object LibFileOps {
     
     
     
-    fun createEmptyFile(                                                         dirName: String,
-                                                                                fileName: String,
+    fun createDummyFile(                   dirName: String,
+                                          fileName: String = generateUniqueFilename("dummy", "txt"),
     ): String {
         val dir = getDirInstance(dirName)
         dir.mkdirs()
@@ -241,7 +241,7 @@ object LibFileOps {
     
     fun createDummyPic(): String {
         val fileName = generateUniqueFilename("dummy", "png")
-        return createEmptyFile(PicDirName, fileName)
+        return createDummyFile(PicDirName, fileName)
     }
     
     
