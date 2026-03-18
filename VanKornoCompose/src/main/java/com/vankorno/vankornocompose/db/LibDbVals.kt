@@ -1,6 +1,6 @@
 package com.vankorno.vankornocompose.db
 
-import com.vankorno.vankornocompose.db.miscTable._Misc
+import com.vankorno.vankornocompose._entities.misc._Misc
 import com.vankorno.vankornodb.dbManagement.data.using
 
 object LibDbVals {

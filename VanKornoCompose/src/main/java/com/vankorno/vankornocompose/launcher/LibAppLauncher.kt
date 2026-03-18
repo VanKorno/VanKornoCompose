@@ -1,15 +1,15 @@
 package com.vankorno.vankornocompose.launcher
 
+import com.vankorno.vankornocompose._entities.misc.CMisc
+import com.vankorno.vankornocompose._entities.misc.CMisc.Int1
+import com.vankorno.vankornocompose._entities.misc.CMisc.Long1
+import com.vankorno.vankornocompose._entities.misc.MiscEntt
 import com.vankorno.vankornocompose.db.LibDbVals.AppFirstLaunched
 import com.vankorno.vankornocompose.db.LibDbVals.AppLanguage
 import com.vankorno.vankornocompose.db.LibDbVals.AppLastLaunched
 import com.vankorno.vankornocompose.db.LibDbVals.AppLaunchCount
 import com.vankorno.vankornocompose.db.LibDbVals.TTTMisc
 import com.vankorno.vankornocompose.db.LibDbVals._TTTMisc
-import com.vankorno.vankornocompose.db.miscTable.CMisc
-import com.vankorno.vankornocompose.db.miscTable.CMisc.Int1
-import com.vankorno.vankornocompose.db.miscTable.CMisc.Long1
-import com.vankorno.vankornocompose.db.miscTable.MiscEntt
 import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.addMiscRows
 import com.vankorno.vankornocompose.values.LibGlobals2.language
 import com.vankorno.vankornodb.api.DbRuntime.dbh
