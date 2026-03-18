@@ -23,6 +23,7 @@ captures/
 
 # Kotlin compiler
 .kotlinc/
+/.kotlin/sessions/
 
 # AARs / Artifacts (for libraries)
 *.aar
@@ -34,4 +35,4 @@ captures/
 # Log files
 *.log
 /gradle/gradle-daemon-jvm.properties
-/.kotlin/sessions/
+
