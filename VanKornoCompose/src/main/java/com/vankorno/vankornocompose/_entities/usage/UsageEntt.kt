@@ -22,6 +22,7 @@ data class UsageEntt(
                                  val bool1: Boolean = false,
                                   val str1: String = "",
 
+                              val position: Int = 0,
                            override val id: Int = -1,
 ) : CurrEntity, Parcelable
 
@@ -45,6 +46,7 @@ object _Usage : CurrSchemaBundle<UsageEntt>(
             int1 = cursor.getInt(idx++),
             bool1 = cursor.getBoolean(idx++),
             str1 = cursor.getString(idx++),
+            position = cursor.getInt(idx++),
             id = cursor.getInt(idx++)
         )
     },
@@ -57,6 +59,7 @@ object _Usage : CurrSchemaBundle<UsageEntt>(
         cv.put("int1", e.int1)
         cv.put("bool1", e.bool1)
         cv.put("str1", e.str1)
+        cv.put("position", e.position)
         cv.put("id", e.id)
         cv
     },
@@ -76,6 +79,7 @@ object CUsage : EntityColumns {
     val Int1 = iCol("int1", 0)
     val Bool1 = bCol("bool1", false)
     val Str1 = sCol("str1", "")
+    val Position = iCol("position", 0)
     val Id = iCol("id", -1)
 
     override val columns = buildColList {
@@ -86,6 +90,7 @@ object CUsage : EntityColumns {
         +Int1
         +Bool1
         +Str1
+        +Position
         +Id
     }
 }

@@ -15,6 +15,7 @@ data class V1_Usage(
                                  val bool1: Boolean = false,
                                   val str1: String = "",
 
+                              val position: Int = 0,
                            override val id: Int = -1,
 ) : OldEntity
 
