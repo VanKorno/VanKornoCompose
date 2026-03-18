@@ -9,6 +9,7 @@ import com.vankorno.vankornocompose._entities.pic.TTTPicUsage
 import com.vankorno.vankornocompose._entities.pic._TTTPic
 import com.vankorno.vankornocompose._entities.pic.getPic
 import com.vankorno.vankornocompose._entities.usage.CUsage.ObjId
+import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstAppLaunch
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.delete.deleteRows
@@ -30,7 +31,14 @@ object LibPicDb {
         .filter { it.isNotBlank() }
     
     
-    fun cleanupPic(                                                       daysTillDelete: Int = 10
+    fun handlePicCleanup(                                                 daysTillDelete: Int = 10
+    ) {
+        val freshApp = getDaysSinceFirstAppLaunch() < 30
+        if (!freshApp)
+            cleanupPic(daysTillDelete)
+    }
+    
+    fun cleanupPic(                                                       daysTillDelete: Int
     ) {
         // region LOG
             dLog(TAG, "cleanupPic()")
