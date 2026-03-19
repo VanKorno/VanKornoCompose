@@ -113,7 +113,7 @@ object LibFileOps {
         // region LOG
             dLog(TAG, "renameFile(dirName = $dirName, oldName = $oldName, newName = $newName)")
         // endregion
-        val oldFile = File(getDirInstance(dirName), oldName)
+        val oldFile = File(ensureDir(dirName), oldName)
         
         if (!oldFile.exists()) {
             // region LOG
@@ -124,7 +124,7 @@ object LibFileOps {
         
         val ext = oldFile.extension
         val newFile = File(
-            getDirInstance(dirName),
+            ensureDir(dirName),
             if (ext.isBlank()) newName else "$newName.$ext"
         )
         
@@ -146,7 +146,7 @@ object LibFileOps {
         // region LOG
             dLog(TAG, "writeTextToFile(dirName = $dirName, name = $fileName)")
         // endregion
-        val file = File(getDirInstance(dirName), fileName)
+        val file = File(ensureDir(dirName), fileName)
         file.writeText(text)
         return "$dirName/$fileName"
     }
@@ -178,7 +178,7 @@ object LibFileOps {
         // endregion
         val ext = getExtensionFromUri(uri) ?: "bin"
         val fileName = generateUniqueFilename(prefix, ext)
-        val file = File(getDirInstance(dirName), fileName)
+        val file = File(ensureDir(dirName), fileName)
         
         return try {
             appContext.contentResolver.openInputStream(uri)?.use { input ->
@@ -245,6 +245,12 @@ object LibFileOps {
     }
     
     
-    
+    private fun ensureDir(                                                       dirName: String
+    ): File {
+        val dir = getDirInstance(dirName)
+        if (!dir.exists())
+            dir.mkdirs()
+        return dir
+    }
     
 }
