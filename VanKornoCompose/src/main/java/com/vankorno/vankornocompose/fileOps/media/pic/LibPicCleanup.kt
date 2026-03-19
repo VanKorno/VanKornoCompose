@@ -7,6 +7,8 @@ import com.vankorno.vankornocompose._entities.pic.TTTPic
 import com.vankorno.vankornocompose._entities.pic.TTTPicUsage
 import com.vankorno.vankornocompose._entities.pic._TTTPic
 import com.vankorno.vankornocompose._entities.usage.CUsage.ObjId
+import com.vankorno.vankornocompose._entities.usage.CUsage.SubjId
+import com.vankorno.vankornocompose._entities.usage.CUsage.SubjTable
 import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstAppLaunch
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
@@ -14,12 +16,44 @@ import com.vankorno.vankornodb.delete.deleteRows
 import com.vankorno.vankornodb.get.getColInts
 import com.vankorno.vankornodb.get.hasRows
 import com.vankorno.vankornodb.misc.data.SharedCol.cID
+import com.vankorno.vankornodb.misc.suppressValGetterErrorLog
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.getCurrTime
 import com.vankorno.vankornohelpers.values.LibConstants.MillisInDay
 
 object LibPicCleanup {
     private const val TAG = "LibPicCleanup"
+    
+    fun singleSubjPicCleanup(                                                      table: String,
+                                                                                      id: Int,
+    ) {
+        val picIDs = dbh.getColInts(TTTPicUsage, ObjId) {
+            SubjTable equal table
+            and { SubjId equal id }
+        }
+        if (picIDs.isEmpty()) return //\/\/\/\/\/\
+        
+        for (picId in picIDs) {
+            if (isPicBroken(picId)) {
+                cleanupPic()
+                break //\/\/\
+            }
+        }
+    }
+    
+    fun isPicBroken(                                                               picId: Int
+    ): Boolean {
+        suppressValGetterErrorLog = true
+        val path = dbh.getStr(TTTPic, Path) { ID = picId }
+        suppressValGetterErrorLog = false
+        
+        if (path.isBlank()) return true //\/\/\/\/\/\
+        
+        val fileMissing = !LibFileOps.fileExists(path)
+        
+        return fileMissing
+    }
+    
     
     fun getAllPicPaths(): List<String> = dbh.getTableStrings(TTTPic, arrayOf(Path, PreviewPath))
         .flatten()
@@ -33,7 +67,7 @@ object LibPicCleanup {
             cleanupPic(daysTillDelete)
     }
     
-    fun cleanupPic(                                                       daysTillDelete: Int
+    fun cleanupPic(                                                       daysTillDelete: Int = 10
     ) {
         // region LOG
             dLog(TAG, "cleanupPic()")
