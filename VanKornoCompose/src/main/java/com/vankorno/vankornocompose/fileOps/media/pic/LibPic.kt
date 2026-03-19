@@ -26,7 +26,7 @@ object LibPic {
         // region LOG
             dLog(TAG, "saveImageFromUri(extension = .$extension)")
         // endregion
-        return saveFileFromUri(PicDirName, uri, PicFileNamePrefix) ?: ""
+        return saveFileFromUri(PicDirName, uri, PicFileNamePrefix, extension) ?: ""
     }
     
     
