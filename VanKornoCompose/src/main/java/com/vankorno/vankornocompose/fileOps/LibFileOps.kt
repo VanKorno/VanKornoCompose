@@ -1,6 +1,5 @@
 package com.vankorno.vankornocompose.fileOps
 
-import android.R.attr.name
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
@@ -172,11 +171,12 @@ object LibFileOps {
     fun saveFileFromUri(                                                  dirName: String,
                                                                               uri: Uri,
                                                                            prefix: String = "file",
+                                                                        extension: String? = null,
     ): String? {
         // region LOG
-            dLog(TAG, "saveFileFromUri(dirName = $dirName, name = $name)")
+            dLog(TAG, "saveFileFromUri(dirName = $dirName, prefix = $prefix)")
         // endregion
-        val ext = getExtensionFromUri(uri) ?: "bin"
+        val ext = extension ?: getExtensionFromUri(uri) ?: "bin"
         val fileName = generateUniqueFilename(prefix, ext)
         val file = File(ensureDir(dirName), fileName)
         
