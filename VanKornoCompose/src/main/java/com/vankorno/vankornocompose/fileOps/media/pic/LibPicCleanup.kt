@@ -1,13 +1,11 @@
-package com.vankorno.vankornocompose.fileOps.media
+package com.vankorno.vankornocompose.fileOps.media.pic
 
 import com.vankorno.vankornocompose._entities.pic.CPic.BecameUnused
 import com.vankorno.vankornocompose._entities.pic.CPic.Path
 import com.vankorno.vankornocompose._entities.pic.CPic.PreviewPath
-import com.vankorno.vankornocompose._entities.pic.PicEntt
 import com.vankorno.vankornocompose._entities.pic.TTTPic
 import com.vankorno.vankornocompose._entities.pic.TTTPicUsage
 import com.vankorno.vankornocompose._entities.pic._TTTPic
-import com.vankorno.vankornocompose._entities.pic.getPic
 import com.vankorno.vankornocompose._entities.usage.CUsage.ObjId
 import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstAppLaunch
 import com.vankorno.vankornocompose.fileOps.LibFileOps
@@ -20,11 +18,8 @@ import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.getCurrTime
 import com.vankorno.vankornohelpers.values.LibConstants.MillisInDay
 
-object LibPicDb {
-    private const val TAG = "LibPicDb"
-    
-    fun getPic(id: Int ) = dbh.read(PicEntt(), "getPic") { db -> db.getPic(id) }
-    
+object LibPicCleanup {
+    private const val TAG = "LibPicCleanup"
     
     fun getAllPicPaths(): List<String> = dbh.getTableStrings(TTTPic, arrayOf(Path, PreviewPath))
         .flatten()
@@ -154,5 +149,8 @@ object LibPicDb {
         }
     }
     
-    
 }
+
+
+
+

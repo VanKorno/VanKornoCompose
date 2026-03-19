@@ -4,7 +4,7 @@ import android.R.attr.name
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
-import com.vankorno.vankornocompose.fileOps.media.PicDirName
+import com.vankorno.vankornocompose.fileOps.media.pic.PicDirName
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
 import com.vankorno.vankornocompose.values.LibGlobals2.lops
 import com.vankorno.vankornohelpers.dLog

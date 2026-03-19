@@ -1,4 +1,4 @@
-package com.vankorno.vankornocompose.fileOps.media
+package com.vankorno.vankornocompose.fileOps.media.pic
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
