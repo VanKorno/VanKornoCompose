@@ -4,7 +4,6 @@ import android.os.Parcelable
 import com.vankorno.vankornodb.api.CurrEntity
 import com.vankorno.vankornodb.api.EntityColumns
 import com.vankorno.vankornodb.dbManagement.data.CurrSchemaBundle
-import com.vankorno.vankornodb.dbManagement.data.iCol
 import com.vankorno.vankornodb.dbManagement.data.lCol
 import com.vankorno.vankornodb.dbManagement.data.sCol
 import kotlinx.parcelize.Parcelize
@@ -18,7 +17,7 @@ data class PicEntt(
                           val becameUnused: Long = 0L,
                                  val notes: String = "",
     
-                           override val id: Int = -1,
+                           override val id: Long = -1L,
 ) : CurrEntity, Parcelable
 
 
@@ -40,7 +39,7 @@ object _Pic : CurrSchemaBundle<PicEntt>(
             updatedAt = cursor.getLong(idx++),
             becameUnused = cursor.getLong(idx++),
             notes = cursor.getString(idx++),
-            id = cursor.getInt(idx++)
+            id = cursor.getLong(idx++)
         )
     },
 
@@ -69,7 +68,7 @@ object CPic : EntityColumns {
     val UpdatedAt = lCol("updatedAt", 0L)
     val BecameUnused = lCol("becameUnused", 0L)
     val Notes = sCol("notes", "")
-    val Id = iCol("id", -1)
+    val Id = lCol("id", -1L)
 
     override val columns = buildColList {
         +Path

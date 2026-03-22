@@ -6,6 +6,7 @@ import com.vankorno.vankornodb.api.EntityColumns
 import com.vankorno.vankornodb.dbManagement.data.CurrSchemaBundle
 import com.vankorno.vankornodb.dbManagement.data.bCol
 import com.vankorno.vankornodb.dbManagement.data.iCol
+import com.vankorno.vankornodb.dbManagement.data.lCol
 import com.vankorno.vankornodb.dbManagement.data.sCol
 import com.vankorno.vankornodb.misc.getBoolean
 import kotlinx.parcelize.Parcelize
@@ -13,17 +14,17 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class UsageEntt(
                              val subjTable: String = "",
-                                val subjId: Int = -1,
+                                val subjId: Long = -1L,
 
                               val objTable: String = "",
-                                 val objId: Int = -1,
+                                 val objId: Long = -1L,
 
                                   val int1: Int = 0,
                                  val bool1: Boolean = false,
                                   val str1: String = "",
 
-                              val position: Int = 0,
-                           override val id: Int = -1,
+                              val position: Long = 0L,
+                           override val id: Long = -1L,
 ) : CurrEntity, Parcelable
 
 
@@ -40,14 +41,14 @@ object _Usage : CurrSchemaBundle<UsageEntt>(
 
         UsageEntt(
             subjTable = cursor.getString(idx++),
-            subjId = cursor.getInt(idx++),
+            subjId = cursor.getLong(idx++),
             objTable = cursor.getString(idx++),
-            objId = cursor.getInt(idx++),
+            objId = cursor.getLong(idx++),
             int1 = cursor.getInt(idx++),
             bool1 = cursor.getBoolean(idx++),
             str1 = cursor.getString(idx++),
-            position = cursor.getInt(idx++),
-            id = cursor.getInt(idx++)
+            position = cursor.getLong(idx++),
+            id = cursor.getLong(idx++)
         )
     },
 
@@ -73,14 +74,14 @@ object _Usage : CurrSchemaBundle<UsageEntt>(
 
 object CUsage : EntityColumns {
     val SubjTable = sCol("subjTable", "")
-    val SubjId = iCol("subjId", -1)
+    val SubjId = lCol("subjId", -1L)
     val ObjTable = sCol("objTable", "")
-    val ObjId = iCol("objId", -1)
+    val ObjId = lCol("objId", -1L)
     val Int1 = iCol("int1", 0)
     val Bool1 = bCol("bool1", false)
     val Str1 = sCol("str1", "")
-    val Position = iCol("position", 0)
-    val Id = iCol("id", -1)
+    val Position = lCol("position", 0L)
+    val Id = lCol("id", -1L)
 
     override val columns = buildColList {
         +SubjTable

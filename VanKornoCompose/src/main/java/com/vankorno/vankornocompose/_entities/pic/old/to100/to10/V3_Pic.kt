@@ -11,7 +11,7 @@ data class V3_Pic(
                                 val usages: Int = 0,
                           val becameUnused: Long = 0L,
                                  val notes: String = "",
-                           override val id: Int = -1,
+                           override val id: Long = -1L,
 ) : OldEntity
 
 
@@ -32,7 +32,7 @@ object _V3_Pic : OldSchemaBundle<V3_Pic>(
             usages = cursor.getInt(idx++),
             becameUnused = cursor.getLong(idx++),
             notes = cursor.getString(idx++),
-            id = cursor.getInt(idx++)
+            id = cursor.getLong(idx++)
         )
     },
 

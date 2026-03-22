@@ -6,17 +6,17 @@ import com.vankorno.vankornodb.misc.getBoolean
 
 data class V1_Usage(
                              val subjTable: String = "",
-                                val subjId: Int = -1,
+                                val subjId: Long = -1L,
 
                               val objTable: String = "",
-                                 val objId: Int = -1,
+                                 val objId: Long = -1L,
 
                                   val int1: Int = 0,
                                  val bool1: Boolean = false,
                                   val str1: String = "",
 
-                              val position: Int = 0,
-                           override val id: Int = -1,
+                              val position: Long = 0L,
+                           override val id: Long = -1L,
 ) : OldEntity
 
 
@@ -31,13 +31,14 @@ object _V1_Usage : OldSchemaBundle<V1_Usage>(
 
         V1_Usage(
             subjTable = cursor.getString(idx++),
-            subjId = cursor.getInt(idx++),
+            subjId = cursor.getLong(idx++),
             objTable = cursor.getString(idx++),
-            objId = cursor.getInt(idx++),
+            objId = cursor.getLong(idx++),
             int1 = cursor.getInt(idx++),
             bool1 = cursor.getBoolean(idx++),
             str1 = cursor.getString(idx++),
-            id = cursor.getInt(idx++)
+            position = cursor.getLong(idx++),
+            id = cursor.getLong(idx++)
         )
     },
 

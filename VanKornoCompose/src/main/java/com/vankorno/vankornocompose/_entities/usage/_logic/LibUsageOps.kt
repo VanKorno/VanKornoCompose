@@ -12,9 +12,9 @@ object LibUsageOps {
     
     fun copyUsagesWithSubj(                                                   usageTable: String,
                                                                                tableFrom: String,
-                                                                                  idFrom: Int,
+                                                                                  idFrom: Long,
                                                                                  tableTo: String,
-                                                                                    idTo: Int,
+                                                                                    idTo: Long,
     ) {
         val tableInfo = usageTable using _Usage
         
@@ -44,9 +44,9 @@ object LibUsageOps {
     
     fun handleUsagesOnSubjMove(                                               usageTable: String,
                                                                                tableFrom: String,
-                                                                                  idFrom: Int,
+                                                                                  idFrom: Long,
                                                                                  tableTo: String,
-                                                                                    idTo: Int,
+                                                                                    idTo: Long,
     ) {
         dbh.set(
             usageTable,

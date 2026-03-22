@@ -6,6 +6,6 @@ import com.vankorno.vankornodb.api.DbRuntime.dbh
 
 object LibPicDb {
     
-    fun getPic(id: Int ) = dbh.read(PicEntt(), "getPic") { db -> db.getPic(id) }
+    fun getPic(id: Long) = dbh.read(PicEntt(), "getPic") { db -> db.getPic(id) }
     
 }

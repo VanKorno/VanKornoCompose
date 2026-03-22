@@ -13,7 +13,7 @@ import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstA
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.delete.deleteRows
-import com.vankorno.vankornodb.get.getColInts
+import com.vankorno.vankornodb.get.getColLongs
 import com.vankorno.vankornodb.get.hasRows
 import com.vankorno.vankornodb.misc.data.SharedCol.cID
 import com.vankorno.vankornodb.misc.suppressValGetterErrorLog
@@ -25,9 +25,9 @@ object LibPicCleanup {
     private const val TAG = "LibPicCleanup"
     
     fun singleSubjPicCleanup(                                                      table: String,
-                                                                                      id: Int,
+                                                                                      id: Long,
     ) {
-        val picIDs = dbh.getColInts(TTTPicUsage, ObjId) {
+        val picIDs = dbh.getColLongs(TTTPicUsage, ObjId) {
             SubjTable equal table
             and { SubjId equal id }
         }
@@ -41,7 +41,7 @@ object LibPicCleanup {
         }
     }
     
-    fun isPicBroken(                                                               picId: Int
+    fun isPicBroken(                                                               picId: Long
     ): Boolean {
         suppressValGetterErrorLog = true
         val path = dbh.getStr(TTTPic, Path) { ID = picId }
@@ -92,7 +92,7 @@ object LibPicCleanup {
         // TODO Maybe use more low-level db stuff instead
         
         dbh.write("deleteOrphanUsages") { db ->
-            val picIDs = db.getColInts(TTTPicUsage, ObjId).distinct()
+            val picIDs = db.getColLongs(TTTPicUsage, ObjId).distinct()
             
             for (picId in picIDs) {
                 val exists = db.hasRows(TTTPic) { ID = picId }
@@ -136,7 +136,7 @@ object LibPicCleanup {
     /**
      * PicEntt rows that are in use, but don't have the actual files.
      */
-    private fun getFileLoserIDs(): List<Int> {
+    private fun getFileLoserIDs(): List<Long> {
         val objToCheck = dbh.getObjects(_TTTPic)
         
         if (objToCheck.isEmpty()) {

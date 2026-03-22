@@ -23,7 +23,7 @@ data class MiscEntt(
                                   val str1: String = "",
                                  val long1: Long = 0L,
                                 val float1: Float = 0F,
-                           override val id: Int = -1,
+                           override val id: Long = -1L,
 ) : CurrEntity, Parcelable {
     fun insert(db: SQLiteDatabase) = db.addObj(_TTTMisc, this)
 }
@@ -47,7 +47,7 @@ object _Misc : CurrSchemaBundle<MiscEntt>(
             str1 = cursor.getString(idx++),
             long1 = cursor.getLong(idx++),
             float1 = cursor.getFloat(idx++),
-            id = cursor.getInt(idx++)
+            id = cursor.getLong(idx++)
         )
     },
 
@@ -76,7 +76,7 @@ object CMisc : EntityColumns {
     val Str1 = sCol("str1", "")
     val Long1 = lCol("long1", 0L)
     val Float1 = fCol("float1", 0F)
-    val Id = iCol("id", -1)
+    val Id = lCol("id", -1L)
 
     override val columns = buildColList {
         +Name

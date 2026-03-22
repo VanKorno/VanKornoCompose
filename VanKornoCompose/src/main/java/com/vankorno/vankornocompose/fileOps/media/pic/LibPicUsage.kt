@@ -10,14 +10,14 @@ import com.vankorno.vankornocompose._entities.usage.CUsage.SubjTable
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.api.WhereDsl
 import com.vankorno.vankornodb.delete.deleteRows
-import com.vankorno.vankornodb.get.getColInts
+import com.vankorno.vankornodb.get.getColLongs
 import com.vankorno.vankornodb.get.hasRows
 import com.vankorno.vankornodb.set.setLong
 import com.vankorno.vankornohelpers.getCurrTime
 
 object LibPicUsage {
     
-    fun deletePicUsages(                                                           picId: Int
+    fun deletePicUsages(                                                           picId: Long
     ) {
         dbh.write("deletePicUsages") { db ->
             db.deleteRows(TTTPicUsage) { ObjId equal picId }
@@ -28,7 +28,7 @@ object LibPicUsage {
     
     
     fun deletePicUsagesBySubj(                                                     table: String,
-                                                                                      id: Int,
+                                                                                      id: Long,
     ) {
         deleteUsages {
             SubjTable equal table
@@ -47,7 +47,7 @@ object LibPicUsage {
     private fun deleteUsages(                                               where: WhereDsl.()->Unit
     ) {
         dbh.write("clearSecPicUsages") { db ->
-            val usedPicIDs = db.getColInts(TTTPicUsage, ObjId, where) 
+            val usedPicIDs = db.getColLongs(TTTPicUsage, ObjId, where) 
             
             db.deleteRows(TTTPicUsage, where = where)
             
@@ -60,7 +60,7 @@ object LibPicUsage {
     }
     
     private fun setBecameUnused(                                                db: SQLiteDatabase,
-                                                                             picId: Int,
+                                                                             picId: Long,
     ) {
         val dbPicExists = db.hasRows(TTTPic) { ID = picId }
         
