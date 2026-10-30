@@ -9,7 +9,7 @@ plugins {
 android {
     namespace = "com.vankorno.vankornocompose"
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
     
     defaultConfig {
@@ -29,8 +29,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
     buildFeatures {
         compose = true
