@@ -2,10 +2,17 @@ package com.vankorno.vankornocompose
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
+import com.vankorno.vankornocompose.navig.BaseBackNavigator
+import com.vankorno.vankornocompose.navig.BaseNavigator
+import com.vankorno.vankornocompose.navig.BaseScreenUpdater
 import com.vankorno.vankornocompose.navig.Navig
-import com.vankorno.vankornocompose.navig.Screen
+import com.vankorno.vankornocompose.navig.Navig.goTo
+import com.vankorno.vankornocompose.navig.Navig.goToStart
+import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
+import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
+import com.vankorno.vankornocompose.values.LibLambdas2.popupOFF
 import com.vankorno.vankornocompose.values.internal.DummyEntityMeta
 import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
@@ -13,14 +20,15 @@ import com.vankorno.vankornodb.core.data.DbConstants.InMemoryDB
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibGlobals.debugBuild
-import com.vankorno.vankornohelpers.values.LibGlobals.navigating
-import com.vankorno.vankornohelpers.values.LibGlobals.navigatingBack
-import com.vankorno.vankornohelpers.values.LibGlobals.updatingScreen
+import com.vankorno.vankornohelpers.values.LibLambdas.minimizeApp
 import com.vankorno.vankornohelpers.values.LibLambdas.playSound
 
 private const val TAG = "LibApp"
 
-abstract class LibApp(                                   val soundsToInit: Array<Int> = emptyArray()
+abstract class LibApp(                      val navigator: BaseNavigator = DefaultNavigator,
+                                        val backNavigator: BaseBackNavigator = DefaultBackNavigator,
+                                        val screenUpdater: BaseScreenUpdater = DefaultUpdater,
+                                         val soundsToInit: Array<Int> = emptyArray(),
 ) : Application() {
     
     protected open fun doOnCreate() {}
@@ -32,11 +40,6 @@ abstract class LibApp(                                   val soundsToInit: Array
             entityMeta = DummyEntityMeta.entries,
         )
     }
-    
-    protected abstract fun onGoTo(scr: Screen)
-    protected abstract fun onGoBack()
-    protected abstract fun onGoToStart()
-    protected abstract fun onUpdateScreen()
     
     
     override fun onCreate() {
@@ -53,26 +56,10 @@ abstract class LibApp(                                   val soundsToInit: Array
     
     private fun initLambdas() {
         Navig.init(
-            goTo = {
-                navigating = true
-                onGoTo(it)
-                navigating = false
-            },
-            goBack = {
-                navigatingBack = true
-                onGoBack()
-                navigatingBack = false
-            },
-            goToStart = {
-                navigating = true
-                onGoToStart()
-                navigating = true
-            },
-            updateScreen = {
-                updatingScreen = true
-                onUpdateScreen()
-                updatingScreen = false
-            },
+            goTo = { navigator.onGoToScreen(it) },
+            goBack = { backNavigator.onGoBack() },
+            goToStart = { navigator.onGoToStart() },
+            updateScreen = { screenUpdater.updateScr() },
         )
     }
     
@@ -98,3 +85,28 @@ abstract class LibApp(                                   val soundsToInit: Array
         dbh.closeDb()
     }
 }
+
+
+
+
+
+private object DefaultNavigator : BaseNavigator()
+private object DefaultUpdater : BaseScreenUpdater()
+
+private object DefaultBackNavigator : BaseBackNavigator() {
+    override fun onBackFromPopup() {
+        popupOFF()
+    }
+    override fun onBackWithoutPopup() {
+        val currScr = libVm.currScreen.value
+        val previousScr = libVm.previousScreen.value
+        
+        when (currScr) {
+            ScrHome -> minimizeApp()
+            previousScr -> goToStart()
+            else -> goTo(previousScr)
+        }
+    }
+}
+
+
