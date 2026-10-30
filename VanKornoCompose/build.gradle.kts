@@ -29,14 +29,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_25
-        targetCompatibility = JavaVersion.VERSION_25
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         compose = true
     }
     publishing {
-        singleVariant("release") {}
+        singleVariant("release") {
+            withSourcesJar()
+        }
     }
 }
 
@@ -73,13 +75,16 @@ dependencies {
     implementation(libs.vankornodb)
 }
 
-val versionTag = System.getenv("VERSION") ?: "unspecified"
+val versionTag = providers.environmentVariable("VERSION").orNull
+    ?: providers.gradleProperty("version").orNull.takeIf { it != "unspecified" }
+    ?: project.version.takeIf { it != "unspecified" }?.toString()
+    ?: "unspecified"
 
 afterEvaluate {
     publishing {
         publications {
             create<MavenPublication>("release") {
-                from(components.findByName("release"))
+                from(components["release"])
                 groupId = "com.vankorno"
                 artifactId = "vankornocompose"
                 version = versionTag
