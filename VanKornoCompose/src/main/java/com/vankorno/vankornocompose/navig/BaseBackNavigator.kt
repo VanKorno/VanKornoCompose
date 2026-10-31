@@ -14,7 +14,7 @@ abstract class BaseBackNavigator {
         // endregion
         
         if (libVm.popupState.value != PopupOFF)
-            popup()
+            popup(libVm.popupState.value)
         else
             noPopup()
         
@@ -25,12 +25,14 @@ abstract class BaseBackNavigator {
     }
     
     
-    protected open fun onBackFromPopup() {}
-    private fun popup() {
+    protected open fun onBackFromPopup(popupState: PopupState) {}
+    
+    private fun popup(                                                        popupState: PopupState
+    ) {
         // region LOG
-            dLog(TAG, "Going back from a popup")
+            dLog(TAG, "Going back from a popup ($popupState)")
         // endregion
-        onBackFromPopup()
+        onBackFromPopup(popupState)
     }
     
     

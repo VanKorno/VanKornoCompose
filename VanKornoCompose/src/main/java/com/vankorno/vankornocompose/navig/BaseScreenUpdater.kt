@@ -7,14 +7,15 @@ import com.vankorno.vankornohelpers.values.LibGlobals.updatingScreen
 abstract class BaseScreenUpdater {
     protected val TAG = "ScreenUpdater"
     
-    protected open fun onUpdateScreen() {}
+    protected open fun onUpdateScreen(currScreen: Screen) {}
     
     internal fun updateScr() {
         updatingScreen = true
+        val currScreen = libVm.currScreen.value
         // region LOG
-            dLog("UpdateScr", "update(). Curr.screen: ${libVm.currScreen.value}")
+            dLog(TAG, "Updating current screen: $currScreen")
         // endregion
-        onUpdateScreen()
+        onUpdateScreen(currScreen)
         updatingScreen = false
     }
 }
