@@ -13,11 +13,11 @@ abstract class BaseBackNavigator {
             dLog(TAG, "goBack()")
         // endregion
         
-        if (libVm.popupState.value != PopupOFF)
+        if (libVm.popupState.value != PopupOFF) {
             popup(libVm.popupState.value)
-        else
-            noPopup()
-        
+        } else {
+            onBackWithoutPopup(libVm.currScreen.value, libVm.previousScreen.value)
+        }
         // region LOG
             dLog(TAG, "Back-navigation complete.")
         // endregion
@@ -36,9 +36,10 @@ abstract class BaseBackNavigator {
     }
     
     
-    protected open fun onBackWithoutPopup() {}
-    private fun noPopup() {
-        onBackWithoutPopup()
-    }
+    protected open fun onBackWithoutPopup(currentScr: Screen, previousScr: Screen) {}
+    
+    /*private fun noPopup(currentScreen: Screen) {
+        onBackWithoutPopup(currentScreen)
+    }*/
     
 }

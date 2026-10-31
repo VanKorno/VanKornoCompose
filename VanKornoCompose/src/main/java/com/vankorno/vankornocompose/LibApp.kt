@@ -10,6 +10,7 @@ import com.vankorno.vankornocompose.navig.Navig.goTo
 import com.vankorno.vankornocompose.navig.Navig.goToStart
 import com.vankorno.vankornocompose.navig.PopupState
 import com.vankorno.vankornocompose.navig.ScrHome
+import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
@@ -121,14 +122,15 @@ private object DefaultNavigator : BaseNavigator()
 private object DefaultUpdater : BaseScreenUpdater()
 
 private object DefaultBackNavigator : BaseBackNavigator() {
-    override fun onBackFromPopup(popupState: PopupState) {
+    override fun onBackFromPopup(                                            popupState: PopupState
+    ) {
         popupOFF()
     }
-    override fun onBackWithoutPopup() {
-        val currScr = libVm.currScreen.value
-        val previousScr = libVm.previousScreen.value
-        
-        when (currScr) {
+    
+    override fun onBackWithoutPopup(                                          currentScr: Screen,
+                                                                             previousScr: Screen,
+    ) {
+        when (currentScr) {
             ScrHome -> minimizeApp()
             previousScr -> goToStart()
             else -> goTo(previousScr)
