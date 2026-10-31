@@ -28,12 +28,12 @@ abstract class BaseNavigator {
         // region LOG
             dLog(TAG, "specialBackstack()")
         // endregion
-        specialBackstack(targetScr)
+        specialBackstack(previousScr, targetScr)
         
         // region LOG
             dLog(TAG, "runBeforeGoing()")
         // endregion
-        runBeforeGoing(targetScr)
+        runBeforeGoing(previousScr, targetScr)
         
         libVm.currScreen.value = targetScr
         // region LOG
@@ -43,7 +43,7 @@ abstract class BaseNavigator {
         // region LOG
             dLog(TAG, "runAfterGoing()")
         // endregion
-        runAfterGoing(targetScr)
+        runAfterGoing(previousScr, targetScr)
         
         navigating = false
         // region LOG
@@ -57,10 +57,10 @@ abstract class BaseNavigator {
     }
     
     
-    protected open fun specialBackstack(targetScr: Screen) {}
+    protected open fun specialBackstack(previousScr: Screen, targetScr: Screen) {}
     
-    protected open fun runBeforeGoing(targetScr: Screen) {}
+    protected open fun runBeforeGoing(previousScr: Screen, targetScr: Screen) {}
     
-    protected open fun runAfterGoing(targetScr: Screen) {}
+    protected open fun runAfterGoing(previousScr: Screen, targetScr: Screen) {}
     
 }

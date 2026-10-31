@@ -14,13 +14,4 @@ object Navigator : BaseNavigator() {
         // Project-level logic here
     }
     
-    override fun runBeforeGoing(                                               targetScr: Screen
-    ) {
-        // Project-level logic here
-    }
-    
-    override fun runAfterGoing(                                                targetScr: Screen
-    ) {
-        // Project-level logic here
-    }
 }
