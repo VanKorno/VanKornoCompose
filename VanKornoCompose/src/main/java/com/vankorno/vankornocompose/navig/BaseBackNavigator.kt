@@ -36,7 +36,7 @@ abstract class BaseBackNavigator {
     }
     
     
-    protected open fun onBackWithoutPopup(currentScr: Screen, previousScr: Screen) {}
+    protected open fun onBackWithoutPopup(currScreen: Screen, previousScreen: Screen) {}
     
     /*private fun noPopup(currentScreen: Screen) {
         onBackWithoutPopup(currentScreen)

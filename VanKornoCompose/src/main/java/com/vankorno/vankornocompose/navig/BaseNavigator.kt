@@ -8,42 +8,42 @@ import com.vankorno.vankornohelpers.values.LibLambdas.hideKeyboard
 abstract class BaseNavigator {
     protected val TAG = "Navigator"
     
-    open fun onGoToScreen(                                              targetScr: Screen = ScrHome,
+    open fun onGoToScreen(                                           targetScreen: Screen = ScrHome,
                                                                  autoHideKeyboard: Boolean = true,
     ) {
         navigating = true
         // region LOG
-            dLog(TAG, "goToScreen(targetScr = $targetScr)")
+            dLog(TAG, "goToScreen(targetScr = $targetScreen)")
         // endregion
         
         if (autoHideKeyboard)
             hideKeyboard()
         
-        val previousScr = libVm.currScreen.value
-        libVm.previousScreen.value = previousScr
+        val previousScreen = libVm.currScreen.value
+        libVm.previousScreen.value = previousScreen
         // region LOG
-            dLog(TAG, "previousScr = $previousScr)")
+            dLog(TAG, "previousScr = $previousScreen)")
         // endregion
         
         // region LOG
             dLog(TAG, "specialBackstack()")
         // endregion
-        specialBackstack(previousScr, targetScr)
+        specialBackstack(previousScreen, targetScreen)
         
         // region LOG
             dLog(TAG, "runBeforeGoing()")
         // endregion
-        runBeforeGoing(previousScr, targetScr)
+        runBeforeGoing(previousScreen, targetScreen)
         
-        libVm.currScreen.value = targetScr
+        libVm.currScreen.value = targetScreen
         // region LOG
-            dLog(TAG, "previousScr = $previousScr)")
+            dLog(TAG, "previousScr = $previousScreen)")
         // endregion
         
         // region LOG
             dLog(TAG, "runAfterGoing()")
         // endregion
-        runAfterGoing(previousScr, targetScr)
+        runAfterGoing(previousScreen, targetScreen)
         
         navigating = false
         // region LOG
@@ -57,10 +57,10 @@ abstract class BaseNavigator {
     }
     
     
-    protected open fun specialBackstack(previousScr: Screen, targetScr: Screen) {}
+    protected open fun specialBackstack(previousScreen: Screen, targetScreen: Screen) {}
     
-    protected open fun runBeforeGoing(previousScr: Screen, targetScr: Screen) {}
+    protected open fun runBeforeGoing(previousScreen: Screen, targetScreen: Screen) {}
     
-    protected open fun runAfterGoing(previousScr: Screen, targetScr: Screen) {}
+    protected open fun runAfterGoing(previousScreen: Screen, targetScreen: Screen) {}
     
 }

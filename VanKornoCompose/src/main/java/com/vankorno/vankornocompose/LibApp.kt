@@ -12,7 +12,6 @@ import com.vankorno.vankornocompose.navig.PopupState
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
-import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
 import com.vankorno.vankornocompose.values.LibLambdas2.popupOFF
 import com.vankorno.vankornocompose.values.internal.DummyEntityMeta
@@ -127,13 +126,13 @@ private object DefaultBackNavigator : BaseBackNavigator() {
         popupOFF()
     }
     
-    override fun onBackWithoutPopup(                                          currentScr: Screen,
-                                                                             previousScr: Screen,
+    override fun onBackWithoutPopup(                                          currScreen: Screen,
+                                                                          previousScreen: Screen,
     ) {
-        when (currentScr) {
+        when (currScreen) {
             ScrHome -> minimizeApp()
-            previousScr -> goToStart()
-            else -> goTo(previousScr)
+            previousScreen -> goToStart()
+            else -> goTo(previousScreen)
         }
     }
 }
