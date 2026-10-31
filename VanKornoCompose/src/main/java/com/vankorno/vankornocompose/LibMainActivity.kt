@@ -151,18 +151,30 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     protected open fun afterCompose() {}
     
+    protected open fun beforePausing() {}
+    protected open fun afterPausing() {}
     
-    protected open fun doOnPause() {}
-    protected open fun doOnStart() {}
-    protected open fun doOnStop() {}
-    protected open fun doOnDestroy() {}
-    protected open fun doOnResumeAfterPause() {}
-    protected open fun doOnResumeAfterAll() {}
+    protected open fun beforeStart() {}
+    protected open fun afterStart() {}
+    
+    protected open fun beforeStop() {}
+    protected open fun afterStop() {}
+    
+    protected open fun beforeDestroy() {}
+    protected open fun afterDestroy() {}
+    
+    protected open fun onResumeAfterPause() {}
+    
+    protected open fun beforeResuming() {}
+    protected open fun afterResuming() {}
     
     protected open fun doEveryMinute() {}
     
-    protected open fun doAfterPopupOFF() {}
+    protected open fun beforePopupOFF() {}
+    protected open fun afterPopupOFF() {}
+    
     protected open fun doBeforeMinimizingApp() {}
+    
     protected open fun doBeforeForceExit() {}
     
     
@@ -188,9 +200,10 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
             libVm.popupState.value = it
         }
         popupOFF = {
+            beforePopupOFF()
             hideKeyboard()
             libVm.popupState.value = PopupOFF
-            doAfterPopupOFF()
+            afterPopupOFF()
         }
         
         longToast = { LibMisc().makeToast(this, it, Toast.LENGTH_LONG) }
@@ -209,63 +222,74 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     
     
     override fun onPause() {
-        super.onPause()
         // region LOG
             dLog(TAG, "onPause()")
         // endregion
+        beforePausing()
+        
+        super.onPause()
+        
         if (usesMinuteUpdater)
             unregisterReceiver(minUpdateReceiver)
         
         actRunning = false
         actPaused = true
         
-        doOnPause()
+        afterPausing()
     }
     
     override fun onStart() {
+        beforeStart()
         super.onStart()
-        doOnStart()
+        afterStart()
     }
     
     override fun onStop() {
-        super.onStop()
         // region LOG
             dLog(TAG, "onStop()")
         // endregion
+        beforeStop()
+        
+        super.onStop()
         actRunning = false
         
-        doOnStop()
+        afterStop()
     }
     
     
     override fun onDestroy() {
-        super.onDestroy()
         // region LOG
             dLog(TAG, "onDestroy()")
         // endregion
+        beforeDestroy()
+        
+        super.onDestroy()
+        
         actExists = false
         configChangeJustHappened = isChangingConfigurations
         
-        doOnDestroy()
+        afterDestroy()
     }
     
     
     override fun onResume() {
-        super.onResume()
         // region LOG
             dLog(TAG, "onResume()")
         // endregion
+        beforeResuming()
+        
+        super.onResume()
         
         if (usesMinuteUpdater)
             startMinUpdater()
         
-        if (actPaused) {
-            doOnResumeAfterPause()
-        }
+        if (actPaused)
+            onResumeAfterPause()
+        
         actRunning = true
         actPaused = false
         
-        doOnResumeAfterAll()
+        afterResuming()
     }
     
     
