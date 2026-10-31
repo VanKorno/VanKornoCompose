@@ -33,25 +33,13 @@ abstract class LibApp(                         val dbName: String = "database",
                                          val soundsToInit: Array<Int> = emptyArray(),
 ) : Application() {
     
-    /**
-     * Full override.
-     * Happens after dbInit() and before initLambdas()
-     */
+    /** Full override. */
     protected open fun doOnCreate() {}
     
     /**
      * Creates a dummy in-memory db if not overriden. Full override recommended.
-     * Put [actualDbName] as dbName in DbHelper. It contains either a full db file name
+     * Put [actualDbName] as dbName in DbHelper. By this point it contains either a full db file name
      * or (if running tests) in-memory db string.
-     * 
-     * Example:
-     * dbh = DbHelper(
-     *     context = this,
-     *     dbName = actualDbName,
-     *     dbVersion = DbVersion,
-     *     entityMeta = EntityMeta.entries,
-     *     onCreate = { db -> }
-     * )
      */
     protected open fun dbInit(                                              actualDbName: String
     ) {
@@ -104,15 +92,9 @@ abstract class LibApp(                         val dbName: String = "database",
         }
     }
     
-    /**
-     * Full override.
-     * Happens before onTerminate(), before releasing the SoundPoolHelper, before closing db.
-     */
+    /** Full override. */
     protected open fun beforeTermination() {}
-    /**
-     * Full override.
-     * Happens after onTerminate(), after releasing the SoundPoolHelper, after closing db.
-     */
+    /** Full override. */
     protected open fun afterTermination() {}
     
     override fun onTerminate() {
