@@ -8,6 +8,7 @@ import com.vankorno.vankornocompose.navig.BaseScreenUpdater
 import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.navig.Navig.goTo
 import com.vankorno.vankornocompose.navig.Navig.goToStart
+import com.vankorno.vankornocompose.navig.PopupState
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
@@ -120,7 +121,7 @@ private object DefaultNavigator : BaseNavigator()
 private object DefaultUpdater : BaseScreenUpdater()
 
 private object DefaultBackNavigator : BaseBackNavigator() {
-    override fun onBackFromPopup() {
+    override fun onBackFromPopup(popupState: PopupState) {
         popupOFF()
     }
     override fun onBackWithoutPopup() {
