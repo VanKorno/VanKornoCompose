@@ -17,6 +17,7 @@ import com.vankorno.vankornocompose.values.internal.DummyEntityMeta
 import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.core.data.DbConstants.InMemoryDB
+import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.LibSoundPool
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.values.LibGlobals.debugBuild
@@ -25,14 +26,35 @@ import com.vankorno.vankornohelpers.values.LibLambdas.playSound
 
 private const val TAG = "LibApp"
 
-abstract class LibApp(                      val navigator: BaseNavigator = DefaultNavigator,
+abstract class LibApp(                         val dbName: String = "database",
+                                            val navigator: BaseNavigator = DefaultNavigator,
                                         val backNavigator: BaseBackNavigator = DefaultBackNavigator,
                                         val screenUpdater: BaseScreenUpdater = DefaultUpdater,
                                          val soundsToInit: Array<Int> = emptyArray(),
 ) : Application() {
     
+    /**
+     * Full override.
+     * Happens after dbInit() and before initLambdas()
+     */
     protected open fun doOnCreate() {}
-    protected open fun dbInit() {
+    
+    /**
+     * Creates a dummy in-memory db if not overriden. Full override recommended.
+     * Put [actualDbName] as dbName in DbHelper. It contains either a full db file name
+     * or (if running tests) in-memory db string.
+     * 
+     * Example:
+     * dbh = DbHelper(
+     *     context = this,
+     *     dbName = actualDbName,
+     *     dbVersion = DbVersion,
+     *     entityMeta = EntityMeta.entries,
+     *     onCreate = { db -> }
+     * )
+     */
+    protected open fun dbInit(                                              actualDbName: String
+    ) {
         dbh = DbHelper(
             context = this,
             dbName = InMemoryDB,
@@ -41,6 +63,16 @@ abstract class LibApp(                      val navigator: BaseNavigator = Defau
         )
     }
     
+    private fun initializeDb() {
+        val fullDbFileName = dbName + ".db"
+        val actualDbName = LibMisc().getDbName(fullDbFileName)
+        // region LOG
+            dLog(TAG, "dbInit(): Actual db name = $actualDbName")
+        // endregion
+        dbInit(actualDbName)
+    }
+    
+    
     
     override fun onCreate() {
         super.onCreate()
@@ -48,7 +80,7 @@ abstract class LibApp(                      val navigator: BaseNavigator = Defau
         
         debugBuild = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         
-        dbInit()
+        initializeDb()
         doOnCreate()
         initLambdas()
         soundInit()
@@ -72,17 +104,29 @@ abstract class LibApp(                      val navigator: BaseNavigator = Defau
         }
     }
     
-    
-    protected open fun doOnTerminate() {}
+    /**
+     * Full override.
+     * Happens before onTerminate(), before releasing the SoundPoolHelper, before closing db.
+     */
+    protected open fun beforeTermination() {}
+    /**
+     * Full override.
+     * Happens after onTerminate(), after releasing the SoundPoolHelper, after closing db.
+     */
+    protected open fun afterTermination() {}
     
     override fun onTerminate() {
-        super.onTerminate()
         // region LOG
             dLog(TAG, "onTerminate()")
         // endregion
-        doOnTerminate()
+        beforeTermination()
+        
         soundPoolHelper.release()
         dbh.closeDb()
+        
+        super.onTerminate()
+        
+        afterTermination()
     }
 }
 

@@ -87,17 +87,25 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         afterCompose()
     }
     
+    /** Full override. */
     @Composable
     protected abstract fun AppUI()
     
+    /** Full override. */
     protected open fun beforeStartup() {}
-    
+    /** Full override. */
     protected open fun startupFirstLaunch() {}
+    /** Full override. */
     protected open fun startupNotFirstLaunch() {}
+    /** Full override. */
     protected open fun startupLaunch() {}
-    
+    /** Full override. */
     protected open fun startupConfigChange() {}
-    
+    /**
+     * By default runs this:
+     *   startupNotFirstLaunch()
+     *   startupLaunch()
+     */
     protected open fun startupAfterProcessDeath() {
         startupNotFirstLaunch()
         startupLaunch()
@@ -147,34 +155,41 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         configChangeJustHappened = false // Just in case
         appStarted = true
     }
+    /** Full override. */
     protected open fun afterStartup() {}
-    
+    /** Full override. */
     protected open fun afterCompose() {}
-    
+    /** Full override. */
     protected open fun beforePausing() {}
+    /** Full override. */
     protected open fun afterPausing() {}
-    
+    /** Full override. */
     protected open fun beforeStart() {}
+    /** Full override. */
     protected open fun afterStart() {}
-    
+    /** Full override. */
     protected open fun beforeStop() {}
+    /** Full override. */
     protected open fun afterStop() {}
-    
+    /** Full override. */
     protected open fun beforeDestroy() {}
+    /** Full override. */
     protected open fun afterDestroy() {}
-    
+    /** Full override. */
     protected open fun onResumeAfterPause() {}
-    
+    /** Full override. */
     protected open fun beforeResuming() {}
+    /** Full override. */
     protected open fun afterResuming() {}
-    
+    /** Full override. */
     protected open fun doEveryMinute() {}
-    
+    /** Full override. */
     protected open fun beforePopupOFF() {}
+    /** Full override. */
     protected open fun afterPopupOFF() {}
-    
+    /** Full override. */
     protected open fun doBeforeMinimizingApp() {}
-    
+    /** Full override. */
     protected open fun doBeforeForceExit() {}
     
     

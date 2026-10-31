@@ -4,7 +4,7 @@ import com.vankorno.vankornodb.dbManagement.data.BaseEntityMeta
 import com.vankorno.vankornodb.dbManagement.data.CurrSchemaBundle
 import com.vankorno.vankornodb.dbManagement.migration.data.MigrationBundle
 
-const val DbNAME = "ComposeDemoApp.db"
+const val DbNAME = "ComposeDemoApp"
 const val DbVersion = 1
 
 
