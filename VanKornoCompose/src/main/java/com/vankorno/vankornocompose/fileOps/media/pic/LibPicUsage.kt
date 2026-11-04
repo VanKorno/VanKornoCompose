@@ -47,7 +47,7 @@ object LibPicUsage {
     private fun deleteUsages(                                               where: WhereDsl.()->Unit
     ) {
         dbh.write("clearSecPicUsages") { db ->
-            val usedPicIDs = db.getColLongs(TTTPicUsage, ObjId, where) 
+            val usedPicIDs = db.getColLongs(TTTPicUsage, ObjId, where = where) 
             
             db.deleteRows(TTTPicUsage, where = where)
             

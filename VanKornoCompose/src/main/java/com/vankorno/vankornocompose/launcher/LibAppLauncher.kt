@@ -15,7 +15,6 @@ import com.vankorno.vankornocompose.values.LibGlobals2.language
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.api.createTable
 import com.vankorno.vankornodb.get.getStr
-import com.vankorno.vankornodb.misc.whereName
 import com.vankorno.vankornodb.set.addToInt
 import com.vankorno.vankornodb.set.setLong
 import com.vankorno.vankornohelpers.getCurrTime
@@ -30,7 +29,7 @@ internal object LibAppLauncher {
     
     fun beforeNotFirstLaunch() {
         dbh.write("beforeNotFirstLaunch") { db ->
-            language.value = db.getStr(TTTMisc, CMisc.Str1, whereName(AppLanguage))
+            language.value = db.getStr(TTTMisc, CMisc.Str1) { Name = AppLanguage }
             
             db.setLong(getCurrTime(), TTTMisc, Long1) { Name = AppLastLaunched }
             

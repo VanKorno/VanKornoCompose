@@ -27,10 +27,12 @@ object LibPicCleanup {
     fun singleSubjPicCleanup(                                                      table: String,
                                                                                       id: Long,
     ) {
-        val picIDs = dbh.getColLongs(TTTPicUsage, ObjId) {
-            SubjTable equal table
-            and { SubjId equal id }
-        }
+        val picIDs = dbh.getColLongs(TTTPicUsage, ObjId,
+            where = {
+                SubjTable equal table
+                and { SubjId equal id }
+            }
+        )
         if (picIDs.isEmpty()) return //\/\/\/\/\/\
         
         for (picId in picIDs) {
