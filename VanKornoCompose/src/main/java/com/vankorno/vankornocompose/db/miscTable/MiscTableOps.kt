@@ -1,22 +1,12 @@
 package com.vankorno.vankornocompose.db.miscTable
 
-import android.database.sqlite.SQLiteDatabase
 import com.vankorno.vankornocompose._entities.misc.CMisc.Long1
-import com.vankorno.vankornocompose._entities.misc.MiscEntt
 import com.vankorno.vankornocompose.db.LibDbVals.AppFirstLaunched
 import com.vankorno.vankornocompose.db.LibDbVals.TTTMisc
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornohelpers.getDaysTillNow
 
 object MiscTableOps {
-    
-    fun addMiscRows(                                                            db: SQLiteDatabase,
-                                                                    vararg objects: MiscEntt,
-    ) {
-        for (obj in objects) {
-            obj.insert(db)
-        }
-    }
     
     fun getDaysSinceFirstAppLaunch(): Int {
         val firstLaunchTime = dbh.getLong(TTTMisc, Long1) { Name = AppFirstLaunched }

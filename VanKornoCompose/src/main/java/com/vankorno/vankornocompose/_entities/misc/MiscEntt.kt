@@ -1,9 +1,6 @@
 package com.vankorno.vankornocompose._entities.misc
 
-import android.database.sqlite.SQLiteDatabase
 import android.os.Parcelable
-import com.vankorno.vankornocompose.db.LibDbVals._TTTMisc
-import com.vankorno.vankornodb.add.addObj
 import com.vankorno.vankornodb.api.CurrEntity
 import com.vankorno.vankornodb.api.EntityColumns
 import com.vankorno.vankornodb.dbManagement.data.CurrSchemaBundle
@@ -25,7 +22,6 @@ data class MiscEntt(
                                 val float1: Float = 0F,
                            override val id: Long = -1L,
 ) : CurrEntity, Parcelable {
-    fun insert(db: SQLiteDatabase) = db.addObj(_TTTMisc, this)
 }
 
 
