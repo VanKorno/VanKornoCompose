@@ -39,7 +39,7 @@ object LibGlobals2 {
         // endregion
         if (resetGlobals1)
             LibGlobals.reset()
-        
+         
         language.value = LangAuto
         
     }

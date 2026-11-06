@@ -7,8 +7,8 @@ import com.vankorno.appforcomposelib._navig.Navigator
 import com.vankorno.vankornocompose.LibApp
 import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
-import com.vankorno.vankornohelpers.LibMisc
-import com.vankorno.vankornohelpers.dLog
+import com.vankorno.vankornohelpers.values.LibGlobals.UserTester
+import com.vankorno.vankornohelpers.values.LibGlobals.appUser
 
 private const val TAG = "DemoApp"
 
@@ -30,5 +30,7 @@ class DemoApp : LibApp(
         )
     }
     
-    
+    override fun doOnCreate() {
+        appUser = UserTester
+    }
 }
