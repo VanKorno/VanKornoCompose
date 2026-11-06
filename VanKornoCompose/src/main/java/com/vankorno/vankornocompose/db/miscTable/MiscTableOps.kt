@@ -11,10 +11,10 @@ import com.vankorno.vankornohelpers.getDaysTillNow
 object MiscTableOps {
     
     fun addMiscRows(                                                            db: SQLiteDatabase,
-                                                                        vararg obj: MiscEntt,
+                                                                    vararg objects: MiscEntt,
     ) {
-        obj.forEach {
-            it.insert(db)
+        for (obj in objects) {
+            obj.insert(db)
         }
     }
     
