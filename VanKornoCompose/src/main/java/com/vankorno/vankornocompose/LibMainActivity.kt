@@ -24,6 +24,7 @@ import com.vankorno.vankornocompose.navig.PopupOFF
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.theme_main.LibMainScaffold
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
+import com.vankorno.vankornocompose.values.LibGlobals2.ops
 import com.vankorno.vankornocompose.values.LibLambdas2.exitApp
 import com.vankorno.vankornocompose.values.LibLambdas2.popupOFF
 import com.vankorno.vankornocompose.values.LibLambdas2.popupON
@@ -101,8 +102,8 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     protected open fun startupLaunch() {}
     /** Full override. */
     protected open fun startupConfigChange() {}
-    /**
-     * By default runs this:
+    
+    /** By default runs this:
      *   startupNotFirstLaunch()
      *   startupLaunch()
      */
@@ -182,15 +183,18 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
     /** Full override. */
     protected open fun afterResuming() {}
     /** Full override. */
-    protected open fun doEveryMinute() {}
-    /** Full override. */
     protected open fun beforePopupOFF() {}
     /** Full override. */
     protected open fun afterPopupOFF() {}
     /** Full override. */
-    protected open fun doBeforeMinimizingApp() {}
+    protected open fun beforeMinimizingApp() {}
     /** Full override. */
-    protected open fun doBeforeForceExit() {}
+    protected open fun beforeForceExit() {}
+    
+    /** Full override.
+     *  Has ops.async{} already
+     */
+    protected open fun doEveryMinute() {}
     
     
     
@@ -199,14 +203,14 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
             // region LOG
                 dLog(TAG, "minimizeApp()")
             // endregion
-            doBeforeMinimizingApp()
+            beforeMinimizingApp()
             finishAffinity()
         }
         exitApp = {
             // region LOG
                 dLog(TAG, "exitApp()")
             // endregion
-            doBeforeForceExit()
+            beforeForceExit()
             finishAndRemoveTask()
         }
         
@@ -313,7 +317,9 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
         intentFilter.addAction(Intent.ACTION_TIME_TICK)
         minUpdateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                doEveryMinute()
+                ops.async {
+                    doEveryMinute()
+                }
             }
         }
         registerReceiver(minUpdateReceiver, intentFilter)

@@ -36,7 +36,7 @@ fun TestPerforatedOptions(                                                     s
     val isON = remember { mutableStateOf(true) }
     val idx = remember { mutableIntStateOf(0) }
     
-    val flip = ops.exec {
+    val flip = ops.op {
         isON.value = !isON.value
     }
     

@@ -26,9 +26,9 @@ object Navig {
         initialized = true
     }
 
-    val goTo = ops.exec("goTo") { scr: Screen -> _goTo(scr) }
-    val goBack = ops.exec("goBack") { _goBack() }
-    val goToStart = ops.exec("goToStart") { _goToStart() }
-    val updateScreen = ops.exec("updateScreen") { _updateScreen() }
+    val goTo = ops.op("goTo") { scr: Screen -> _goTo(scr) }
+    val goBack = ops.op("goBack") { _goBack() }
+    val goToStart = ops.op("goToStart") { _goToStart() }
+    val updateScreen = ops.op("updateScreen") { _updateScreen() }
 }
 

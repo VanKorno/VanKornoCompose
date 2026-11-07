@@ -5,7 +5,7 @@ import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import com.vankorno.vankornocompose.fileOps.media.pic.PicDirName
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
-import com.vankorno.vankornocompose.values.LibGlobals2.lops
+import com.vankorno.vankornocompose.values.LibGlobals2.ops
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.eLog
 import com.vankorno.vankornohelpers.wLog
@@ -220,7 +220,7 @@ object LibFileOps {
     
     fun generateUniqueFilename(                                                   prefix: String,
                                                                                      ext: String,
-    ): String = lops.get("", "generateUniqueFilename") {
+    ): String = ops.get("", "generateUniqueFilename") {
         "${prefix}__${System.currentTimeMillis()}.$ext"
     }
     
