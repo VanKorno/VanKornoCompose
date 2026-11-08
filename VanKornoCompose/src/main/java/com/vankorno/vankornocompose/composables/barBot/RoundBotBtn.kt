@@ -4,12 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,13 +18,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.vankorno.vankornocompose.LibScreen.Companion.smallUI
 import com.vankorno.vankornocompose.ScrMEDIUM
 import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.actions.applyIf
 import com.vankorno.vankornocompose.actions.tweakTransparency
 import com.vankorno.vankornocompose.dp1
+import com.vankorno.vankornocompose.dp2
 import com.vankorno.vankornocompose.effects.rememberClipboardText
 import com.vankorno.vankornocompose.navig.Navig
 import com.vankorno.vankornocompose.sp1
@@ -44,12 +41,44 @@ import com.vankorno.vankornohelpers.values.LibLambdas.getClipboard
 val RoundBtnBorderW = 3.dp
 val SmallRoundBtnBorderW = 2.dp
 
-val MOD_SmallRoundBtnMini = Modifier.size(37.dp).padding(end = 1.dp)
 val MOD_SmallRoundBtnMedium = Modifier.size(47.dp).padding(end = 1.dp)
 
 val MOD_RoundBotBtnMINI = Modifier.size(60.dp).padding(1.dp)
 val MOD_RoundBotBtnMEDIUM = Modifier.size(70.dp).padding(2.dp)
 val MOD_RoundBotBtnLARGE = Modifier.size(90.dp).padding(2.dp)
+
+
+@Composable
+fun CircleBtn(                                     modifier: Modifier = Modifier,
+                                            backgroundColor: Color = Color.Black,
+                                                borderColor: Color = LibColor.BlackSurfBorder.color,
+                                                borderWidth: Dp = RoundBtnBorderW,
+                                                    enabled: Boolean = true,
+                                                    testTag: String = "",
+                                                onLongClick: ()->Unit = {},
+                                                    onClick: ()->Unit,
+                                                    content: @Composable BoxScope.()->Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    Box(
+        modifier = modifier
+            .background(backgroundColor, CircleShape)
+            .border(borderWidth, borderColor, CircleShape)
+            .combinedClickable(
+                enabled = enabled,
+                onClick = onClick,
+                onLongClick = onLongClick,
+                interactionSource = interactionSource,
+                indication = null
+            )
+            .applyIf(testTag.isNotBlank()) {
+                testTag(testTag)
+            },
+        contentAlignment = Alignment.Center,
+        content = content
+    )
+}
 
 
 @Composable
@@ -68,11 +97,11 @@ fun RoundBottomBtn(                                                       icon: 
                                                                        enabled: Boolean = true,
                                                                          isBig: Boolean = false,
                                                                        testTag: String = "",
+                                                                   onLongClick: ()->Unit = {},
                                                                        onClick: ()->Unit,
-                                                                   onLongClick: ()->Unit,
 ) {
     var backgroundColor = Color.Black
-    var borderColor =  LibColor.BlackSurfBorder.color
+    var borderColor = LibColor.BlackSurfBorder.color
     var iconColor = icColor
     
     if (!enabled) {
@@ -95,24 +124,15 @@ fun RoundBottomBtn(                                                       icon: 
             MOD_RoundBotBtnMEDIUM
     }
     
-    val interactionSource = remember { MutableInteractionSource() }
-    
-    Box(
-        modifier
-            .background(backgroundColor, CircleShape)
-            .border(RoundBtnBorderW, borderColor, CircleShape)
-            .combinedClickable(
-                enabled = enabled,
-                onClick = onClick,
-                onLongClick = onLongClick,
-                interactionSource = interactionSource,
-                indication = null
-            )
-            .applyIf(testTag.isNotBlank()) {
-                testTag(testTag)
-            }
-        ,
-        contentAlignment = Alignment.Center
+    CircleBtn(
+        modifier = modifier,
+        backgroundColor = backgroundColor,
+        borderColor = borderColor,
+        borderWidth = RoundBtnBorderW,
+        enabled = enabled,
+        testTag = testTag,
+        onLongClick = onLongClick,
+        onClick = onClick
     ) {
         Icon(
             modifier = Modifier
@@ -209,42 +229,38 @@ fun OkCancelBotBtns(                                                           o
 
 
 
-
-
-
-
 @Composable
-fun CirclePickerBtn(                                                         text: String,
+fun CirclePickerBtnBase(                                                     text: String,
                                                                           enabled: Boolean,
                                                                             color: Int = PlainBlack,
                                                                       borderColor: Int = GreyText,
+                                                                          btnSize: Dp = 42.dp2(),
+                                                                         fontSize: TextUnit = 18.sp1(),
+                                                                            paddH: Dp = 1.dp2(),
+                                                                      onLongClick: ()->Unit = {},
                                                                           onClick: ()->Unit,
 ) {
     var backgroundColor = Color.Transparent
     var borderCol = Color.Transparent
     if (enabled) {
         backgroundColor = Color(color)
-        borderCol =  Color(borderColor)
+        borderCol = Color(borderColor)
     }
-    val modifier = if (smallUI) MOD_SmallRoundBtnMini  else  MOD_SmallRoundBtnMedium
+    val modifier = Modifier.size(btnSize).padding(horizontal = paddH)
     
-    val interactionSource = remember { MutableInteractionSource() }
-    
-    Box(
-        modifier
-            .background(backgroundColor, CircleShape)
-            .border(SmallRoundBtnBorderW, borderCol, CircleShape)
-            .combinedClickable(
-                onClick = onClick,
-                interactionSource = interactionSource,
-                indication = null
-            ),
-        contentAlignment = Alignment.Center
+    CircleBtn(
+        modifier = modifier,
+        backgroundColor = backgroundColor,
+        borderColor = borderCol,
+        borderWidth = SmallRoundBtnBorderW,
+        enabled = enabled,
+        onLongClick = onLongClick,
+        onClick = onClick
     ) {
         Text(
             text = text,
             color = Color.White,
-            fontSize = 16.sp1(),
+            fontSize = fontSize,
             fontWeight = FontWeight.Bold,
             maxLines = 1,
             textAlign = TextAlign.Center
@@ -252,6 +268,47 @@ fun CirclePickerBtn(                                                         tex
     }
 }
 
+
+@Composable
+fun CirclePickerBtn(                                                         text: String,
+                                                                          enabled: Boolean,
+                                                                            color: Int = PlainBlack,
+                                                                      borderColor: Int = GreyText,
+                                                                            paddH: Dp = 1.dp2(),
+                                                                      onLongClick: ()->Unit = {},
+                                                                          onClick: ()->Unit,
+) = CirclePickerBtnBase(
+    text = text,
+    enabled = enabled,
+    color = color,
+    borderColor = borderColor,
+    btnSize = 42.dp2(),
+    fontSize = 18.sp1(),
+    paddH = paddH,
+    onLongClick = onLongClick,
+    onClick = onClick
+)
+
+
+@Composable
+fun CirclePickerBtnSmall(                                                    text: String,
+                                                                          enabled: Boolean,
+                                                                            color: Int = PlainBlack,
+                                                                      borderColor: Int = GreyText,
+                                                                            paddH: Dp = 1.dp,
+                                                                      onLongClick: ()->Unit = {},
+                                                                          onClick: ()->Unit,
+) = CirclePickerBtnBase(
+    text = text,
+    enabled = enabled,
+    color = color,
+    borderColor = borderColor,
+    btnSize = 35.dp1(),
+    fontSize = 16.sp1(),
+    paddH = paddH,
+    onLongClick = onLongClick,
+    onClick = onClick
+)
 
 
 @Composable
@@ -261,7 +318,7 @@ fun SmallCircleBtn(                                                    enabled: 
                                                                        onClick: ()->Unit,
 ) {
     var backgroundColor = Color.Black
-    var borderColor =  LibColor.BlackSurfBorder.color
+    var borderColor = LibColor.BlackSurfBorder.color
     var iconColor = icColor
     
     if (!enabled) {
@@ -272,18 +329,13 @@ fun SmallCircleBtn(                                                    enabled: 
     
     val modifier = MOD_SmallRoundBtnMedium
     
-    val interactionSource = remember { MutableInteractionSource() }
-    
-    Box(
-        modifier
-            .background(backgroundColor, CircleShape)
-            .border(SmallRoundBtnBorderW, borderColor, CircleShape)
-            .combinedClickable(
-                onClick = onClick,
-                interactionSource = interactionSource,
-                indication = null
-            ),
-        contentAlignment = Alignment.Center
+    CircleBtn(
+        modifier = modifier,
+        backgroundColor = backgroundColor,
+        borderColor = borderColor,
+        borderWidth = SmallRoundBtnBorderW,
+        enabled = enabled,
+        onClick = onClick
     ) {
         Icon(
             modifier = Modifier

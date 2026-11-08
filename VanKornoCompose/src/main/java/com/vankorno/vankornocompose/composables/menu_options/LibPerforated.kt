@@ -42,14 +42,14 @@ fun PerforatedToggledVariantPicker(                         isON: Boolean,
                                                     variantTexts: Array<String>,
                                                            color: Color = LibColor.Surface.color,
                                                       separColor: Color = LibColor.Background.color,
-                                                         onClick: ()->Unit,
                                                     variantClick: (Int)->Unit,
                                                      onLongClick: ()->Unit = {},
+                                                         onClick: ()->Unit,
 ) {
-    PerforatedToggleOption(isON, false, text, color, onClick, onLongClick)
+    PerforatedToggleOption(isON, false, text, color, onLongClick, onClick)
     
     if (isON) {
-        PerforatedVariantPicker(chosenIdx, isSingleColumn, variantTexts, color, separColor, variantClick, onLongClick)
+        PerforatedVariantPicker(chosenIdx, isSingleColumn, variantTexts, color, separColor, onLongClick, variantClick)
     }
 }
 
@@ -59,8 +59,8 @@ fun PerforatedToggleOption(                                    isON: Boolean,
                                                        isStandalone: Boolean,
                                                                text: String,
                                                               color: Color = LibColor.Surface.color,
-                                                            onClick: ()->Unit,
                                                         onLongClick: ()->Unit = {},
+                                                            onClick: ()->Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -132,8 +132,8 @@ fun PerforatedToggleOption(                                    isON: Boolean,
 fun PerforatedTextOption(                              isStandalone: Boolean,
                                                                text: String,
                                                               color: Color = LibColor.Surface.color,
-                                                            onClick: ()->Unit = {},
                                                         onLongClick: ()->Unit = {},
+                                                            onClick: ()->Unit = {},
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -191,8 +191,8 @@ fun PerforatedVariantPicker(                           chosenIdx: Int,
                                                     variantTexts: Array<String>,
                                                            color: Color = LibColor.Surface.color,
                                                       separColor: Color = LibColor.Background.color,
-                                                         onClick: (Int)->Unit,
                                                      onLongClick: ()->Unit = {},
+                                                         onClick: (Int)->Unit,
 ) {
     Column (
         MOD_Perforated

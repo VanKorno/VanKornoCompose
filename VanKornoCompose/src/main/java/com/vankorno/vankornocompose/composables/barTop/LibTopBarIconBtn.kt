@@ -17,17 +17,10 @@ import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornohelpers.values.LibColors.WhiteTransp
 
 @Composable
-fun LibTopBarIconBtn(                                                            enabled: Boolean,
-                                                                                    icon: Int,
-                                                                                   click: ()->Unit,
-) = LibTopBarIconBtn(enabled, icon, click) {}
-
-
-@Composable
-fun LibTopBarIconBtn(                                                            enabled: Boolean,
-                                                                                    icon: Int,
-                                                                                   click: ()->Unit,
-                                                                               longClick: ()->Unit,
+fun LibTopBarIconBtn(                                                       enabled: Boolean,
+                                                                               icon: Int,
+                                                                        onLongClick: ()->Unit = {},
+                                                                            onClick: ()->Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
@@ -36,8 +29,8 @@ fun LibTopBarIconBtn(                                                           
             .size(44.dp)
             .combinedClickable(
                 enabled = enabled,
-                onClick = click,
-                onLongClick = longClick,
+                onClick = onClick,
+                onLongClick = onLongClick,
                 interactionSource = interactionSource,
                 indication = null
             )

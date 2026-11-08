@@ -7,6 +7,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.vankorno.vankornocompose.composables.barBot.BackBtn
 import com.vankorno.vankornocompose.composables.barBot.LibBotBar
 import com.vankorno.vankornocompose.composables.barTop.LibTopBarShadow
 import com.vankorno.vankornocompose.composables.body.LibBody
@@ -37,7 +38,7 @@ fun LayoutsHome(                                                       modifiers
 
 @Composable
 fun BottomHome() {
-    
+    BackBtn()
 }
 
 @Composable
