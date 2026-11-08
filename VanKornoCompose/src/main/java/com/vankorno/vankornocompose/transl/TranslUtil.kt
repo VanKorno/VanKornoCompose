@@ -1,6 +1,7 @@
 package com.vankorno.vankornocompose.transl
 
 import com.vankorno.vankornocompose.transl.data.LanguagesWithFemForms
+import com.vankorno.vankornocompose.transl.data.TrMonth2Letters
 import com.vankorno.vankornocompose.transl.data.TrWeekDay2Letters
 import com.vankorno.vankornocompose.transl.data.TrWeekDayLetters
 import com.vankorno.vankornocompose.transl.data.TranslLang
@@ -35,6 +36,8 @@ class TranslUtil {
         
         lang = getActuallyUsedLang()
     )
+    
+    fun getMonthLetters() = defaultToEng(TrMonth2Letters.value, getActuallyUsedLang())
     
     
     private fun defaultToEng(                               transl: Map<String, Lazy<List<String>>>,

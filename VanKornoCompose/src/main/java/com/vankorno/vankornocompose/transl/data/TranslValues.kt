@@ -20,6 +20,9 @@ val TrWeekDay2Letters = lazy { mapOf(
 )}
 
 
-
+val TrMonth2Letters = lazy { mapOf(
+    ENG to lazy { listOf("Ja", "Fe", "Ma", "Ap", "Ma", "Ju", "Jl", "Au", "Se", "Oc", "No", "De") },
+    UKR to lazy { listOf("Сі", "Лю", "Бе", "Кві", "Тр", "Че", "Ли", "Се", "Вер", "Жо", "Ли", "Гр") },
+)}
 
 
