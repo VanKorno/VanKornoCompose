@@ -8,15 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import com.vankorno.appforcomposelib._vm.vm
 import com.vankorno.vankornocompose.composables.Spa_______________cer
 import com.vankorno.vankornocompose.composables.Spa_______________cerEndScr
-import com.vankorno.vankornocompose.composables.barBot.CirclePickerBtn
-import com.vankorno.vankornocompose.composables.barBot.CirclePickerBtnSmall
+import com.vankorno.vankornocompose.composables.Spa_______________cerH
 import com.vankorno.vankornocompose.composables.barBot.RoundBottomBtn
-import com.vankorno.vankornocompose.composables.barBot.SmallCircleBtn
+import com.vankorno.vankornocompose.composables.buttons.RoundBtnSmall
+import com.vankorno.vankornocompose.composables.buttons.RoundPickerBtn
+import com.vankorno.vankornocompose.composables.buttons.RoundPickerBtnSmall
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedTextOption
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedToggledVariantPicker
 import com.vankorno.vankornocompose.composables.textFields.WhiteMultilineField
@@ -26,6 +27,8 @@ import com.vankorno.vankornocompose.navig.PopupContextInfo
 import com.vankorno.vankornocompose.theme_main.LibAccentColor
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.LibGlobals2.ops
+import com.vankorno.vankornocompose.values.LibIcon
+import com.vankorno.vankornocompose.values.MOD_MaxW
 
 @Composable
 fun BodyHome() {
@@ -35,30 +38,54 @@ fun BodyHome() {
     TestTextFields()
     Spa_______________cer()
     
-    TestCircleButtons()
+    TestRoundButtons()
     
     Spa_______________cerEndScr()
 }
 
 
 @Composable
-private fun TestCircleButtons() {
+private fun TestRoundButtons() {
     Column {
-        Text("Circle buttons", color = Color.White)
+        Text("Round buttons", color = Color.White)
         Spa_______________cer(8)
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
-        ) {
-            RoundBottomBtn(icon = com.vankorno.vankornocompose.values.LibIcon.ArrowLeft, onClick = {})
-            SmallCircleBtn(enabled = true, icon = com.vankorno.vankornocompose.values.LibIcon.X, onClick = {})
-            CirclePickerBtn(text = "1", enabled = true, onClick = {})
-            CirclePickerBtn(text = "2", enabled = false, onClick = {})
-            CirclePickerBtnSmall(text = "A", enabled = true, onClick = {})
-            CirclePickerBtnSmall(text = "B", enabled = false, onClick = {})
+        RoundButtonDemoRow("Round bottom button") {
+            RoundBottomBtn(icon = LibIcon.ArrowLeft, onClick = {})
+        }
+        RoundButtonDemoRow("Small round button, enabled") {
+            RoundBtnSmall(enabled = true, icon = LibIcon.X, onClick = {})
+        }
+        RoundButtonDemoRow("Picker, picked") {
+            RoundPickerBtn(text = "1", picked = true, onClick = {})
+        }
+        RoundButtonDemoRow("Picker, unpicked") {
+            RoundPickerBtn(text = "2", picked = false, onClick = {})
+        }
+        RoundButtonDemoRow("Small picker, picked") {
+            RoundPickerBtnSmall(text = "A", picked = true, onClick = {})
+        }
+        RoundButtonDemoRow("Small picker, unpicked") {
+            RoundPickerBtnSmall(text = "B", picked = false, onClick = {})
         }
     }
     Spa_______________cer()
+}
+
+
+@Composable
+private fun RoundButtonDemoRow(
+    label: String,
+    button: @Composable () -> Unit
+) {
+    Row(
+        MOD_MaxW,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+    ) {
+        button()
+        Spa_______________cerH(10)
+        Text(label, color = Color.White)
+    }
 }
 
 
