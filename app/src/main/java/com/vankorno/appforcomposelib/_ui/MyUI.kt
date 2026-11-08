@@ -1,14 +1,10 @@
 package com.vankorno.appforcomposelib._ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.vankorno.appforcomposelib.H_O_M_E.LayoutsHome
 import com.vankorno.appforcomposelib._menus.Popup.PopupMaker
-import com.vankorno.vankornocompose.navig.PopupOFF
 import com.vankorno.vankornocompose.navig.ScrHome
 import com.vankorno.vankornocompose.values.LibGlobals2.libVm
 import com.vankorno.vankornocompose.values.LibLayoutModifiers
@@ -59,14 +55,7 @@ fun MyUI() {
         
         ScreenNavig(modifiers)
         
-        
-        AnimatedVisibility(
-            visible = popupState != PopupOFF,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            PopupMaker(popupState, modifPopup)
-        }
+        PopupMaker(popupState, modifPopup)
     }
 }
 

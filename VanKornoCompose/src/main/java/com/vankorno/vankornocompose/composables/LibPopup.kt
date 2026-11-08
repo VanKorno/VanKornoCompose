@@ -1,13 +1,16 @@
 package com.vankorno.vankornocompose.composables
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
@@ -26,6 +29,8 @@ import com.vankorno.vankornocompose.ScrType
 import com.vankorno.vankornocompose.dp4
 import com.vankorno.vankornocompose.dp5
 import com.vankorno.vankornocompose.navig.Navig
+import com.vankorno.vankornocompose.navig.PopupOFF
+import com.vankorno.vankornocompose.navig.PopupState
 import com.vankorno.vankornocompose.theme_main.LibColor
 import com.vankorno.vankornocompose.values.MOD_W90
 import com.vankorno.vankornohelpers.values.LibLambdas.hideKeyboard
@@ -36,7 +41,7 @@ fun GreyPopup(                                           modifier: Modifier,
                                                           scrType: ScrType,
                                                       composables: @Composable ColumnScope.()->Unit,
 ) {
-    LibPopup(modifier, scrType, 
+    LibPopupLayouts(modifier, scrType, 
         LibColor.BlackScrim.color,
         LibColor.Surface.color,
         composables
@@ -44,9 +49,26 @@ fun GreyPopup(                                           modifier: Modifier,
 }
 
 
+@Composable
+fun LibPopup(                                          popupState: PopupState,
+                                                         modifier: Modifier,
+                                                          scrType: ScrType,
+                                                       scrimColor: Color,
+                                                        cardColor: Color,
+                                                      composables: @Composable ColumnScope.()->Unit,
+) {
+    AnimatedVisibility(
+        visible = popupState != PopupOFF,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        LibPopupLayouts(modifier, scrType, scrimColor, cardColor, composables)
+    }
+}
+
 
 @Composable
-fun LibPopup(                                            modifier: Modifier,
+fun LibPopupLayouts(                                     modifier: Modifier,
                                                           scrType: ScrType,
                                                        scrimColor: Color,
                                                         cardColor: Color,
@@ -54,7 +76,7 @@ fun LibPopup(                                            modifier: Modifier,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     
-    Row(
+    Box(
         modifier
             .background(color = scrimColor)
             .combinedClickable(
@@ -66,8 +88,7 @@ fun LibPopup(                                            modifier: Modifier,
                 indication = null
             )
         ,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        contentAlignment = Alignment.Center
     ) {
         PopupCard(scrType, cardColor, composables)
     }
