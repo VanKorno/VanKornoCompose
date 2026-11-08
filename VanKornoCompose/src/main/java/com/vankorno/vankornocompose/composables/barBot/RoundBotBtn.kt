@@ -87,16 +87,6 @@ fun RoundBottomBtn(                                                       icon: 
                                                                        enabled: Boolean = true,
                                                                          isBig: Boolean = false,
                                                                        testTag: String = "",
-                                                                       onClick: ()->Unit,
-) = RoundBottomBtn(icon, icColor, enabled, isBig, testTag, onClick){}
-
-
-@Composable
-fun RoundBottomBtn(                                                       icon: Int,
-                                                                       icColor: Color = Color.White,
-                                                                       enabled: Boolean = true,
-                                                                         isBig: Boolean = false,
-                                                                       testTag: String = "",
                                                                    onLongClick: ()->Unit = {},
                                                                        onClick: ()->Unit,
 ) {
