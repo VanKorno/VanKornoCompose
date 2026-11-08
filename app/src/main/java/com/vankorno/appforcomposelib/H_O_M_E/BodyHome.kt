@@ -1,14 +1,22 @@
 package com.vankorno.appforcomposelib.H_O_M_E
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.vankorno.appforcomposelib._vm.vm
 import com.vankorno.vankornocompose.composables.Spa_______________cer
 import com.vankorno.vankornocompose.composables.Spa_______________cerEndScr
+import com.vankorno.vankornocompose.composables.barBot.CirclePickerBtn
+import com.vankorno.vankornocompose.composables.barBot.CirclePickerBtnSmall
+import com.vankorno.vankornocompose.composables.barBot.RoundBottomBtn
+import com.vankorno.vankornocompose.composables.barBot.SmallCircleBtn
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedTextOption
 import com.vankorno.vankornocompose.composables.menu_options.PerforatedToggledVariantPicker
 import com.vankorno.vankornocompose.composables.textFields.WhiteMultilineField
@@ -25,8 +33,32 @@ fun BodyHome() {
     Spa_______________cer()
     
     TestTextFields()
+    Spa_______________cer()
+    
+    TestCircleButtons()
     
     Spa_______________cerEndScr()
+}
+
+
+@Composable
+private fun TestCircleButtons() {
+    Column {
+        Text("Circle buttons", color = Color.White)
+        Spa_______________cer(8)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        ) {
+            RoundBottomBtn(icon = com.vankorno.vankornocompose.values.LibIcon.ArrowLeft, onClick = {})
+            SmallCircleBtn(enabled = true, icon = com.vankorno.vankornocompose.values.LibIcon.X, onClick = {})
+            CirclePickerBtn(text = "1", enabled = true, onClick = {})
+            CirclePickerBtn(text = "2", enabled = false, onClick = {})
+            CirclePickerBtnSmall(text = "A", enabled = true, onClick = {})
+            CirclePickerBtnSmall(text = "B", enabled = false, onClick = {})
+        }
+    }
+    Spa_______________cer()
 }
 
 

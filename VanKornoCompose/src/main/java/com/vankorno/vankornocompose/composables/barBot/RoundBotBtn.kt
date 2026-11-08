@@ -63,6 +63,7 @@ fun CircleBtn(                                     modifier: Modifier = Modifier
 
     Box(
         modifier = modifier
+            .aspectRatio(1f)
             .background(backgroundColor, CircleShape)
             .border(borderWidth, borderColor, CircleShape)
             .combinedClickable(
