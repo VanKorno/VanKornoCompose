@@ -1,6 +1,7 @@
 package com.vankorno.vankornocompose.transl
 
 import com.vankorno.vankornocompose.transl.data.LanguagesWithFemForms
+import com.vankorno.vankornocompose.transl.data.TrWeekDay2Letters
 import com.vankorno.vankornocompose.transl.data.TrWeekDayLetters
 import com.vankorno.vankornocompose.transl.data.TranslLang
 import com.vankorno.vankornocompose.values.LibGlobals2.language
@@ -25,7 +26,15 @@ class TranslUtil {
     
     
     
-    fun getWeekDayLetters() = defaultToEng(TrWeekDayLetters.value, getActuallyUsedLang())
+    fun getWeekDayLetters(                                             singleLetter: Boolean = true
+    ) = defaultToEng(
+        transl = if (singleLetter)
+                    TrWeekDayLetters.value
+                else
+                    TrWeekDay2Letters.value,
+        
+        lang = getActuallyUsedLang()
+    )
     
     
     private fun defaultToEng(                               transl: Map<String, Lazy<List<String>>>,
