@@ -25,11 +25,11 @@ fun LibPopLangPicker(                                                       onCl
     ) {
         TranslLang.entries.forEach { enumElement ->
             if (!excludedTranslLangs.contains(enumElement)) {
-                val txt = enumElement.uiName
+                val text = enumElement.uiName
                 val langCode = enumElement.code
                 val isPicked = LocalLanguage.current == langCode
                 
-                LibMultPickerPopupRow(isPicked, txt) {
+                LibMultPickerPopupRow(isPicked, text) {
                     onClick(langCode)
                 }
             }

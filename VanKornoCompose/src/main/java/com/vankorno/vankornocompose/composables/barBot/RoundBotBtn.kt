@@ -1,6 +1,5 @@
 package com.vankorno.vankornocompose.composables.barBot
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
@@ -63,7 +62,6 @@ fun RoundBottomBtn(                                                       icon: 
 ) = RoundBottomBtn(icon, icColor, enabled, isBig, testTag, onClick){}
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RoundBottomBtn(                                                       icon: Int,
                                                                        icColor: Color = Color.White,
@@ -215,9 +213,8 @@ fun OkCancelBotBtns(                                                           o
 
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CirclePickerBtn(                                                          txt: String,
+fun CirclePickerBtn(                                                         text: String,
                                                                           enabled: Boolean,
                                                                             color: Int = PlainBlack,
                                                                       borderColor: Int = GreyText,
@@ -245,7 +242,7 @@ fun CirclePickerBtn(                                                          tx
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = txt,
+            text = text,
             color = Color.White,
             fontSize = 16.sp1(),
             fontWeight = FontWeight.Bold,
@@ -257,7 +254,6 @@ fun CirclePickerBtn(                                                          tx
 
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SmallCircleBtn(                                                    enabled: Boolean,
                                                                           icon: Int,
@@ -301,11 +297,11 @@ fun SmallCircleBtn(                                                    enabled: 
 }
 
 @Composable
-fun SmallClearBtn(                                                                   txt: String,
+fun SmallClearBtn(                                                                  text: String,
                                                                                  onClick: ()->Unit,
 ) {
     SmallCircleBtn(
-        enabled = txt.isNotEmpty(),
+        enabled = text.isNotEmpty(),
         icon = LibIcon.X,
         icColor = Color.Red,
         onClick = onClick

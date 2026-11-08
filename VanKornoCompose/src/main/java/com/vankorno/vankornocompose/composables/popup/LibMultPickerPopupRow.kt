@@ -22,7 +22,7 @@ import com.vankorno.vankornohelpers.LibUI
 
 @Composable
 fun LibMultPickerPopupRow(                                                      isPicked: Boolean,
-                                                                                     txt: String,
+                                                                                    text: String,
                                                                                  onClick: ()->Unit,
 ) {
     Row(
@@ -44,7 +44,7 @@ fun LibMultPickerPopupRow(                                                      
         )
         Text(
             modifier = Modifier.padding(start=16.dp),
-            text = txt,
+            text = text,
             color = Color.White,
             fontSize = 22.sp1(),
             fontWeight = FontWeight.Bold,

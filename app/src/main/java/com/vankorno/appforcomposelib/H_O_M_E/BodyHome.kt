@@ -44,30 +44,30 @@ fun TestPerforatedOptions(                                                     s
         isON = isON.value,
         chosenIdx = idx.intValue,
         isSingleColumn = false,
-        txt = "Test",
+        text = "Test",
         color = LibAccentColor.Green.color,
         variantTexts = arrayOf("one\n kllkjlkj", "two", "three"),
         
-        click = { flip.async() },
+        onClick = { flip.async() },
         
         variantClick = { idx.intValue = it },
         
-        longClick = showPopup
+        onLongClick = showPopup
     )
     
     PerforatedTextOption(
         isStandalone = true,
-        txt = "Test",
+        text = "Test",
         color = LibAccentColor.Violet.color,
     )
     PerforatedTextOption(
         isStandalone = true,
-        txt = "Test\nTest",
+        text = "Test\nTest",
         color = LibAccentColor.Yellow.color,
     )
     PerforatedTextOption(
         isStandalone = true,
-        txt = "Test\nTest\nTest",
+        text = "Test\nTest\nTest",
     )
 }
 
