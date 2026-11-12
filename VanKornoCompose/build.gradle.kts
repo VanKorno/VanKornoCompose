@@ -75,7 +75,7 @@ dependencies {
     api(libs.androidx.lifecycle.runtime.compose)
     
     api(libs.vankornohelpers)
-    implementation(libs.vankornodb)
+    api(libs.vankornodb)
 }
 
 val versionTag = providers.environmentVariable("VERSION").orNull
