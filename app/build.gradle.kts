@@ -1,17 +1,22 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.vankorno.appforcomposelib"
-    compileSdk = 37
+    compileSdk {
+        version = release(37)
+    }
     
     defaultConfig {
         applicationId = "com.vankorno.appforcomposelib"
-        minSdk = 26
-        targetSdk = 37
+        minSdk {
+            version = release(26)
+        }
+        targetSdk {
+            version = release(37)
+        }
         versionCode = 1
         versionName = "1.0"
         

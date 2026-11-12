@@ -11,8 +11,8 @@ composeBom = "2026.09.00"
 constraintlayoutCompose = "1.1.2"
 kotlinxCoroutines = "1.11.0"
 testManifest = "1.12.1"
-vankornoHelpers = "2.108"
-vankornoDB = "0.248"
+vankornoHelpers = "2.109"
+vankornoDB = "0.249"
 
 
 [libraries]
@@ -46,7 +46,6 @@ vankornodb = { module = "com.github.VanKorno:VanKornoDB", version.ref = "vankorn
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 
