@@ -21,8 +21,7 @@ data class MiscEntt(
                                  val long1: Long = 0L,
                                 val float1: Float = 0F,
                            override val id: Long = -1L,
-) : CurrEntity, Parcelable {
-}
+) : CurrEntity, Parcelable
 
 
 
