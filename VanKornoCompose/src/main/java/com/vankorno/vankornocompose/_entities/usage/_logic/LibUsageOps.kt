@@ -1,26 +1,26 @@
 package com.vankorno.vankornocompose._entities.usage._logic
 
+import com.vankorno.vankornocompose._entities.usage.CUsage
 import com.vankorno.vankornocompose._entities.usage.CUsage.SubjId
 import com.vankorno.vankornocompose._entities.usage.CUsage.SubjTable
 import com.vankorno.vankornocompose._entities.usage._Usage
+import com.vankorno.vankornocompose.values.LibGlobals2.ops
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.dbManagement.data.using
 
 object LibUsageOps {
-    private const val TAG = "LibUsageOps"
-    
     
     fun copyUsagesWithSubj(                                                   usageTable: String,
-                                                                               tableFrom: String,
-                                                                                  idFrom: Long,
-                                                                                 tableTo: String,
-                                                                                    idTo: Long,
+                                                                                oldTable: String,
+                                                                                newTable: String,
+                                                                                   oldId: Long,
+                                                                                   newId: Long,
     ) {
         val tableInfo = usageTable using _Usage
         
         val oldObjects = dbh.getObjects(tableInfo) {
-            SubjTable equal tableFrom
-            and { SubjId equal idFrom }
+            SubjId equal oldId
+            SubjTable equal oldTable
         }
         
         if (oldObjects.isEmpty()) return //\/\/\/\/\/\
@@ -32,8 +32,8 @@ object LibUsageOps {
                 add(
                     obj.copy(
                         id = lastId + idx + 1,
-                        subjTable = tableTo,
-                        subjId = idTo
+                        subjTable = newTable,
+                        subjId = newId
                     )
                 )
             }
@@ -43,20 +43,53 @@ object LibUsageOps {
     
     
     fun handleUsagesOnSubjMove(                                               usageTable: String,
-                                                                               tableFrom: String,
-                                                                                  idFrom: Long,
-                                                                                 tableTo: String,
-                                                                                    idTo: Long,
+                                                                                oldTable: String,
+                                                                                newTable: String,
+                                                                                   oldId: Long,
+                                                                                   newId: Long,
     ) {
         dbh.set(
             usageTable,
             where = {
-                SubjTable equal tableFrom
-                and { SubjId equal idFrom }
+                SubjId equal oldId
+                SubjTable equal oldTable
             }
         ) {
-            SubjTable setTo tableTo
-            SubjId setTo idTo
+            SubjId setTo newId
+            SubjTable setTo newTable
         }
     }
+    
+    
+    /**
+     * Gets all IDs of objects belonging to the same subject(s)
+     */
+    fun getUsageObjIDs(                                                   usageTable: String,
+                                                                           subjTable: String,
+                                                                              subjId: Long? = null,
+    ): List<Long> = ops.get(emptyList(), "getUsageObjIDs") {
+        getUsageObjIDsP(usageTable, subjTable, subjId)
+    }
+    
+    /**
+     * Gets all IDs of objects belonging to the same subject(s)
+     */
+    fun getUsageObjIDs(                                                 usageTable: String,
+                                                                         subjTable: String? = null,
+                                                                            subjId: Long,
+    ): List<Long> = ops.get(emptyList(), "getUsageObjIDs") {
+        getUsageObjIDsP(usageTable, subjTable, subjId)
+    }
+    
+    private fun getUsageObjIDsP(                                              usageTable: String,
+                                                                               subjTable: String?,
+                                                                                  subjId: Long?,
+    ): List<Long> = dbh.getColLongs(usageTable, CUsage.ObjId) {
+        if (subjId != null)
+            SubjId equal subjId
+        
+        if (subjTable != null)
+            SubjTable equal subjTable
+    }
+    
 }
