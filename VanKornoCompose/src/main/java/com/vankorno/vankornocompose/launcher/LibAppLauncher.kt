@@ -11,7 +11,7 @@ import com.vankorno.vankornocompose.db.LibDbVals.AppLaunchCount
 import com.vankorno.vankornocompose.db.LibDbVals.TTTMisc
 import com.vankorno.vankornocompose.db.LibDbVals._TTTMisc
 import com.vankorno.vankornocompose.values.LibGlobals2.language
-import com.vankorno.vankornodb.add.addObjects
+import com.vankorno.vankornodb.add.addEntities
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.api.createTable
 import com.vankorno.vankornodb.get.getStr
@@ -43,7 +43,7 @@ internal object LibAppLauncher {
             db.createTable(_TTTMisc)
             val currTime = getCurrTime()
             
-            db.addObjects(_TTTMisc,
+            db.addEntities(_TTTMisc,
                 MiscEntt(AppLanguage, str1 = LangAuto),
                 MiscEntt(AppFirstLaunched, long1 = currTime),
                 MiscEntt(AppLastLaunched, long1 = currTime),

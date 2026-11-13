@@ -139,7 +139,7 @@ object LibPicCleanup {
      * PicEntt rows that are in use, but don't have the actual files.
      */
     private fun getFileLoserIDs(): List<Long> {
-        val objToCheck = dbh.getObjects(_TTTPic)
+        val objToCheck = dbh.getEntities(_TTTPic)
         
         if (objToCheck.isEmpty()) {
             // region LOG

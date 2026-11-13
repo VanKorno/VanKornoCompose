@@ -18,7 +18,7 @@ object LibUsageOps {
     ) {
         val tableInfo = usageTable using _Usage
         
-        val oldObjects = dbh.getObjects(tableInfo) {
+        val oldObjects = dbh.getEntities(tableInfo) {
             SubjId equal oldId
             SubjTable equal oldTable
         }
@@ -38,7 +38,7 @@ object LibUsageOps {
                 )
             }
         }
-        dbh.addObjects(tableInfo, newObjects)
+        dbh.addEntities(tableInfo, newObjects)
     }
     
     
