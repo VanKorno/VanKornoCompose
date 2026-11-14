@@ -20,9 +20,9 @@ class DemoApp : LibApp(
     override fun dbInit(                                                    actualDbName: String
     ) {
         dbh = DbHelper(
-            context = this,
             dbName = actualDbName,
             dbVersion = DbVersion,
+            context = this,
             entityMeta = EntityMeta.entries,
             onUpgrade = { db, _ ->
                 

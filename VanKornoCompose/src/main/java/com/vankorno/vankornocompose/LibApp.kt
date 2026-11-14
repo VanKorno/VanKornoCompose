@@ -2,15 +2,9 @@ package com.vankorno.vankornocompose
 
 import android.app.Application
 import android.content.pm.ApplicationInfo
-import com.vankorno.vankornocompose.navig.BaseBackNavigator
-import com.vankorno.vankornocompose.navig.BaseNavigator
-import com.vankorno.vankornocompose.navig.BaseScreenUpdater
-import com.vankorno.vankornocompose.navig.Navig
+import com.vankorno.vankornocompose.navig.*
 import com.vankorno.vankornocompose.navig.Navig.goTo
 import com.vankorno.vankornocompose.navig.Navig.goToStart
-import com.vankorno.vankornocompose.navig.PopupState
-import com.vankorno.vankornocompose.navig.ScrHome
-import com.vankorno.vankornocompose.navig.Screen
 import com.vankorno.vankornocompose.values.LibGlobals2.appContext
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
 import com.vankorno.vankornocompose.values.LibLambdas2.popupOFF
@@ -45,9 +39,9 @@ abstract class LibApp(                         val dbName: String = "database",
     protected open fun dbInit(                                              actualDbName: String
     ) {
         dbh = DbHelper(
-            context = this,
             dbName = InMemoryDB,
             dbVersion = 1,
+            context = this,
             entityMeta = DummyEntityMeta.entries,
         )
     }
