@@ -1,9 +1,8 @@
 package com.vankorno.vankornocompose._entities.misc
 
 import android.os.Parcelable
-import com.vankorno.vankornodb.api.CurrEntity
-import com.vankorno.vankornodb.api.EntityColumns
-import com.vankorno.vankornodb.dbManagement.data.CurrSchemaBundle
+import com.vankorno.vankornodb.api.DbEntity
+import com.vankorno.vankornodb.core.dsl.DbhColumns
 import com.vankorno.vankornodb.dbManagement.data.bCol
 import com.vankorno.vankornodb.dbManagement.data.fCol
 import com.vankorno.vankornodb.dbManagement.data.iCol
@@ -21,7 +20,7 @@ data class MiscEntt(
                                  val long1: Long = 0L,
                                 val float1: Float = 0F,
                            override val id: Long = -1L,
-) : CurrEntity, Parcelable
+) : DbEntity, Parcelable
 
 
 
@@ -64,7 +63,7 @@ object _Misc : CurrSchemaBundle<MiscEntt>(
 
 
 
-object CMisc : EntityColumns {
+object CMisc : DbhColumns {
     val Name = sCol("name", "")
     val Int1 = iCol("int1", 0)
     val Bool1 = bCol("bool1", false)
@@ -72,14 +71,4 @@ object CMisc : EntityColumns {
     val Long1 = lCol("long1", 0L)
     val Float1 = fCol("float1", 0F)
     val Id = lCol("id", -1L)
-
-    override val columns = buildColList {
-        +Name
-        +Int1
-        +Bool1
-        +Str1
-        +Long1
-        +Float1
-        +Id
-    }
 }

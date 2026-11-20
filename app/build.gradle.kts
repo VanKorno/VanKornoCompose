@@ -5,9 +5,8 @@ plugins {
 
 android {
     namespace = "com.vankorno.appforcomposelib"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = 37
+    compileSdkMinor = 1
     
     defaultConfig {
         applicationId = "com.vankorno.appforcomposelib"

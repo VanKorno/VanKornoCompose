@@ -7,9 +7,8 @@ plugins {
 
 android {
     namespace = "com.vankorno.vankornocompose"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = 37
+    compileSdkMinor = 1
     
     defaultConfig {
         minSdk {
