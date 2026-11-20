@@ -29,8 +29,8 @@ object LibPicCleanup {
     ) {
         val picIDs = dbh.getColLongs(TTTPicUsage, ObjId,
             where = {
+                SubjId equal id
                 SubjTable equal table
-                and { SubjId equal id }
             }
         )
         if (picIDs.isEmpty()) return //\/\/\/\/\/\
@@ -172,7 +172,7 @@ object LibPicCleanup {
             
             val unusedIDs = buildList {
                 for (id in ids) {
-                    val used = db.hasRows(TTTPicUsage) { ObjId equal id }
+                    val used = db.hasRows(TTTPicUsage) { ObjId equal id } // TODO Subquery
                     
                     if (!used)
                         add(id)
@@ -180,7 +180,7 @@ object LibPicCleanup {
             }
             db.deleteRows(TTTPic) {
                 cID equalAny unusedIDs
-                and { BecameUnused less delLine }
+                BecameUnused less delLine
             }
         }
     }
