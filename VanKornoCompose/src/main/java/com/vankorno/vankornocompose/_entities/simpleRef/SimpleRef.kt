@@ -1,11 +1,10 @@
 package com.vankorno.vankornocompose._entities.simpleRef
 
 import android.os.Parcelable
-import com.vankorno.vankornodb.api.CurrEntity
-import com.vankorno.vankornodb.api.EntityColumns
-import com.vankorno.vankornodb.dbManagement.data.CurrSchemaBundle
-import com.vankorno.vankornodb.dbManagement.data.lCol
-import com.vankorno.vankornodb.dbManagement.data.sCol
+import com.vankorno.vankornodb.api.DbEntity
+import com.vankorno.vankornodb.core.dsl.*
+import com.vankorno.vankornodb.dbManagement.data.*
+import com.vankorno.vankornodb.set.dsl.SetDsl
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -14,16 +13,14 @@ data class SimpleRef(
                               val refTable: String = "",
 
                            override val id: Long = -1L,
-) : CurrEntity, Parcelable
+) : DbEntity, Parcelable
 
 
 
 
 
-object _SimpleRef : CurrSchemaBundle<SimpleRef>(
+object _SimpleRef : SchemaBundle<SimpleRef>(
     clazz = SimpleRef::class,
-
-    columns = CSimpleRef,
 
     getter = { cursor ->
         var idx = 0
@@ -42,21 +39,43 @@ object _SimpleRef : CurrSchemaBundle<SimpleRef>(
         cv
     },
 
-    withId = { obj, newId -> obj.copy(id = newId) }
-)
+    withId = { obj, newId -> obj.copy(id = newId) },
+
+    columns = buildColList {
+        +SimpleRefFields.RefId
+        +SimpleRefFields.RefTable
+        +SimpleRefFields.Id
+    },
+) {
+    fun tableNamed(name: String) = (name using this).withDsl(::SimpleRefDsl, ::SimpleRefOrderDsl, ::SimpleRefExtraDsl, ::SimpleRefSetDsl)
+}
 
 
+interface SimpleRefDslColumns {
+    val RefId: Field<SimpleRefDsl, LongCol>
+    val RefTable: Field<SimpleRefDsl, StrCol>
+    val Id: Field<SimpleRefDsl, LongCol>
+}
 
 
+class SimpleRefOrderDsl internal constructor(columns: SimpleRefDslColumns) : OrderDsl<SimpleRefDsl, SimpleRefOrderDsl>(), SimpleRefDslColumns by columns
 
-object CSimpleRef : EntityColumns {
+class SimpleRefExtraDsl internal constructor(columns: SimpleRefDslColumns) : ExtraDsl<SimpleRefDsl>(), SimpleRefDslColumns by columns
+
+class SimpleRefSetDsl(columns: SimpleRefDslColumns) : SetDsl<SimpleRefDsl>(), SimpleRefDslColumns by columns
+
+typealias SimpleRefT = FullDslTable<TableInfo<SimpleRef>, SimpleRefDsl, SimpleRefOrderDsl, SimpleRefExtraDsl, SimpleRefSetDsl>
+
+
+class SimpleRefDsl internal constructor(                     context: DslContext<SimpleRefDsl>
+) : WhereDsl<SimpleRefDsl>(context), SimpleRefDslColumns {
+    override val RefId get() = column(SimpleRefFields.RefId)
+    override val RefTable get() = column(SimpleRefFields.RefTable)
+    override val Id get() = column(SimpleRefFields.Id)
+}
+
+private object SimpleRefFields {
     val RefId = lCol("refId", 0L)
     val RefTable = sCol("refTable", "")
     val Id = lCol("id", -1L)
-
-    override val columns = buildColList {
-        +RefId
-        +RefTable
-        +Id
-    }
 }

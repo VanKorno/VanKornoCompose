@@ -8,7 +8,7 @@ object UsageMeta : BaseEntityMeta {
     
     override val dbRowName = "Usage"
     
-    override val schemaBundle = _Usage
+    override val schemaBundle = _SimpleUsage
     
     override val migrationBundle = lazy { migrationsUsage() }
 }

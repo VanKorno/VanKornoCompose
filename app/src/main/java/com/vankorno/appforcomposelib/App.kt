@@ -5,8 +5,8 @@ import com.vankorno.appforcomposelib._entities.DbVersion
 import com.vankorno.appforcomposelib._entities.EntityMeta
 import com.vankorno.appforcomposelib._navig.Navigator
 import com.vankorno.vankornocompose.LibApp
-import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
+import com.vankorno.vankornodb.api.Dbh
 import com.vankorno.vankornohelpers.values.LibGlobals.UserTester
 import com.vankorno.vankornohelpers.values.LibGlobals.appUser
 
@@ -19,7 +19,7 @@ class DemoApp : LibApp(
     
     override fun dbInit(                                                    actualDbName: String
     ) {
-        dbh = DbHelper(
+        dbh = Dbh(
             dbName = actualDbName,
             dbVersion = DbVersion,
             context = this,

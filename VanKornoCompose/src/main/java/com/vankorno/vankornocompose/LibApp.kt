@@ -9,8 +9,8 @@ import com.vankorno.vankornocompose.values.LibGlobals2.appContext
 import com.vankorno.vankornocompose.values.LibGlobals2.soundPoolHelper
 import com.vankorno.vankornocompose.values.LibLambdas2.popupOFF
 import com.vankorno.vankornocompose.values.internal.DummyEntityMeta
-import com.vankorno.vankornodb.api.DbHelper
 import com.vankorno.vankornodb.api.DbRuntime.dbh
+import com.vankorno.vankornodb.api.Dbh
 import com.vankorno.vankornodb.core.data.DbConstants.InMemoryDB
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.LibSoundPool
@@ -38,7 +38,7 @@ abstract class LibApp(                         val dbName: String = "database",
      */
     protected open fun dbInit(                                              actualDbName: String
     ) {
-        dbh = DbHelper(
+        dbh = Dbh(
             dbName = InMemoryDB,
             dbVersion = 1,
             context = this,

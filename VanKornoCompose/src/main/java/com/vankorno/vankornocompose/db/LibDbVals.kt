@@ -1,12 +1,10 @@
 package com.vankorno.vankornocompose.db
 
-import com.vankorno.vankornocompose._entities.misc._Misc
-import com.vankorno.vankornodb.dbManagement.data.using
+import com.vankorno.vankornocompose._entities.misc._MiscData
 
 object LibDbVals {
-    const val TTTMisc = "TTTMisc"
-    
-    val _TTTMisc = TTTMisc using _Misc
+    val TTTMiscName = "TTTMisc"
+    val TTTMisc = _MiscData.tableNamed(TTTMiscName)
     
     const val AppLanguage = "AppLanguage"
     const val AppFirstLaunched = "AppFirstLaunched"

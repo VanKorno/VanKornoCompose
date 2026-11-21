@@ -1,21 +1,17 @@
 package com.vankorno.vankornocompose.fileOps.media.pic
 
-import com.vankorno.vankornocompose._entities.pic.CPic.BecameUnused
-import com.vankorno.vankornocompose._entities.pic.CPic.Path
-import com.vankorno.vankornocompose._entities.pic.CPic.PreviewPath
 import com.vankorno.vankornocompose._entities.pic.TTTPic
 import com.vankorno.vankornocompose._entities.pic.TTTPicUsage
-import com.vankorno.vankornocompose._entities.pic._TTTPic
-import com.vankorno.vankornocompose._entities.usage.CUsage.ObjId
-import com.vankorno.vankornocompose._entities.usage.CUsage.SubjId
-import com.vankorno.vankornocompose._entities.usage.CUsage.SubjTable
 import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstAppLaunch
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.delete.deleteRows
+import com.vankorno.vankornodb.get.getAllIDs
 import com.vankorno.vankornodb.get.getColLongs
+import com.vankorno.vankornodb.get.getEntities
+import com.vankorno.vankornodb.get.getStr
+import com.vankorno.vankornodb.get.getTableStrings
 import com.vankorno.vankornodb.get.hasRows
-import com.vankorno.vankornodb.misc.data.SharedCol.cID
 import com.vankorno.vankornodb.misc.suppressValGetterErrorLog
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.getCurrTime
@@ -27,7 +23,7 @@ object LibPicCleanup {
     fun singleSubjPicCleanup(                                                      table: String,
                                                                                       id: Long,
     ) {
-        val picIDs = dbh.getColLongs(TTTPicUsage, ObjId,
+        val picIDs = dbh.getColLongs(TTTPicUsage.col { ObjId },
             where = {
                 SubjId equal id
                 SubjTable equal table
@@ -46,7 +42,7 @@ object LibPicCleanup {
     fun isPicBroken(                                                               picId: Long
     ): Boolean {
         suppressValGetterErrorLog = true
-        val path = dbh.getStr(TTTPic, Path) { ID = picId }
+        val path = dbh.getStr(TTTPic.col { Path }) { Id equal picId }
         suppressValGetterErrorLog = false
         
         if (path.isBlank()) return true //\/\/\/\/\/\
@@ -57,7 +53,7 @@ object LibPicCleanup {
     }
     
     
-    fun getAllPicPaths(): List<String> = dbh.getTableStrings(TTTPic, arrayOf(Path, PreviewPath))
+    fun getAllPicPaths(): List<String> = dbh.getTableStrings(TTTPic.columns { Path then PreviewPath })
         .flatten()
         .filter { it.isNotBlank() }
     
@@ -94,10 +90,10 @@ object LibPicCleanup {
         // TODO Maybe use more low-level db stuff instead
         
         dbh.write("deleteOrphanUsages") { db ->
-            val picIDs = db.getColLongs(TTTPicUsage, ObjId).distinct()
+            val picIDs = db.getColLongs(TTTPicUsage.col { ObjId }).distinct()
             
             for (picId in picIDs) {
-                val exists = db.hasRows(TTTPic) { ID = picId }
+                val exists = db.hasRows(TTTPic) { Id equal picId }
                 if (!exists) {
                     db.deleteRows(TTTPicUsage) { ObjId equal picId }
                 }
@@ -113,7 +109,7 @@ object LibPicCleanup {
         val fileLosers = getFileLoserIDs()
         if (fileLosers.isEmpty()) return //\/\/\/\/\/\
         
-        dbh.deleteRows(TTTPic) { cID equalAny fileLosers }
+        dbh.deleteRows(TTTPic) { Id equalAny fileLosers }
     }
     
     
@@ -139,7 +135,7 @@ object LibPicCleanup {
      * PicEntt rows that are in use, but don't have the actual files.
      */
     private fun getFileLoserIDs(): List<Long> {
-        val objToCheck = dbh.getEntities(_TTTPic)
+        val objToCheck = dbh.getEntities(TTTPic)
         
         if (objToCheck.isEmpty()) {
             // region LOG
@@ -179,7 +175,7 @@ object LibPicCleanup {
                 }
             }
             db.deleteRows(TTTPic) {
-                cID equalAny unusedIDs
+                Id equalAny unusedIDs
                 BecameUnused less delLine
             }
         }

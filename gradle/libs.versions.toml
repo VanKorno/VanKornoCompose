@@ -11,8 +11,8 @@ composeBom = "2026.11.01"
 constraintlayoutCompose = "1.1.2"
 kotlinxCoroutines = "1.11.0"
 testManifest = "1.13.0"
-vankornoHelpers = "2.109"
-vankornoDB = "0.300"
+vankornoHelpers = "2.110"
+vankornoDB = "0.302"
 
 
 [libraries]

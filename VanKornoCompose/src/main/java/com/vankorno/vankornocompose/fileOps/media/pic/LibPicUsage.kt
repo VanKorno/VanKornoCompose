@@ -1,14 +1,10 @@
 package com.vankorno.vankornocompose.fileOps.media.pic
 
 import android.database.sqlite.SQLiteDatabase
-import com.vankorno.vankornocompose._entities.pic.CPic.BecameUnused
 import com.vankorno.vankornocompose._entities.pic.TTTPic
 import com.vankorno.vankornocompose._entities.pic.TTTPicUsage
-import com.vankorno.vankornocompose._entities.usage.CUsage.ObjId
-import com.vankorno.vankornocompose._entities.usage.CUsage.SubjId
-import com.vankorno.vankornocompose._entities.usage.CUsage.SubjTable
+import com.vankorno.vankornocompose._entities.usage.SimpleUsageDsl
 import com.vankorno.vankornodb.api.DbRuntime.dbh
-import com.vankorno.vankornodb.api.WhereDsl
 import com.vankorno.vankornodb.delete.deleteRows
 import com.vankorno.vankornodb.get.getColLongs
 import com.vankorno.vankornodb.get.hasRows
@@ -44,10 +40,10 @@ object LibPicUsage {
     
     
     
-    private fun deleteUsages(                                               where: WhereDsl.()->Unit
+    private fun deleteUsages(                                         where: SimpleUsageDsl.()->Unit
     ) {
         dbh.write("clearSecPicUsages") { db ->
-            val usedPicIDs = db.getColLongs(TTTPicUsage, ObjId, where = where) 
+            val usedPicIDs = db.getColLongs(TTTPicUsage.col { ObjId }, where = where) 
             
             db.deleteRows(TTTPicUsage, where = where)
             
@@ -62,15 +58,10 @@ object LibPicUsage {
     private fun setBecameUnused(                                                db: SQLiteDatabase,
                                                                              picId: Long,
     ) {
-        val dbPicExists = db.hasRows(TTTPic) { ID = picId }
+        val dbPicExists = db.hasRows(TTTPic) { Id equal picId }
         
         if (dbPicExists)
-            db.setLong(getCurrTime(), TTTPic, BecameUnused) { ID = picId }
+            db.setLong(getCurrTime(), TTTPic.col { BecameUnused }) { Id equal picId }
     }
     
 }
-
-
-
-
-

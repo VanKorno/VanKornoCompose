@@ -30,6 +30,7 @@ import com.vankorno.vankornocompose.values.LibLambdas2.popupOFF
 import com.vankorno.vankornocompose.values.LibLambdas2.popupON
 import com.vankorno.vankornocompose.vm.LibViewModel
 import com.vankorno.vankornodb.api.DbRuntime.dbh
+import com.vankorno.vankornodb.get.tableExists
 import com.vankorno.vankornohelpers.LibMisc
 import com.vankorno.vankornohelpers.clipboard.LibClipboard
 import com.vankorno.vankornohelpers.dLog
