@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
-import com.vankorno.vankornocompose.db.LibDbVals.TTTMisc
+import com.vankorno.vankornocompose.db.LibDbVals.TT_Misc
 import com.vankorno.vankornocompose.launcher.LibAppLauncher.beforeFirstLaunch
 import com.vankorno.vankornocompose.launcher.LibAppLauncher.beforeNotFirstLaunch
 import com.vankorno.vankornocompose.navig.Navig
@@ -121,7 +121,7 @@ abstract class LibMainActivity(                val statusBarColor: Color = LibCo
                 // region LOG
                     dLog(TAG, "startup(): Full startup logic runs...")
                 // endregion
-                val miscTableExists = dbh.tableExists(TTTMisc)
+                val miscTableExists = dbh.tableExists(TT_Misc)
                 
                 if (!miscTableExists) {
                     beforeFirstLaunch()

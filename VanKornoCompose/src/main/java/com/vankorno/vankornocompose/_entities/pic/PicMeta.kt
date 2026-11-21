@@ -3,11 +3,11 @@ package com.vankorno.vankornocompose._entities.pic
 import com.vankorno.vankornocompose._entities.usage._SimpleUsage
 import com.vankorno.vankornodb.dbManagement.data.BaseEntityMeta
 
-const val TTTPicName = "TTTPic"
-val TTTPic = _Pic.tableNamed(TTTPicName)
+const val PicTableName = "TTTPic"
+val TT_Pic = _Pic.tableNamed(PicTableName)
 
-const val TTTPicUsageName = "TTTPicUsage"
-val TTTPicUsage = _SimpleUsage.tableNamed(TTTPicUsageName)
+const val PicUsageTableName = "TTTPicUsage"
+val TT_PicUsage = _SimpleUsage.tableNamed(PicUsageTableName)
 
 
 
@@ -20,5 +20,5 @@ object PicMeta : BaseEntityMeta {
     
     override val migrationBundle = lazy { migrationsPic() }
     
-    override val limitedToTable = TTTPicName
+    override val limitedToTable = PicTableName
 }

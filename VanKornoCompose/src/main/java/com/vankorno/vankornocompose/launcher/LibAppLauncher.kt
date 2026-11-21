@@ -5,7 +5,7 @@ import com.vankorno.vankornocompose.db.LibDbVals.AppFirstLaunched
 import com.vankorno.vankornocompose.db.LibDbVals.AppLanguage
 import com.vankorno.vankornocompose.db.LibDbVals.AppLastLaunched
 import com.vankorno.vankornocompose.db.LibDbVals.AppLaunchCount
-import com.vankorno.vankornocompose.db.LibDbVals.TTTMisc
+import com.vankorno.vankornocompose.db.LibDbVals.TT_Misc
 import com.vankorno.vankornocompose.values.LibGlobals2.language
 import com.vankorno.vankornodb.add.addEntities
 import com.vankorno.vankornodb.api.DbRuntime.dbh
@@ -24,21 +24,21 @@ internal object LibAppLauncher {
     
     fun beforeNotFirstLaunch() {
         dbh.write("beforeNotFirstLaunch") { db ->
-            language.value = db.getStr(TTTMisc.col { Str1 }) { Name equal AppLanguage }
+            language.value = db.getStr(TT_Misc.col { Str1 }) { Name equal AppLanguage }
             
-            db.setLong(getCurrTime(), TTTMisc.col { Long1 }) { Name equal AppLastLaunched }
+            db.setLong(getCurrTime(), TT_Misc.col { Long1 }) { Name equal AppLastLaunched }
             
-            db.addToInt(1, TTTMisc.col { Int1 }) { Name equal AppLaunchCount }
+            db.addToInt(1, TT_Misc.col { Int1 }) { Name equal AppLaunchCount }
         }
     }
     
     
     private fun miscTable() {
         dbh.write("miscTable") { db ->
-            db.createTable(TTTMisc)
+            db.createTable(TT_Misc)
             val currTime = getCurrTime()
             
-            db.addEntities(TTTMisc,
+            db.addEntities(TT_Misc,
                 MiscData(AppLanguage, str1 = LangAuto),
                 MiscData(AppFirstLaunched, long1 = currTime),
                 MiscData(AppLastLaunched, long1 = currTime),

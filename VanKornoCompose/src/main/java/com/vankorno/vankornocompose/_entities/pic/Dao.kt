@@ -3,7 +3,7 @@ package com.vankorno.vankornocompose._entities.pic
 import android.database.sqlite.SQLiteDatabase
 import com.vankorno.vankornodb.get.getEntity
 
-fun SQLiteDatabase.getPic(id: Long) = getEntity(TTTPic, Pic()) { Id equal id }
+fun SQLiteDatabase.getPic(id: Long) = getEntity(TT_Pic, Pic()) { Id equal id }
 
 
 

@@ -1,7 +1,7 @@
 package com.vankorno.vankornocompose.fileOps.media.pic
 
-import com.vankorno.vankornocompose._entities.pic.TTTPic
-import com.vankorno.vankornocompose._entities.pic.TTTPicUsage
+import com.vankorno.vankornocompose._entities.pic.TT_Pic
+import com.vankorno.vankornocompose._entities.pic.TT_PicUsage
 import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstAppLaunch
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
@@ -20,13 +20,13 @@ import com.vankorno.vankornohelpers.values.LibConstants.MillisInDay
 object LibPicCleanup {
     private const val TAG = "LibPicCleanup"
     
-    fun singleSubjPicCleanup(                                                      table: String,
-                                                                                      id: Long,
+    fun singleSubjPicCleanup(                                              subjTableName: String,
+                                                                                  subjId: Long,
     ) {
-        val picIDs = dbh.getColLongs(TTTPicUsage.col { ObjId },
+        val picIDs = dbh.getColLongs(TT_PicUsage.col { ObjId },
             where = {
-                SubjId equal id
-                SubjTable equal table
+                SubjId equal subjId
+                SubjTable equal subjTableName
             }
         )
         if (picIDs.isEmpty()) return //\/\/\/\/\/\
@@ -42,7 +42,7 @@ object LibPicCleanup {
     fun isPicBroken(                                                               picId: Long
     ): Boolean {
         suppressValGetterErrorLog = true
-        val path = dbh.getStr(TTTPic.col { Path }) { Id equal picId }
+        val path = dbh.getStr(TT_Pic.col { Path }) { Id equal picId }
         suppressValGetterErrorLog = false
         
         if (path.isBlank()) return true //\/\/\/\/\/\
@@ -53,7 +53,7 @@ object LibPicCleanup {
     }
     
     
-    fun getAllPicPaths(): List<String> = dbh.getTableStrings(TTTPic.columns { Path then PreviewPath })
+    fun getAllPicPaths(): List<String> = dbh.getTableStrings(TT_Pic.columns { Path then PreviewPath })
         .flatten()
         .filter { it.isNotBlank() }
     
@@ -84,18 +84,18 @@ object LibPicCleanup {
         deleteOrphanUsages()
     }
     
-    private fun deletePathLosers() = dbh.deleteRows(TTTPic) { Path equal "" }
+    private fun deletePathLosers() = dbh.deleteRows(TT_Pic) { Path equal "" }
     
     fun deleteOrphanUsages() {
         // TODO Maybe use more low-level db stuff instead
         
         dbh.write("deleteOrphanUsages") { db ->
-            val picIDs = db.getColLongs(TTTPicUsage.col { ObjId }).distinct()
+            val picIDs = db.getColLongs(TT_PicUsage.col { ObjId }).distinct()
             
             for (picId in picIDs) {
-                val exists = db.hasRows(TTTPic) { Id equal picId }
+                val exists = db.hasRows(TT_Pic) { Id equal picId }
                 if (!exists) {
-                    db.deleteRows(TTTPicUsage) { ObjId equal picId }
+                    db.deleteRows(TT_PicUsage) { ObjId equal picId }
                 }
             }
         }
@@ -109,7 +109,7 @@ object LibPicCleanup {
         val fileLosers = getFileLoserIDs()
         if (fileLosers.isEmpty()) return //\/\/\/\/\/\
         
-        dbh.deleteRows(TTTPic) { Id equalAny fileLosers }
+        dbh.deleteRows(TT_Pic) { Id equalAny fileLosers }
     }
     
     
@@ -135,7 +135,7 @@ object LibPicCleanup {
      * PicEntt rows that are in use, but don't have the actual files.
      */
     private fun getFileLoserIDs(): List<Long> {
-        val objToCheck = dbh.getEntities(TTTPic)
+        val objToCheck = dbh.getEntities(TT_Pic)
         
         if (objToCheck.isEmpty()) {
             // region LOG
@@ -164,17 +164,17 @@ object LibPicCleanup {
         val delLine = getCurrTime() - millisTillDelete
         
         dbh.write("DeleteUnusedPics") { db ->
-            val ids = dbh.getAllIDs(TTTPic)
+            val ids = dbh.getAllIDs(TT_Pic)
             
             val unusedIDs = buildList {
                 for (id in ids) {
-                    val used = db.hasRows(TTTPicUsage) { ObjId equal id } // TODO Subquery
+                    val used = db.hasRows(TT_PicUsage) { ObjId equal id } // TODO Subquery
                     
                     if (!used)
                         add(id)
                 }
             }
-            db.deleteRows(TTTPic) {
+            db.deleteRows(TT_Pic) {
                 Id equalAny unusedIDs
                 BecameUnused less delLine
             }

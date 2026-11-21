@@ -1,8 +1,8 @@
 package com.vankorno.vankornocompose.fileOps.media.pic
 
 import android.database.sqlite.SQLiteDatabase
-import com.vankorno.vankornocompose._entities.pic.TTTPic
-import com.vankorno.vankornocompose._entities.pic.TTTPicUsage
+import com.vankorno.vankornocompose._entities.pic.TT_Pic
+import com.vankorno.vankornocompose._entities.pic.TT_PicUsage
 import com.vankorno.vankornocompose._entities.usage.SimpleUsageDsl
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.delete.deleteRows
@@ -16,7 +16,7 @@ object LibPicUsage {
     fun deletePicUsages(                                                           picId: Long
     ) {
         dbh.write("deletePicUsages") { db ->
-            db.deleteRows(TTTPicUsage) { ObjId equal picId }
+            db.deleteRows(TT_PicUsage) { ObjId equal picId }
             
             setBecameUnused(db, picId)
         }
@@ -43,12 +43,12 @@ object LibPicUsage {
     private fun deleteUsages(                                         where: SimpleUsageDsl.()->Unit
     ) {
         dbh.write("clearSecPicUsages") { db ->
-            val usedPicIDs = db.getColLongs(TTTPicUsage.col { ObjId }, where = where) 
+            val usedPicIDs = db.getColLongs(TT_PicUsage.col { ObjId }, where = where) 
             
-            db.deleteRows(TTTPicUsage, where = where)
+            db.deleteRows(TT_PicUsage, where = where)
             
             for (picId in usedPicIDs) {
-                val used = db.hasRows(TTTPicUsage) { ObjId equal picId }
+                val used = db.hasRows(TT_PicUsage) { ObjId equal picId }
                 if (!used)
                     setBecameUnused(db, picId)
             }
@@ -58,10 +58,10 @@ object LibPicUsage {
     private fun setBecameUnused(                                                db: SQLiteDatabase,
                                                                              picId: Long,
     ) {
-        val dbPicExists = db.hasRows(TTTPic) { Id equal picId }
+        val dbPicExists = db.hasRows(TT_Pic) { Id equal picId }
         
         if (dbPicExists)
-            db.setLong(getCurrTime(), TTTPic.col { BecameUnused }) { Id equal picId }
+            db.setLong(getCurrTime(), TT_Pic.col { BecameUnused }) { Id equal picId }
     }
     
 }
