@@ -54,7 +54,6 @@ object _SimpleRef : SchemaBundle<SimpleRef>(
 interface SimpleRefDslColumns {
     val RefId: Field<SimpleRefDsl, LongCol>
     val RefTable: Field<SimpleRefDsl, StrCol>
-    val Id: Field<SimpleRefDsl, LongCol>
 }
 
 
@@ -71,7 +70,6 @@ class SimpleRefDsl internal constructor(                     context: DslContext
 ) : WhereDsl<SimpleRefDsl>(context), SimpleRefDslColumns {
     override val RefId get() = column(SimpleRefFields.RefId)
     override val RefTable get() = column(SimpleRefFields.RefTable)
-    override val Id get() = column(SimpleRefFields.Id)
 }
 
 private object SimpleRefFields {

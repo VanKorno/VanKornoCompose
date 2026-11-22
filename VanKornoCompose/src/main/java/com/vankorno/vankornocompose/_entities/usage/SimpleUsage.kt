@@ -87,7 +87,6 @@ interface SimpleUsageDslColumns {
     val Bool1: Field<SimpleUsageDsl, BoolCol>
     val Str1: Field<SimpleUsageDsl, StrCol>
     val Position: Field<SimpleUsageDsl, LongCol>
-    val Id: Field<SimpleUsageDsl, LongCol>
 }
 
 
@@ -110,7 +109,6 @@ class SimpleUsageDsl internal constructor(                     context: DslConte
     override val Bool1 get() = column(SimpleUsageFields.Bool1)
     override val Str1 get() = column(SimpleUsageFields.Str1)
     override val Position get() = column(SimpleUsageFields.Position)
-    override val Id get() = column(SimpleUsageFields.Id)
 }
 
 private object SimpleUsageFields {

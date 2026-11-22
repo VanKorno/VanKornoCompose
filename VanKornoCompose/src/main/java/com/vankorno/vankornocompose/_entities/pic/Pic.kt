@@ -74,7 +74,6 @@ interface PicDslColumns {
     val UpdatedAt: Field<PicDsl, LongCol>
     val BecameUnused: Field<PicDsl, LongCol>
     val Notes: Field<PicDsl, StrCol>
-    val Id: Field<PicDsl, LongCol>
 }
 
 
@@ -95,7 +94,6 @@ class PicDsl internal constructor(                     context: DslContext<PicDs
     override val UpdatedAt get() = column(PicFields.UpdatedAt)
     override val BecameUnused get() = column(PicFields.BecameUnused)
     override val Notes get() = column(PicFields.Notes)
-    override val Id get() = column(PicFields.Id)
 }
 
 private object PicFields {

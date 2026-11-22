@@ -74,7 +74,6 @@ interface MiscDataDslColumns {
     val Str1: Field<MiscDataDsl, StrCol>
     val Long1: Field<MiscDataDsl, LongCol>
     val Float1: Field<MiscDataDsl, FloatCol>
-    val Id: Field<MiscDataDsl, LongCol>
 }
 
 
@@ -95,7 +94,6 @@ class MiscDataDsl internal constructor(                     context: DslContext<
     override val Str1 get() = column(MiscDataFields.Str1)
     override val Long1 get() = column(MiscDataFields.Long1)
     override val Float1 get() = column(MiscDataFields.Float1)
-    override val Id get() = column(MiscDataFields.Id)
 }
 
 private object MiscDataFields {
