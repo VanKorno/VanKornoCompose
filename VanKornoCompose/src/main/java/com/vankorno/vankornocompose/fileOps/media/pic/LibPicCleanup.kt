@@ -6,11 +6,11 @@ import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstA
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.delete.deleteRows
+import com.vankorno.vankornodb.get.byId.getStrById
 import com.vankorno.vankornodb.get.getAllIDs
 import com.vankorno.vankornodb.get.getColLongs
 import com.vankorno.vankornodb.get.getEntities
-import com.vankorno.vankornodb.get.getStr
-import com.vankorno.vankornodb.get.getTableStrings
+import com.vankorno.vankornodb.get.getStrings
 import com.vankorno.vankornodb.get.hasRows
 import com.vankorno.vankornodb.misc.suppressValGetterErrorLog
 import com.vankorno.vankornohelpers.dLog
@@ -42,7 +42,7 @@ object LibPicCleanup {
     fun isPicBroken(                                                               picId: Long
     ): Boolean {
         suppressValGetterErrorLog = true
-        val path = dbh.getStr(TT_Pic.col { Path }) { Id equal picId }
+        val path = dbh.getStrById(picId, TT_Pic.col{ Path })
         suppressValGetterErrorLog = false
         
         if (path.isBlank()) return true //\/\/\/\/\/\
@@ -53,7 +53,7 @@ object LibPicCleanup {
     }
     
     
-    fun getAllPicPaths(): List<String> = dbh.getTableStrings(TT_Pic.columns { Path then PreviewPath })
+    fun getAllPicPaths(): List<String> = dbh.getStrings(TT_Pic.columns { Path then PreviewPath })
         .flatten()
         .filter { it.isNotBlank() }
     
@@ -90,7 +90,7 @@ object LibPicCleanup {
         // TODO Maybe use more low-level db stuff instead
         
         dbh.write("deleteOrphanUsages") { db ->
-            val picIDs = db.getColLongs(TT_PicUsage.col { ObjId }).distinct()
+            val picIDs = db.getColLongs(TT_PicUsage.col{ ObjId }).distinct()
             
             for (picId in picIDs) {
                 val exists = db.hasRows(TT_Pic) { Id equal picId }
