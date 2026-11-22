@@ -6,7 +6,7 @@ import com.vankorno.vankornodb.add.addEntities
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.get.getColLongs
 import com.vankorno.vankornodb.get.getEntities
-import com.vankorno.vankornodb.get.getLastId
+import com.vankorno.vankornodb.get.id.getLastId
 import com.vankorno.vankornodb.set.set
 
 object LibUsageOps {

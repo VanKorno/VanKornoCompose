@@ -6,12 +6,13 @@ import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstA
 import com.vankorno.vankornocompose.fileOps.LibFileOps
 import com.vankorno.vankornodb.api.DbRuntime.dbh
 import com.vankorno.vankornodb.delete.deleteRows
-import com.vankorno.vankornodb.get.byId.getStrById
-import com.vankorno.vankornodb.get.getAllIDs
 import com.vankorno.vankornodb.get.getColLongs
 import com.vankorno.vankornodb.get.getEntities
 import com.vankorno.vankornodb.get.getStrings
 import com.vankorno.vankornodb.get.hasRows
+import com.vankorno.vankornodb.get.id.getAllIDs
+import com.vankorno.vankornodb.get.id.getStrById
+import com.vankorno.vankornodb.get.id.hasId
 import com.vankorno.vankornodb.misc.suppressValGetterErrorLog
 import com.vankorno.vankornohelpers.dLog
 import com.vankorno.vankornohelpers.getCurrTime
@@ -93,7 +94,7 @@ object LibPicCleanup {
             val picIDs = db.getColLongs(TT_PicUsage.col{ ObjId }).distinct()
             
             for (picId in picIDs) {
-                val exists = db.hasRows(TT_Pic) { Id equal picId }
+                val exists = db.hasId(picId, TT_Pic)
                 if (!exists) {
                     db.deleteRows(TT_PicUsage) { ObjId equal picId }
                 }
