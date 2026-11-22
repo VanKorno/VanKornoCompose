@@ -10,8 +10,14 @@ import com.vankorno.vankornodb.get.getFloat
 import com.vankorno.vankornodb.get.getInt
 import com.vankorno.vankornodb.get.getLong
 import com.vankorno.vankornodb.get.getStr
+import com.vankorno.vankornodb.set.setBool
+import com.vankorno.vankornodb.set.setFloat
+import com.vankorno.vankornodb.set.setInt
+import com.vankorno.vankornodb.set.setLong
+import com.vankorno.vankornodb.set.setStr
 
 object MiscOps {
+    
     fun getMiscEntity(name: String): MiscData = dbh.getEntity(TT_Misc, MiscData()) { Name equal name }
     
     fun getMiscInt(name: String): Int = dbh.getInt(TT_Misc.col{ Int1 }) { Name equal name }
@@ -19,6 +25,12 @@ object MiscOps {
     fun getMiscStr(name: String): String = dbh.getStr(TT_Misc.col{ Str1 }) { Name equal name }
     fun getMiscLong(name: String): Long = dbh.getLong(TT_Misc.col{ Long1 }) { Name equal name }
     fun getMiscFloat(name: String): Float = dbh.getFloat(TT_Misc.col{ Float1 }) { Name equal name }
+    
+    fun setMiscInt(value: Int, name: String) = dbh.setInt(value, TT_Misc.col{ Int1 }) { Name equal name }
+    fun setMiscBool(value: Boolean, name: String) = dbh.setBool(value, TT_Misc.col{ Bool1 }) { Name equal name }
+    fun setMiscStr(value: String, name: String) = dbh.setStr(value, TT_Misc.col{ Str1 }) { Name equal name }
+    fun setMiscLong(value: Long, name: String) = dbh.setLong(value, TT_Misc.col{ Long1 }) { Name equal name }
+    fun setMiscFloat(value: Float, name: String) = dbh.setFloat(value, TT_Misc.col{ Float1 }) { Name equal name }
     
     
     fun addMiscWithDefaults(                                                vararg names: String
