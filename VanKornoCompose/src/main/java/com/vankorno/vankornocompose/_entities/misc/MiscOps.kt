@@ -21,7 +21,7 @@ object MiscOps {
     fun getMiscFloat(name: String): Float = dbh.getFloat(TT_Misc.col{ Float1 }) { Name equal name }
     
     
-    fun addMiscsWithDefaults(                                                  names: Array<String>
+    fun addMiscWithDefaults(                                                vararg names: String
     ) {
         val entities = names.map { MiscData(name = it) }
         dbh.addEntities(TT_Misc, entities)
