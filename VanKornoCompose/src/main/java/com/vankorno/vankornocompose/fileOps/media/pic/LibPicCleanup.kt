@@ -1,5 +1,6 @@
 package com.vankorno.vankornocompose.fileOps.media.pic
 
+import android.database.sqlite.SQLiteDatabase
 import com.vankorno.vankornocompose._entities.pic.TT_Pic
 import com.vankorno.vankornocompose._entities.pic.TT_PicUsage
 import com.vankorno.vankornocompose.db.miscTable.MiscTableOps.getDaysSinceFirstAppLaunch
@@ -21,10 +22,17 @@ import com.vankorno.vankornohelpers.values.LibConstants.MillisInDay
 object LibPicCleanup {
     private const val TAG = "LibPicCleanup"
     
-    fun singleSubjPicCleanup(                                              subjTableName: String,
-                                                                                  subjId: Long,
+    fun singleSubjPicCleanup(                                            subjTableName: String,
+                                                                                subjId: Long,
+    ) = dbh.write("singleSubjPicCleanup") { db ->
+        singleSubjPicCleanup(db, subjTableName, subjId)
+    }
+    
+    fun singleSubjPicCleanup(                                                   db: SQLiteDatabase,
+                                                                     subjTableName: String,
+                                                                            subjId: Long,
     ) {
-        val picIDs = dbh.getColLongs(TT_PicUsage.col { ObjId },
+        val picIDs = db.getColLongs(TT_PicUsage.col { ObjId },
             where = {
                 SubjId equal subjId
                 SubjTable equal subjTableName
@@ -33,17 +41,23 @@ object LibPicCleanup {
         if (picIDs.isEmpty()) return //\/\/\/\/\/\
         
         for (picId in picIDs) {
-            if (isPicBroken(picId)) {
-                cleanupPic()
+            if (isPicBroken(db, picId)) {
+                cleanupPic(db)
                 break //\/\/\
             }
         }
     }
     
-    fun isPicBroken(                                                               picId: Long
+    fun isPicBroken(                                                             picId: Long
+    ): Boolean = dbh.read(true, "isPicBroken") { db ->
+        isPicBroken(db, picId)
+    }
+    
+    fun isPicBroken(                                                            db: SQLiteDatabase,
+                                                                             picId: Long,
     ): Boolean {
         suppressValGetterErrorLog = true
-        val path = dbh.getStrById(picId, TT_Pic.col{ Path })
+        val path = db.getStrById(picId, TT_Pic.col{ Path })
         suppressValGetterErrorLog = false
         
         if (path.isBlank()) return true //\/\/\/\/\/\
@@ -54,73 +68,102 @@ object LibPicCleanup {
     }
     
     
-    fun getAllPicPaths(): List<String> = dbh.getStrings(TT_Pic.columns { Path then PreviewPath })
+    fun getAllPicPaths(): List<String> = dbh.read(emptyList(), "getAllPicPaths") {
+        db -> getAllPicPaths(db)
+    }
+    fun getAllPicPaths(                                                         db: SQLiteDatabase
+    ): List<String> = db.getStrings(TT_Pic.columns { Path then PreviewPath })
         .flatten()
         .filter { it.isNotBlank() }
     
     
-    fun handlePicCleanup(                                                 daysTillDelete: Int = 10
+    fun handlePicCleanup(                                               daysTillDelete: Int = 10
+    ) = dbh.write("handlePicCleanup") { db ->
+        handlePicCleanup(db, daysTillDelete)
+    }
+    fun handlePicCleanup(                                                       db: SQLiteDatabase,
+                                                                    daysTillDelete: Int = 10,
     ) {
-        val freshApp = getDaysSinceFirstAppLaunch() < 30
+        val freshApp = getDaysSinceFirstAppLaunch(db) < 30
         if (!freshApp)
-            cleanupPic(daysTillDelete)
+            cleanupPic(db, daysTillDelete)
     }
     
-    fun cleanupPic(                                                       daysTillDelete: Int = 10
+    
+    fun cleanupPic(                                                     daysTillDelete: Int = 10
+    ) = dbh.write("cleanupPic") { db ->
+        cleanupPic(db, daysTillDelete)
+    }
+    fun cleanupPic(                                                             db: SQLiteDatabase,
+                                                                    daysTillDelete: Int = 10,
     ) {
         // region LOG
             dLog(TAG, "cleanupPic()")
         // endregion
-        deleteBrokenPics()
-        deleteUnusedPicsInDb(daysTillDelete)
-        deleteOrphanPicFiles()
+        deleteBrokenPics(db)
+        deleteUnusedPicsInDb(db, daysTillDelete)
+        deleteOrphanPicFiles(db)
     }
     
-    fun deleteBrokenPics() {
+    
+    
+    fun deleteBrokenPics() = dbh.write("deleteBrokenPics") { db -> deleteBrokenPics(db) }
+    
+    fun deleteBrokenPics(                                                       db: SQLiteDatabase
+    ) {
         // region LOG
             dLog(TAG, "deleteBrokenPics()")
         // endregion
-        deletePathLosers()
-        deleteFileLosers()
-        deleteOrphanUsages()
+        deletePathLosers(db)
+        deleteFileLosers(db)
+        deleteOrphanUsages(db)
     }
     
-    private fun deletePathLosers() = dbh.deleteRows(TT_Pic) { Path equal "" }
     
-    fun deleteOrphanUsages() {
+    private fun deletePathLosers(db: SQLiteDatabase) = db.deleteRows(TT_Pic) { Path equal "" }
+    
+    
+    
+    fun deleteOrphanUsages() = dbh.write("deleteOrphanUsages") { db -> deleteOrphanUsages(db) }
+    
+    fun deleteOrphanUsages(                                                     db: SQLiteDatabase
+    ) {
         // TODO Maybe use more low-level db stuff instead
+        val picIDs = db.getColLongs(TT_PicUsage.col{ ObjId }).distinct()
         
-        dbh.write("deleteOrphanUsages") { db ->
-            val picIDs = db.getColLongs(TT_PicUsage.col{ ObjId }).distinct()
-            
-            for (picId in picIDs) {
-                val exists = db.hasId(picId, TT_Pic)
-                if (!exists) {
-                    db.deleteRows(TT_PicUsage) { ObjId equal picId }
-                }
+        for (picId in picIDs) {
+            val exists = db.hasId(picId, TT_Pic)
+            if (!exists) {
+                db.deleteRows(TT_PicUsage) { ObjId equal picId }
             }
         }
     }
     
     
-    private fun deleteFileLosers() {
+    
+    private fun deleteFileLosers(                                               db: SQLiteDatabase
+    ) {
         // region LOG
             dLog(TAG, "deleteFileLosers()")
         // endregion
-        val fileLosers = getFileLoserIDs()
+        val fileLosers = getFileLoserIDs(db)
         if (fileLosers.isEmpty()) return //\/\/\/\/\/\
         
-        dbh.deleteRows(TT_Pic) { Id equalAny fileLosers }
+        db.deleteRows(TT_Pic) { Id equalAny fileLosers }
     }
     
     
-    fun deleteOrphanPicFiles() {
+    
+    fun deleteOrphanPicFiles() = dbh.write("deleteOrphanPicFiles") { db -> deleteOrphanPicFiles(db) }
+    
+    fun deleteOrphanPicFiles(                                                   db: SQLiteDatabase
+    ) {
         // region LOG
             dLog(TAG, "deleteOrphanPicFiles()")
         // endregion
         val fileNames = LibFileOps.getAllFileNames(PicDirName)
         
-        val dbFileNames = getAllPicPaths()
+        val dbFileNames = getAllPicPaths(db)
                             .map { it.substringAfterLast('/') }
                             .toSet()
         
@@ -132,17 +175,18 @@ object LibPicCleanup {
     }
     
     
-    /**
-     * PicEntt rows that are in use, but don't have the actual files.
+    
+    /** PicEntt rows that are in use, but don't have the actual files.
      */
-    private fun getFileLoserIDs(): List<Long> {
-        val objToCheck = dbh.getEntities(TT_Pic)
+    private fun getFileLoserIDs(                                                db: SQLiteDatabase
+    ): List<Long> {
+        val objToCheck = db.getEntities(TT_Pic)
         
         if (objToCheck.isEmpty()) {
             // region LOG
                 dLog(TAG, "getFileLoserIDs(): No file loss detected.")
             // endregion
-            return emptyList() //\/\/\/\/\/\ 
+            return emptyList() //\/\/\/\/\/\
         }
         
         val existingFileNames = LibFileOps.getAllFileNames(PicDirName).toSet()
@@ -159,31 +203,31 @@ object LibPicCleanup {
     }
     
     
-    fun deleteUnusedPicsInDb(                                             daysTillDelete: Int
+    fun deleteUnusedPicsInDb(                                           daysTillDelete: Int
+    ) = dbh.write("DeleteUnusedPics") { db ->
+        deleteUnusedPicsInDb(db, daysTillDelete)
+    }
+    
+    fun deleteUnusedPicsInDb(                                                   db: SQLiteDatabase,
+                                                                    daysTillDelete: Int,
     ) {
         val millisTillDelete = daysTillDelete * MillisInDay
         val delLine = getCurrTime() - millisTillDelete
         
-        dbh.write("DeleteUnusedPics") { db ->
-            val ids = dbh.getAllIDs(TT_Pic)
-            
-            val unusedIDs = buildList {
-                for (id in ids) {
-                    val used = db.hasRows(TT_PicUsage) { ObjId equal id } // TODO Subquery
-                    
-                    if (!used)
-                        add(id)
-                }
+        val ids = db.getAllIDs(TT_Pic)
+        
+        val unusedIDs = buildList {
+            for (id in ids) {
+                val used = db.hasRows(TT_PicUsage) { ObjId equal id } // TODO Subquery
+                
+                if (!used)
+                    add(id)
             }
-            db.deleteRows(TT_Pic) {
-                Id equalAny unusedIDs
-                BecameUnused less delLine
-            }
+        }
+        db.deleteRows(TT_Pic) {
+            Id equalAny unusedIDs
+            BecameUnused less delLine
         }
     }
     
 }
-
-
-
-
